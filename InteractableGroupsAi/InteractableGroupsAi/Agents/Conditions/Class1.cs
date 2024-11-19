@@ -1,6 +1,6 @@
 ﻿namespace InteractableGroupsAi
 {
-    public class Class1
+    public abstract class Condition
     {
 
     }
