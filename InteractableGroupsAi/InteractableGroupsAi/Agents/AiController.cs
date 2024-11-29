@@ -1,14 +1,17 @@
 ﻿using InteractableGroupsAi.Director.Goals;
+using InteractableGroupsAi.Memory;
 
 namespace InteractableGroupsAi.Agents
 {
     public class AiController
     {
         private Brain _brain;
+        private Blackboard _blackboard;
 
-        public void SetBrain(Brain brain)
+        public AiController(Brain brain)
         {
             _brain = brain;
+            _blackboard = new Blackboard();
         }
 
         public void Update()
