@@ -2,18 +2,15 @@
 
 namespace InteractableGroupsAi.Director.Goals
 {
-    public class PossibleGoal
-    {
-        private Goal _goal;
-        private GoalScorer _scorer;
-
-        public float EvaluateGoal() => _scorer.GetScore(_goal);
-    }
-
     public class Goal
     {
-        private CompositeCondition _condition;
+        private CompositeCondition _desiredCondition;
 
-        public bool Check() => _condition.IsSatisfied();
+        public Goal(CompositeCondition condition)
+        {
+            _desiredCondition = condition;
+        }
+
+        public bool Check() => _desiredCondition.IsSatisfied();
     }
 }

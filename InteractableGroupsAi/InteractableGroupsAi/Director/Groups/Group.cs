@@ -3,7 +3,7 @@ using InteractableGroupsAi.Director.Goals;
 
 namespace InteractableGroupsAi.Director.Groups
 {
-    public class Group
+    public class Group : IGroupContext
     {
         private Goal _currentGoal;
         private List<AiController> _agents;

@@ -1,15 +1,23 @@
-﻿using InteractableGroupsAi.Director.Buckets;
-using InteractableGroupsAi.Director.Goals;
+﻿using InteractableGroupsAi.Director.Groups;
 
 namespace InteractableGroupsAi.Director
 {
-    public abstract class GoalScorer
+    public interface IScorer
     {
-        public abstract float GetScore(Goal goal);
+        float GetScore();
     }
 
-    public abstract class BucketScorer
+    public abstract class GoalScorer : IScorer
     {
-        public abstract float GetScore(Bucket goal);
+        private IGroupContext _context;
+
+        public abstract float GetScore();
+    }
+
+    public abstract class BucketScorer : IScorer
+    {
+        private IGroupContext _context;
+
+        public abstract float GetScore();
     }
 }

@@ -9,6 +9,11 @@ namespace InteractableGroupsAi
         public Action OnCompleted { get; set; }
         public Action OnFailed { get; set; }
 
+        public AgentAction(CompositeCondition condition)
+        {
+            _condition = condition;
+        }
+
         public bool CanExecute() => _condition.IsSatisfied();
 
         public abstract void Update();
