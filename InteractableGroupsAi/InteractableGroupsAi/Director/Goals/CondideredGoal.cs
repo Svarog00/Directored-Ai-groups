@@ -3,9 +3,11 @@
     public class CondideredGoal
     {
         private Goal _goal;
-        private GoalScorer _scorer;
+        private GroupScorer _scorer;
 
-        public CondideredGoal(Goal goal, GoalScorer scorer)
+        public Goal Goal => _goal;
+
+        public CondideredGoal(Goal goal, GroupScorer scorer)
         {
             _goal = goal;
             _scorer = scorer;

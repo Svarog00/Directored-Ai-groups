@@ -1,5 +1,10 @@
 ﻿namespace InteractableGroupsAi.Agents.Conditions
 {
+    public class NullCompositeCondiiton : CompositeCondition
+    {
+
+    }
+
     public class CompositeCondition
     {
         private List<Condition> _conditions;

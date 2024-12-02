@@ -12,6 +12,8 @@ namespace InteractableGroupsAi.Director
         private List<Group> _activeGroups;
         private List<IUpdatable> _offlineGroups;
 
+        private readonly float _minimunScore = 0f;
+
         public override void Update()
         {
             UpdateActive();
@@ -20,6 +22,28 @@ namespace InteractableGroupsAi.Director
 
         private void UpdateActive()
         {
+            foreach (var group in _activeGroups)
+            {
+                Bucket possibleBucket = null;
+                float floor = _minimunScore;
+                foreach (var bucket in _buckets)
+                {
+                    /*
+                     * TODO: Change to evaluating the best bucket in current context, 
+                     * and picking the best goal from the bucket 
+                     */
+                    var score = bucket.EvaluateBucket(group);
+
+                    if (score > floor)
+                    {
+                        possibleBucket = bucket;
+                        floor = score;
+                    }
+
+                }
+                group.SetGroupGoal(possibleBucket.EvaluateGoals(group).Goal);
+            }
+
             //Checks online groups and choose what to do them
             //Get their states, through scrorers and aggregators choose goal
             //Set goal

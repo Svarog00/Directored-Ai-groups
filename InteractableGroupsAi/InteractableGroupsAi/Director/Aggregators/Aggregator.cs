@@ -11,7 +11,7 @@ namespace InteractableGroupsAi.Director.Aggregators
     {
         public override Goal Aggregate(Goal goalA, Goal goalB)
         {
-            return new NullGoal();
+            return null;
         }
     }
 }
