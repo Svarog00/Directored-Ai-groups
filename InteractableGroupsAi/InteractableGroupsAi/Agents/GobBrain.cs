@@ -6,6 +6,11 @@
         private Queue<AgentAction> _plannedActions;
         private List<AgentAction> _availableActions;
 
+        public GobBrain(AiController controller) : base(controller)
+        {
+
+        }
+
         public override void Update()
         {
             _currentAction.Update();

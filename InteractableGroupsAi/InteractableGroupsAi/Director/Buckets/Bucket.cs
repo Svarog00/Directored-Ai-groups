@@ -22,7 +22,7 @@ namespace InteractableGroupsAi.Director.Buckets
 
         public float EvaluateBucket(IGroupContext context)
         {
-            return _scorer.GetScore();
+            return _scorer.GetScore() * _weight;
         }
 
         public void AddGoal(CondideredGoal goal)

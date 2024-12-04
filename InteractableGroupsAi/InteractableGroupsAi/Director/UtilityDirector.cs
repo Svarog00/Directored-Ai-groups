@@ -20,6 +20,11 @@ namespace InteractableGroupsAi.Director
             UpdateOffline();
         }
 
+        public void RegisterGroup(Group group)
+        {
+            _activeGroups.Add(group);
+        }
+
         private void UpdateActive()
         {
             foreach (var group in _activeGroups)
@@ -41,7 +46,7 @@ namespace InteractableGroupsAi.Director
                     }
 
                 }
-                group.SetGroupGoal(possibleBucket.EvaluateGoals(group).Goal);
+                SetGroupGoal(possibleBucket.EvaluateGoals(group).Goal, group);
             }
 
             //Checks online groups and choose what to do them

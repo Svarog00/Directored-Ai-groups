@@ -7,15 +7,17 @@ namespace InteractableGroupsAi.Director
         float GetScore();
     }
 
-    public abstract class Consideration
-    {
-        public abstract float GetScore(IGroupContext context);
-    }
-
     public abstract class GroupScorer : IScorer
     {
         private IGroupContext _context;
         private List<Consideration> _considerations;
+
+        public GroupScorer(IGroupContext context)
+        {
+            _context = context;
+        }
+
+        public void AddConsideration(Consideration consideration) => _considerations.Add(consideration);
 
         public virtual float GetScore()
         {
