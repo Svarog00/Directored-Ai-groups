@@ -32,7 +32,7 @@ namespace InteractableGroupsAi.Director.Buckets
 
         public CondideredGoal EvaluateGoals(IGroupContext context)
         {
-            CondideredGoal possibleGoal = null;
+            CondideredGoal possibleGoal = _availableGoals.First();
             float floor = _minimunScore;
             foreach (var goal in _availableGoals)
             {

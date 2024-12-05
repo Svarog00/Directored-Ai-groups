@@ -7,6 +7,10 @@ namespace InteractableGroupsAi.Director
         float GetScore();
     }
 
+    /// <summary>
+    /// Для каждого бакета\гоала имеется этот класс с разным списком консидерейшенов, 
+    /// В которых оценивается стат группы для выбора наилучшего для текущей ситуации
+    /// </summary>
     public abstract class GroupScorer : IScorer
     {
         private IGroupContext _context;

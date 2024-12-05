@@ -1,11 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace InteractableGroupsAi.Director.Groups
+﻿namespace InteractableGroupsAi.Director.Groups
 {
+    /// <summary>
+    /// Маркировочынй интерфейс для конкретных реализаций Consideration,
+    /// Оценивающие какую-то характеристику группы\персонажа получаемую из класса который реализует IContext
+    /// </summary>
     public interface IGroupContext
     {
     }

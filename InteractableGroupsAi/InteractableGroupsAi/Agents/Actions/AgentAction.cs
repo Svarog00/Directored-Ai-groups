@@ -16,6 +16,13 @@ namespace InteractableGroupsAi
         }
 
         public bool CanExecute() => _condition.IsSatisfied();
+
+        /// <summary>
+        /// Для оценки акшн проходит по кондишенам Гоала, меняет их и дельту аггрегирует в выход.
+        /// </summary>
+        /// <param name="goal"></param>
+        /// <returns>Если Акшн не может никак изменить цель, то возвращается 0, 
+        /// в противном случае аггрегированные изменения кондишенов.</returns>
         public abstract float Score(Goal goal);
 
         public abstract void Update();
