@@ -7,11 +7,11 @@ namespace InteractableGroupsAi.Director.Buckets
     public class Bucket
     {
         private float _weight;
-        private List<CondideredGoal> _goals;
+        private List<CondideredGoal> _availableGoals = [];
         private GroupScorer _scorer;
         private float _minimunScore = 0f;
 
-        public IEnumerable<CondideredGoal> Goals => _goals;
+        public IEnumerable<CondideredGoal> Goals => _availableGoals;
         public float Weight => _weight;
 
         public Bucket(float weight, GroupScorer scorer)
@@ -27,14 +27,14 @@ namespace InteractableGroupsAi.Director.Buckets
 
         public void AddGoal(CondideredGoal goal)
         {
-            _goals.Add(goal);
+            _availableGoals.Add(goal);
         }
 
         public CondideredGoal EvaluateGoals(IGroupContext context)
         {
             CondideredGoal possibleGoal = null;
             float floor = _minimunScore;
-            foreach (var goal in _goals)
+            foreach (var goal in _availableGoals)
             {
                 /*
                  * TODO: Change to evaluating the best bucket in current context, 

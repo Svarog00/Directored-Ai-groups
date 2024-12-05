@@ -8,9 +8,9 @@ namespace InteractableGroupsAi.Director
 
     public class UtilityDirector : Director
     {
-        private List<Bucket> _buckets;
-        private List<Group> _activeGroups;
-        private List<IUpdatable> _offlineGroups;
+        private List<Bucket> _buckets = [];
+        private List<Group> _activeGroups = [];
+        private List<IUpdatable> _offlineGroups = [];
 
         private readonly float _minimunScore = 0f;
 

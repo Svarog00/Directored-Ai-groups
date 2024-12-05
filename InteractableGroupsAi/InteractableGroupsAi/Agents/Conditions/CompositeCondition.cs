@@ -7,7 +7,7 @@
 
     public class CompositeCondition
     {
-        private List<Condition> _conditions;
+        private List<Condition> _conditions = [];
 
         public bool IsSatisfied()
         {

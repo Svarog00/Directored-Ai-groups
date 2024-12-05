@@ -10,7 +10,7 @@ namespace InteractableGroupsAi.Director
     public abstract class GroupScorer : IScorer
     {
         private IGroupContext _context;
-        private List<Consideration> _considerations;
+        private List<Consideration> _considerations = [];
 
         public GroupScorer(IGroupContext context)
         {

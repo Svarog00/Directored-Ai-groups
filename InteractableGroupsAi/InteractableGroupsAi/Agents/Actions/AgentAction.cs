@@ -1,4 +1,5 @@
 ﻿using InteractableGroupsAi.Agents.Conditions;
+using InteractableGroupsAi.Director.Goals;
 
 namespace InteractableGroupsAi
 {
@@ -15,6 +16,7 @@ namespace InteractableGroupsAi
         }
 
         public bool CanExecute() => _condition.IsSatisfied();
+        public abstract float Score(Goal goal);
 
         public abstract void Update();
         public abstract void Execute();

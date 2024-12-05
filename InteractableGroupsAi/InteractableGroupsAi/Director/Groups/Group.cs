@@ -6,7 +6,7 @@ namespace InteractableGroupsAi.Director.Groups
     public class Group : IGroupContext
     {
         private Goal _currentGoal;
-        private List<AiController> _agents;
+        private List<AiController> _agents = [];
 
         public int Id { get; }
 
