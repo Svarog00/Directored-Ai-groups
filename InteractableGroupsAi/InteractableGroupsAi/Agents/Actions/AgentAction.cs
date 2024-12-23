@@ -1,4 +1,5 @@
-﻿using InteractableGroupsAi.Agents.Conditions;
+﻿using InteractableGroupsAi.Agents;
+using InteractableGroupsAi.Agents.Conditions;
 using InteractableGroupsAi.Director.Goals;
 
 namespace InteractableGroupsAi
@@ -17,6 +18,12 @@ namespace InteractableGroupsAi
 
         public bool CanExecute() => _condition.IsSatisfied();
 
+        public bool TrySatisfyConditions(AgentAction anotherAction)
+        {
+            
+            return _condition.IsSatisfied();
+        }
+
         /// <summary>
         /// Для оценки акшн проходит по кондишенам Гоала, меняет их и дельту аггрегирует в выход.
         /// </summary>
@@ -27,6 +34,8 @@ namespace InteractableGroupsAi
 
         public abstract void Update();
         public abstract void Execute();
+
+        public abstract void TryExecute(IAgentContext context);
 
         public abstract void OnBegin();
         public abstract void OnEnd();

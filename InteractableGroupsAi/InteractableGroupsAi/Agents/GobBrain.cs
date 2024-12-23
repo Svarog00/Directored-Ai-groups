@@ -4,8 +4,6 @@ namespace InteractableGroupsAi.Agents
 {
     public class GobBrain : Brain
     {
-        private Goal _currentGoal;
-
         private AgentAction _currentAction;
         private List<AgentAction> _availableActions = [];
 
@@ -26,27 +24,37 @@ namespace InteractableGroupsAi.Agents
             _availableActions = availableActions;
         }
 
-        public void SetGoal(Goal newGoal)
-        {
-            _currentGoal = newGoal;
-        }
-
         private void ChooseNewAction()
         {
             var highestScore = 0f;
             AgentAction choosenAction = _availableActions.First();
             foreach (var action in _availableActions)
             {
-                var score = action.Score(_currentGoal);
+                var score = action.Score(CurrentGoal);
 
                 if (score > highestScore)
                 {
                     highestScore = score;
                     choosenAction = action;
                 }
+
+                if (action.CanExecute() == false)
+                {
+                    FindActionToSatisfy(action);
+                }
             }
 
             SetAction(choosenAction);
+        }
+
+        private void FindActionToSatisfy(AgentAction actionToExecute)
+        {
+            foreach(var action in _availableActions)
+            {
+                if (action == actionToExecute) continue;
+
+                
+            }
         }
 
         private void SetAction(AgentAction action)

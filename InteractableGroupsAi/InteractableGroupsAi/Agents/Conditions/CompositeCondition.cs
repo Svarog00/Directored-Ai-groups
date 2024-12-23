@@ -9,6 +9,16 @@
     {
         private List<Condition> _conditions = [];
 
+        public void AddConditions(List<Condition> conditions)
+        {
+            conditions.ForEach(AddCondition);
+        }
+
+        public void AddCondition(Condition condition)
+        {
+            _conditions.Add(condition);
+        }
+
         public bool IsSatisfied()
         {
             foreach (var condition in _conditions)
