@@ -3,30 +3,55 @@ using InteractableGroupsAi.Memory;
 
 namespace InteractableGroupsAi.Agents
 {
-    public class AiController
+    public class AiController<T> where T : IAgentContext
     {
-        private Brain _brain;
+        private Brain _brain = new NullBrain();
         private Blackboard _blackboard;
+        private T _character;
+        private List<Sensor> _perceptionSensors;
 
-        public AiController(Brain brain)
+        public AiController(T character)
+        {
+            _character = character;
+            _blackboard = new Blackboard();
+            _perceptionSensors = new List<Sensor>();
+        }
+
+        public void SetBrain(Brain brain)
         {
             _brain = brain;
-            _blackboard = new Blackboard();
+        }
+
+        public void AddSensor(Sensor sensor)
+        {
+            _perceptionSensors.Add(sensor);
+            sensor.OnAgentDetected += OnAgentDetected;
+            sensor.OnAgentLost += OnAgentLost;
+        }
+
+        public void OnAgentDetected(IAgentContext agentContext)
+        {
+            
+        }
+
+        public void OnAgentLost(IAgentContext agentContext)
+        {
+
         }
 
         public void Update()
         {
             _brain.Update();
+            _perceptionSensors.ForEach(x => x.Update());
         }
 
-        public bool GetCharacterState()
+        public IAgentContext GetCharacterState()
         {
-            return true;
+            return _character;
         }
 
-        public void SetCurrentGoal(Goal newGoal)
-        {
-            _brain.SetGoal(newGoal);
-        }
+        public void SetGroupId(GroupId groupId) => _character.SetGroupId(groupId);
+
+        public void SetCurrentGoal(Goal newGoal) => _brain.SetGoal(newGoal);
     }
 }

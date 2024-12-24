@@ -30,10 +30,9 @@ namespace InteractableGroupsAi
         /// <param name="goal"></param>
         /// <returns>Если Акшн не может никак изменить цель, то возвращается 0, 
         /// в противном случае аггрегированные изменения кондишенов.</returns>
-        public abstract float Score(Goal goal);
+        public abstract float GetGoalChange(Goal goal);
 
         public abstract void Update();
-        public abstract void Execute();
 
         public abstract void TryExecute(IAgentContext context);
 

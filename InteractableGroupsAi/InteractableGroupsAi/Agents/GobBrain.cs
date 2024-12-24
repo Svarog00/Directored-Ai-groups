@@ -4,14 +4,27 @@ namespace InteractableGroupsAi.Agents
 {
     public class GobBrain : Brain
     {
+        private const int DeepBorder = 5;
+
         private AgentAction _currentAction;
         private List<AgentAction> _availableActions = [];
 
         private Queue<AgentAction> _plannedActions = [];
 
-        public GobBrain(AiController controller) : base(controller)
-        {
+        private float _prevHighestScore = 0f;
+        private AgentAction _prevBestAction;
 
+        public GobBrain(AiController<IAgentContext> controller) : base(controller)
+        {
+            _currentAction = _availableActions.First();
+            _prevBestAction = _currentAction;
+            _prevHighestScore = 0f;
+        }
+
+        public override void Reset()
+        {
+            _plannedActions.Clear();
+            ChooseNewAction();
         }
 
         public override void Update()
@@ -30,7 +43,7 @@ namespace InteractableGroupsAi.Agents
             AgentAction choosenAction = _availableActions.First();
             foreach (var action in _availableActions)
             {
-                var score = action.Score(CurrentGoal);
+                var score = action.GetGoalChange(CurrentGoal);
 
                 if (score > highestScore)
                 {
@@ -40,21 +53,40 @@ namespace InteractableGroupsAi.Agents
 
                 if (action.CanExecute() == false)
                 {
-                    FindActionToSatisfy(action);
+                    /// <summary>
+                    /// TODO: Сделать выбор действия для удволетворения условия или сбросить выбор на предыдущее лучшее действие 
+                    /// в случае выхода за предел глубины 
+                    /// </summary>
+                    var resolvingAction = FindActionToSatisfy(action);
+                    if (resolvingAction == null)
+                    {
+                        highestScore = _prevHighestScore;
+                        choosenAction = _prevBestAction;
+                        continue;
+                    }
+                    else
+                    {
+                        _plannedActions.Clear();
+                        _plannedActions.Enqueue(resolvingAction);
+                    }
                 }
             }
 
+            _plannedActions.Enqueue(choosenAction);
             SetAction(choosenAction);
         }
 
-        private void FindActionToSatisfy(AgentAction actionToExecute)
+        private AgentAction FindActionToSatisfy(AgentAction actionToExecute)
         {
-            foreach(var action in _availableActions)
+            foreach (var action in _availableActions)
             {
                 if (action == actionToExecute) continue;
 
-                
+                if (actionToExecute.TrySatisfyConditions(action))
+                    return action;   
             }
+
+            return null;
         }
 
         private void SetAction(AgentAction action)
@@ -62,6 +94,8 @@ namespace InteractableGroupsAi.Agents
             _currentAction = action;
             _currentAction.OnCompleted += ToNextAction;
             _currentAction.OnFailed += ChooseNewAction;
+
+            _currentAction.OnBegin();
         }
 
         private void ToNextAction()
@@ -75,6 +109,7 @@ namespace InteractableGroupsAi.Agents
             }
 
             _currentAction = _plannedActions.Dequeue();
+            SetAction(_currentAction);
         }
     }
 }

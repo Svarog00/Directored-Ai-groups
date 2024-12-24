@@ -10,7 +10,7 @@ namespace InteractableGroupsAi.Director
     {
         private List<Bucket> _buckets = [];
         private List<Group> _activeGroups = [];
-        private List<IUpdatable> _offlineGroups = [];
+        private List<Group> _offlineGroups = [];
 
         private readonly float _minimunScore = 0f;
 
@@ -20,6 +20,11 @@ namespace InteractableGroupsAi.Director
             UpdateOffline();
         }
 
+        public void AddBucket(Bucket bucket)
+        {
+            _buckets.Add(bucket);
+        }
+
         public void RegisterGroup(Group group)
         {
             _activeGroups.Add(group);
@@ -27,31 +32,7 @@ namespace InteractableGroupsAi.Director
 
         private void UpdateActive()
         {
-            foreach (var group in _activeGroups)
-            {
-                Bucket possibleBucket = null;
-                float floor = _minimunScore;
-                foreach (var bucket in _buckets)
-                {
-                    /*
-                     * TODO: Change to evaluating the best bucket in current context, 
-                     * and picking the best goal from the bucket 
-                     */
-                    var score = bucket.EvaluateBucket(group);
-
-                    if (score > floor)
-                    {
-                        possibleBucket = bucket;
-                        floor = score;
-                    }
-
-                }
-                SetGroupGoal(possibleBucket.EvaluateGoals(group).Goal, group);
-            }
-
-            //Checks online groups and choose what to do them
-            //Get their states, through scrorers and aggregators choose goal
-            //Set goal
+            GenerateGoals(_activeGroups);
         }
 
         private void UpdateOffline()
@@ -59,10 +40,42 @@ namespace InteractableGroupsAi.Director
             //Check offline groups and choose what to do them
             //Get their states, through scrorers and aggregators choose goal
             //Set goal
+            GenerateGoals(_offlineGroups);
+            //Emulate outcome
+        }
+
+        /// <summary>
+        /// Checks online groups and choose what to do them
+        /// Get their states, through scrorers and aggregators choose goal
+        /// Set goal
+        /// </summary>
+        /// <param name="groups"></param>
+        private void GenerateGoals(List<Group> groups)
+        {
+            foreach (var group in groups)
+            {
+                Bucket bestBucket = _buckets.First();
+                float floor = _minimunScore;
+                foreach (var bucket in _buckets)
+                {
+                    var score = bucket.EvaluateBucket(group);
+
+                    if (score > floor)
+                    {
+                        bestBucket = bucket;
+                        floor = score;
+                    }
+
+                }
+
+                SetGroupGoal(bestBucket.EvaluateGoals(group).Goal, group);
+            }
         }
 
         private void SetGroupGoal(Goal goal, Group group)
         {
+            if (goal == group.CurrentGoal) return;
+
             group.SetGroupGoal(goal);
         }
     }
