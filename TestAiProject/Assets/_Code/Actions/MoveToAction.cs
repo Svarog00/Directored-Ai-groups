@@ -27,6 +27,7 @@ public class MoveToAction : AgentAction
 
     public override void ForceEnd()
     {
+
     }
 
     public override float GetGoalChange(Goal goal)
@@ -40,6 +41,7 @@ public class MoveToAction : AgentAction
 
     public override void OnEnd()
     {
+
     }
 
     public override void TryExecute()
@@ -49,6 +51,9 @@ public class MoveToAction : AgentAction
 
     public override void Update()
     {
-
+        if (_characterState.CurrentPosition == _targetPosition)
+        {
+            OnCompleted?.Invoke();
+        }
     }
 }
