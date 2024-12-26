@@ -1,6 +1,8 @@
-﻿namespace InteractableGroupsAi.Agents
+﻿using System.Diagnostics.CodeAnalysis;
+
+namespace InteractableGroupsAi.Agents
 {
-    public struct GroupId
+    public struct GroupId : IEquatable<GroupId>
     {
         public int Id { get; private set; }
 
@@ -8,5 +10,7 @@
         {
             Id = id;
         }
+
+        public bool Equals(GroupId other) => Id == other.Id;
     }
 }

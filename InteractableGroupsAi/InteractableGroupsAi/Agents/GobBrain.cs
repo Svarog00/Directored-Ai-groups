@@ -91,6 +91,9 @@ namespace InteractableGroupsAi.Agents
 
         private void SetAction(AgentAction action)
         {
+            if (_currentAction.OnFailed != null) _currentAction.OnFailed -= ChooseNewAction;
+            if (_currentAction.OnCompleted != null) _currentAction.OnCompleted -= ToNextAction;
+
             _currentAction = action;
             _currentAction.OnCompleted += ToNextAction;
             _currentAction.OnFailed += ChooseNewAction;

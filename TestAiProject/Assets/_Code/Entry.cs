@@ -5,17 +5,21 @@ using UnityEngine;
 
 public class Entry : MonoBehaviour
 {
-    private Director _aiDirector;
+    [SerializeField] private List<BucketScript> _buckets = new List<BucketScript>();
+
+    private UtilityDirector _aiDirector;
 
     // Start is called before the first frame update
     void Start()
     {
-        
+        _aiDirector = new UtilityDirector();
+
+        _buckets.ForEach(x => _aiDirector.AddBucket(x.Bucket));
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+        _aiDirector.Update();   
     }
 }

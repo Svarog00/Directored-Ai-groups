@@ -30,6 +30,14 @@ namespace InteractableGroupsAi.Director
             _activeGroups.Add(group);
         }
 
+        public void MoveToOffline(Group group)
+        {
+            var activeGroup = _activeGroups.Find(x => group.GroupId.Equals(x.GroupId));
+            if (activeGroup == null) return;
+
+            _offlineGroups.Add(activeGroup);
+        }
+
         private void UpdateActive()
         {
             GenerateGoals(_activeGroups);
@@ -40,7 +48,7 @@ namespace InteractableGroupsAi.Director
             //Check offline groups and choose what to do them
             //Get their states, through scrorers and aggregators choose goal
             //Set goal
-            GenerateGoals(_offlineGroups);
+            //GenerateGoals(_offlineGroups);
             //Emulate outcome
         }
 
@@ -75,7 +83,7 @@ namespace InteractableGroupsAi.Director
         private void SetGroupGoal(Goal goal, Group group)
         {
             if (goal == group.CurrentGoal) return;
-
+            
             group.SetGroupGoal(goal);
         }
     }
