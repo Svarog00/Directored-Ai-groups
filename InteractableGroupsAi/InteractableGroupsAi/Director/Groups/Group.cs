@@ -23,6 +23,7 @@ namespace InteractableGroupsAi.Director.Groups
         }
 
         public void SetGroupGoal(Goal newGoal)
+
         {
             _currentGoal = newGoal;
             _agents.ForEach(x => x.SetCurrentGoal(_currentGoal));

@@ -67,6 +67,10 @@ namespace InteractableGroupsAi.Memory
             return blackboardKey;
         }
 
+        public void AddValue<T>(string key, T value)
+        {
+            AddValue(new BlackboardKey(key), value);
+        }
 
         public void AddValue<T>(BlackboardKey key, T value)
         {

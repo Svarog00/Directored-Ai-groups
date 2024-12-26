@@ -34,7 +34,7 @@ namespace InteractableGroupsAi
 
         public abstract void Update();
 
-        public abstract void TryExecute(IAgentContext context);
+        public abstract void TryExecute();
 
         public abstract void OnBegin();
         public abstract void OnEnd();
