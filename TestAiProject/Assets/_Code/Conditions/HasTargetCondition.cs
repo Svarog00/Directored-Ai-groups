@@ -1,4 +1,5 @@
 ﻿using InteractableGroupsAi;
+using InteractableGroupsAi.Agents;
 
 public class HasTargetCondition : AgentCondition
 {
@@ -6,6 +7,7 @@ public class HasTargetCondition : AgentCondition
 
     public HasTargetCondition(CharacterState agentContext) : base(agentContext)
     {
+        _characterState = agentContext;
     }
 
     public override bool Check() => _characterState.CurrentTarget != null;

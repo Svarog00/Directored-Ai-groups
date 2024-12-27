@@ -12,6 +12,7 @@ public class CharacterState : ScriptableObject, IAgentContext
     public float CurrentHealth { get; private set; }
     public float CurrentRest { get; private set; }
     public CharacterState CurrentTarget { get; private set; }
+    public Item CurrentHand { get; private set; }
     public List<Item> Items { get; private set; }
 
     public void SetGroupId(GroupId id) => GroupId = id;
@@ -20,4 +21,5 @@ public class CharacterState : ScriptableObject, IAgentContext
     public void SetPosition(Vector3 position) => CurrentPosition = position;
     public void SetTarget(CharacterState target) => CurrentTarget = target;
     public void SetItems(List<Item> items) => Items = items;
+    public void Equip(Item item) => CurrentHand = item;
 }

@@ -29,9 +29,9 @@ namespace InteractableGroupsAi.Director.Groups
             _agents.ForEach(x => x.SetCurrentGoal(_currentGoal));
         }
 
-        public bool GetGroupState()
+        public IGroupState GetState()
         {
-            return true;
+            return null;
         }
 
         public bool IsGoalReached() => _currentGoal.Check();
