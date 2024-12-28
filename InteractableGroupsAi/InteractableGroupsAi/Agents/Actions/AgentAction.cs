@@ -6,12 +6,12 @@ namespace InteractableGroupsAi
 {
     public abstract class AgentAction
     {
-        private CompositeCondition _condition;
+        private CompositeCondition<AgentCondition> _condition;
 
         public Action OnCompleted { get; set; }
         public Action OnFailed { get; set; }
 
-        public AgentAction(CompositeCondition condition)
+        public AgentAction(CompositeCondition<AgentCondition> condition)
         {
             _condition = condition;
         }

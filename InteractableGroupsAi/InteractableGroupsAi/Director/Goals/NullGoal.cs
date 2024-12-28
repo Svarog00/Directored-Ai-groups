@@ -4,12 +4,12 @@ namespace InteractableGroupsAi.Director.Goals
 {
     public class NullGoal : Goal
     {
-        public NullGoal() : base (new NullCompositeCondiiton())
+        public NullGoal() : base (new CompositeCondition<GroupCondition>())
         {
 
         }
 
-        public NullGoal(CompositeCondition condition) : base(condition)
+        public NullGoal(CompositeCondition<GroupCondition> condition) : base(condition)
         {
         }
     }

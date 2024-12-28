@@ -7,9 +7,9 @@ namespace InteractableGroupsAi.Director.Goals
     {
         public IGroupContext Group { get; }
 
-        private CompositeCondition _desiredCondition;
+        private CompositeCondition<GroupCondition> _desiredCondition;
 
-        public Goal(CompositeCondition condition)
+        public Goal(CompositeCondition<GroupCondition> condition)
         {
             _desiredCondition = condition;
         }

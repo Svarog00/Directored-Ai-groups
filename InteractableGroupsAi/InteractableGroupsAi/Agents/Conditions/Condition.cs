@@ -11,10 +11,12 @@ namespace InteractableGroupsAi
     /// </summary>
     public abstract class Condition
     {
-        public virtual bool Check()
-        {
-            return true;
-        }
+        public abstract bool Check();
+    }
+
+    public class NullCondition : Condition
+    {
+        public override bool Check() => true;
     }
 
     public abstract class AgentCondition : Condition
@@ -27,9 +29,12 @@ namespace InteractableGroupsAi
         {
             AgentContextInternal = agentContext;
         }
+
+        public abstract bool TrySatisfyCondition(AgentAction action);
+
     }
 
-    public abstract class GroupCondition
+    public abstract class GroupCondition : Condition
     {
         public IGroupContext GroupContext => GroupContextInternal;
 
@@ -39,5 +44,7 @@ namespace InteractableGroupsAi
         {
             GroupContextInternal = groupContext;
         }
+
+        public abstract float GetConditionDelta(AgentAction action);
     }
 }
