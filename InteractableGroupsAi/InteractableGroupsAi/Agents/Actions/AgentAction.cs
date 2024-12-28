@@ -6,12 +6,12 @@ namespace InteractableGroupsAi
 {
     public abstract class AgentAction
     {
-        private CompositeCondition<AgentCondition> _condition;
+        private ComppositeAgentCondition _condition;
 
         public Action OnCompleted { get; set; }
         public Action OnFailed { get; set; }
 
-        public AgentAction(CompositeCondition<AgentCondition> condition)
+        public AgentAction(ComppositeAgentCondition condition)
         {
             _condition = condition;
         }
@@ -20,8 +20,7 @@ namespace InteractableGroupsAi
 
         public bool TrySatisfyConditions(AgentAction anotherAction)
         {
-            
-            return _condition.IsSatisfied();
+            return _condition.TrySatisfyConditions(anotherAction);
         }
 
         /// <summary>
@@ -30,7 +29,10 @@ namespace InteractableGroupsAi
         /// <param name="goal"></param>
         /// <returns>Если Акшн не может никак изменить цель, то возвращается 0, 
         /// в противном случае аггрегированные изменения кондишенов.</returns>
-        public abstract float GetGoalChange(Goal goal);
+        public float GetGoalChange(Goal goal)
+        {
+            return goal.GetGoalDelta(this);
+        }
 
         public abstract void Update();
 

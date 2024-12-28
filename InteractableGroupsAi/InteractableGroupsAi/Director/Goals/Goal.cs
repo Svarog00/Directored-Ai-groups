@@ -7,13 +7,15 @@ namespace InteractableGroupsAi.Director.Goals
     {
         public IGroupContext Group { get; }
 
-        private CompositeCondition<GroupCondition> _desiredCondition;
+        private CompositeGroupCondition _desiredCondition;
 
-        public Goal(CompositeCondition<GroupCondition> condition)
+        public Goal(CompositeGroupCondition condition)
         {
             _desiredCondition = condition;
         }
 
         public bool Check() => _desiredCondition.IsSatisfied();
+
+        public float GetGoalDelta(AgentAction action) => _desiredCondition.GetDelta(action);
     }
 }
