@@ -14,7 +14,9 @@ namespace InteractableGroupsAi.Agents
         private float _prevHighestScore = 0f;
         private AgentAction _prevBestAction;
 
-        public GobBrain(AiController<IAgentContext> controller) : base(controller)
+        private int _deepCounter = 0;
+
+        public GobBrain(AiController<IAgentState> controller) : base(controller)
         {
             _currentAction = _availableActions.First();
             _prevBestAction = _currentAction;
@@ -51,13 +53,14 @@ namespace InteractableGroupsAi.Agents
                     choosenAction = action;
                 }
 
-                if (action.CanExecute() == false)
+                AgentCondition failedCondition = null;
+                if (action.CanExecute(out failedCondition) == false)
                 {
                     /// <summary>
                     /// TODO: Сделать выбор действия для удволетворения условия или сбросить выбор на предыдущее лучшее действие 
                     /// в случае выхода за предел глубины 
                     /// </summary>
-                    var resolvingAction = FindActionToSatisfy(action);
+                    var resolvingAction = FindActionToSatisfyCondition(action, failedCondition);
                     if (resolvingAction == null)
                     {
                         highestScore = _prevHighestScore;
@@ -76,13 +79,13 @@ namespace InteractableGroupsAi.Agents
             SetAction(choosenAction);
         }
 
-        private AgentAction FindActionToSatisfy(AgentAction actionToExecute)
+        private AgentAction FindActionToSatisfyCondition(AgentAction actionToExecute, AgentCondition condition)
         {
             foreach (var action in _availableActions)
             {
                 if (action == actionToExecute) continue;
 
-                if (actionToExecute.TrySatisfyConditions(action))
+                if (condition.TrySatisfyCondition(action))
                     return action;   
             }
 

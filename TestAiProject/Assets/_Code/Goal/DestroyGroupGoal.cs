@@ -8,7 +8,7 @@ public class DestroyGroupGoal : Goal
 
     private GroupState _target;
 
-    public DestroyGroupGoal(CompositeCondition condition) : base(condition)
+    public DestroyGroupGoal(CompositeGroupCondition condition) : base(condition)
     {
 
     }

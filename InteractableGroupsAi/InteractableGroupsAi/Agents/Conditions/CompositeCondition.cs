@@ -14,13 +14,17 @@
             Conditions.Add(condition);
         }
 
-        public bool IsSatisfied()
+        public bool IsSatisfied(out T failedCondition)
         {
             foreach (var condition in Conditions)
             {
-                if (condition.Check() == false) return false;
+                if (condition.Check() == false)
+                {
+                    failedCondition = condition;
+                    return false;
+                }
             }
-
+            failedCondition = null;
             return true;
         }
     }

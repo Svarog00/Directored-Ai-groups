@@ -21,16 +21,22 @@ namespace InteractableGroupsAi
 
     public abstract class AgentCondition : Condition
     {
-        public IAgentContext AgentContext => AgentContextInternal;
+        public IAgentState AgentContext => AgentContextInternal;
 
-        protected IAgentContext AgentContextInternal { get; private set; }
+        protected IAgentState AgentContextInternal { get; private set; }
 
-        public AgentCondition(IAgentContext agentContext)
+        public AgentCondition(IAgentState agentContext)
         {
             AgentContextInternal = agentContext;
         }
+        /// <summary>
+        /// Get state from AgentAction and CallCheck state
+        /// </summary>
+        /// <param name="action"></param>
+        /// <returns></returns>
+        public bool TrySatisfyCondition(AgentAction action) => CheckState(action.GetNewState());
 
-        public abstract bool TrySatisfyCondition(AgentAction action);
+        public abstract bool CheckState(IAgentState context);
 
     }
 

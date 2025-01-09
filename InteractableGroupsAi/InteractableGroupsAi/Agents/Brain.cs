@@ -21,10 +21,10 @@ namespace InteractableGroupsAi.Agents
 
     public abstract class Brain : IUpdatable
     {
-        private AiController<IAgentContext> _controller;
+        private AiController<IAgentState> _controller;
         protected Goal CurrentGoal = new NullGoal(new CompositeGroupCondition());
 
-        public Brain(AiController<IAgentContext> controller)
+        public Brain(AiController<IAgentState> controller)
         {
             _controller = controller;
         }

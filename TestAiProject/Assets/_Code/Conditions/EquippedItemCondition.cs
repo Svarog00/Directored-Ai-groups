@@ -1,4 +1,5 @@
 ﻿using InteractableGroupsAi;
+using InteractableGroupsAi.Agents;
 
 public class EquippedItemCondition : AgentCondition
 {
@@ -12,4 +13,6 @@ public class EquippedItemCondition : AgentCondition
     }
 
     public override bool Check() => _characterState.CurrentHand.Name.Equals(_name);
+
+    public override bool CheckState(IAgentState context) => context.CurrentHand.Name.Equals(_name);
 }

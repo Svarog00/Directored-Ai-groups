@@ -16,13 +16,10 @@ namespace InteractableGroupsAi
             _condition = condition;
         }
 
-        public bool CanExecute() => _condition.IsSatisfied();
-
-        public bool TrySatisfyConditions(AgentAction anotherAction)
+        public bool CanExecute(out AgentCondition condition)
         {
-            return _condition.TrySatisfyConditions(anotherAction);
+            return _condition.IsSatisfied(out condition);
         }
-
         /// <summary>
         /// Для оценки акшн проходит по кондишенам Гоала, меняет их и дельту аггрегирует в выход.
         /// </summary>
@@ -33,6 +30,8 @@ namespace InteractableGroupsAi
         {
             return goal.GetGoalDelta(this);
         }
+
+        public abstract IAgentState GetNewState();
 
         public abstract void Update();
 

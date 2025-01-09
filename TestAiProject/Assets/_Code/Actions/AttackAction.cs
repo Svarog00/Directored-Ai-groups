@@ -1,4 +1,5 @@
 using InteractableGroupsAi;
+using InteractableGroupsAi.Agents;
 using InteractableGroupsAi.Agents.Conditions;
 using InteractableGroupsAi.Director.Goals;
 
@@ -11,7 +12,7 @@ public class AttackAction : AgentAction, IAgentStateable
     private readonly CharacterController _controller;
 
 
-    public AttackAction(CharacterState state, CharacterController characterController, CompositeCondition condition, CharacterState target) : base(condition)
+    public AttackAction(CharacterState state, CharacterController characterController, ComppositeAgentCondition condition, CharacterState target) : base(condition)
     {
         _state = state;
         _target = target;
@@ -23,11 +24,13 @@ public class AttackAction : AgentAction, IAgentStateable
 
     }
 
-    public override float GetGoalChange(Goal goal)
+    public float GetGoalChange(Goal goal)
     {
         
         return 1f;
     }
+
+    public override IAgentState GetNewState() => null;
 
     public override void OnBegin()
     {

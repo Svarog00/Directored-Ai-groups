@@ -12,5 +12,10 @@ public class PositionCondition : AgentCondition
         _state = agentContext;
     }
 
-    public override bool Check() => _state.CurrentPosition == _position;
+    public override bool Check() => _state.CurrentPosition == new System.Numerics.Vector3(_position.x, _position.y, _position.z);
+
+    public override bool CheckState(IAgentState context)
+    {
+        throw new System.NotImplementedException();
+    }
 }

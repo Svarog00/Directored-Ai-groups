@@ -8,8 +8,8 @@ namespace InteractableGroupsAi.Agents
 {
     public abstract class Sensor
     {
-        public Action<IAgentContext> OnAgentDetected { get; set; }
-        public Action<IAgentContext> OnAgentLost { get; set; }
+        public Action<IAgentState> OnAgentDetected { get; set; }
+        public Action<IAgentState> OnAgentLost { get; set; }
 
         public abstract void Update();
     }

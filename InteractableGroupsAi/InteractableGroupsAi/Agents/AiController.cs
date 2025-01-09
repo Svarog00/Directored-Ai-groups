@@ -3,7 +3,7 @@ using InteractableGroupsAi.Memory;
 
 namespace InteractableGroupsAi.Agents
 {
-    public class AiController<T> where T : IAgentContext
+    public class AiController<T> where T : IAgentState
     {
         private Brain _brain = new NullBrain();
         private Blackboard _blackboard;
@@ -29,12 +29,12 @@ namespace InteractableGroupsAi.Agents
             sensor.OnAgentLost += OnAgentLost;
         }
 
-        public void OnAgentDetected(IAgentContext agentContext)
+        public void OnAgentDetected(IAgentState agentContext)
         {
             
         }
 
-        public void OnAgentLost(IAgentContext agentContext)
+        public void OnAgentLost(IAgentState agentContext)
         {
 
         }
@@ -45,7 +45,7 @@ namespace InteractableGroupsAi.Agents
             _perceptionSensors.ForEach(x => x.Update());
         }
 
-        public IAgentContext GetCharacterState()
+        public IAgentState GetCharacterState()
         {
             return _character;
         }

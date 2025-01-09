@@ -11,7 +11,7 @@ namespace InteractableGroupsAi.Director.Groups
         public GroupId GroupId { get; private set; }
 
         private Goal _currentGoal = new NullGoal();
-        private List<AiController<IAgentContext>> _agents = [];
+        private List<AiController<IAgentState>> _agents = [];
         private Blackboard _blackboard;
 
         public int Id { get; }
@@ -36,7 +36,7 @@ namespace InteractableGroupsAi.Director.Groups
 
         public bool IsGoalReached() => _currentGoal.Check();
 
-        public void AddAgent(AiController<IAgentContext> agent)
+        public void AddAgent(AiController<IAgentState> agent)
         {
             agent.SetGroupId(GroupId);
             _agents.Add(agent);
