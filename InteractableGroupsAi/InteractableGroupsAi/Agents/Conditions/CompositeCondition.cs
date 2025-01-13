@@ -2,6 +2,8 @@
 {
     public class CompositeCondition<T> where T : Condition
     {
+        public IEnumerable<T> ConditionsPublic => Conditions;
+
         protected List<T> Conditions = [];
 
         public void AddConditions(List<T> conditions)

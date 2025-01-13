@@ -10,6 +10,7 @@ namespace InteractableGroupsAi.Agents
         private List<AgentAction> _availableActions = [];
 
         private Queue<AgentAction> _plannedActions = [];
+        private Queue<AgentAction> _tempQueue = [];
 
         private float _prevHighestScore = 0f;
         private AgentAction _prevBestAction;
@@ -47,14 +48,14 @@ namespace InteractableGroupsAi.Agents
             {
                 var score = action.GetGoalChange(CurrentGoal);
 
-                if (score > highestScore)
+                if (score <= highestScore)
                 {
-                    highestScore = score;
-                    choosenAction = action;
+                    continue;
                 }
 
-                AgentCondition failedCondition = null;
-                if (action.CanExecute(out failedCondition) == false)
+                _tempQueue.Clear();
+
+                if (action.CanExecute(out var failedCondition) == false)
                 {
                     /// <summary>
                     /// TODO: Сделать выбор действия для удволетворения условия или сбросить выбор на предыдущее лучшее действие 
@@ -63,50 +64,68 @@ namespace InteractableGroupsAi.Agents
                     var resolvingAction = FindActionToSatisfyCondition(action, failedCondition);
                     if (resolvingAction == null)
                     {
-                        highestScore = _prevHighestScore;
-                        choosenAction = _prevBestAction;
                         continue;
                     }
-                    else
-                    {
-                        _plannedActions.Clear();
-                        _plannedActions.Enqueue(resolvingAction);
-                    }
+                }
+
+                highestScore = score;
+                choosenAction = action;
+
+                _tempQueue.Enqueue(choosenAction);
+                foreach (var item in _tempQueue)
+                {
+                    _plannedActions.Enqueue(item);
                 }
             }
 
-            _plannedActions.Enqueue(choosenAction);
-            SetAction(choosenAction);
+            MoveToNextAction();
         }
 
-        private AgentAction FindActionToSatisfyCondition(AgentAction actionToExecute, AgentCondition condition)
+        private AgentAction FindActionToSatisfyCondition(AgentAction actionToExecute, AgentCondition requiredCondition)
         {
             foreach (var action in _availableActions)
             {
                 if (action == actionToExecute) continue;
 
-                if (condition.TrySatisfyCondition(action))
-                    return action;   
+                if (requiredCondition.TrySatisfyCondition(action) == false)
+                    continue;
+                    
+                if (action.CanExecute(out var condition) == false)
+                {
+                    _deepCounter++;
+                    if (_deepCounter == DeepBorder)
+                        return null;
+
+                    var satisfyingAction = FindActionToSatisfyCondition(action, condition);
+
+                    if (satisfyingAction == null)
+                    {
+                        continue;
+                    }
+                }
+
+                _tempQueue.Enqueue(action);
+                return action;
             }
 
-            return null;
+            return null; ;
         }
 
         private void SetAction(AgentAction action)
         {
             if (_currentAction.OnFailed != null) _currentAction.OnFailed -= ChooseNewAction;
-            if (_currentAction.OnCompleted != null) _currentAction.OnCompleted -= ToNextAction;
+            if (_currentAction.OnCompleted != null) _currentAction.OnCompleted -= MoveToNextAction;
 
             _currentAction = action;
-            _currentAction.OnCompleted += ToNextAction;
+            _currentAction.OnCompleted += MoveToNextAction;
             _currentAction.OnFailed += ChooseNewAction;
 
             _currentAction.OnBegin();
         }
 
-        private void ToNextAction()
+        private void MoveToNextAction()
         {
-            _currentAction.OnEnd();
+            _currentAction?.OnEnd();
             
             if (_plannedActions.Count <= 0)
             {
