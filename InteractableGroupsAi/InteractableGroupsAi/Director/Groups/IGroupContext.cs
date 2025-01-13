@@ -11,11 +11,14 @@
 
     public interface IGroupState
     {
-
         public float CurrentHealth { get; }
         public float MaxHealth { get; }
 
         public float CurrentRest { get; }
         public float MaxRest { get; }
+
+        public IGroupContext CurrentTarget { get; }
+
+        public void SetTarget(IGroupContext target);
     }
 }

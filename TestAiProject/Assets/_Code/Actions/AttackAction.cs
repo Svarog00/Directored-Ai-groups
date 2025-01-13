@@ -9,10 +9,10 @@ public class AttackAction : AgentAction, IAgentStateable
 
     private readonly CharacterState _state;
     private readonly CharacterState _target;
-    private readonly CharacterController _controller;
+    private readonly AgentController _controller;
 
 
-    public AttackAction(CharacterState state, CharacterController characterController, ComppositeAgentCondition condition, CharacterState target) : base(condition)
+    public AttackAction(CharacterState state, AgentController characterController, ComppositeAgentCondition condition, CharacterState target) : base(condition)
     {
         _state = state;
         _target = target;
@@ -26,8 +26,9 @@ public class AttackAction : AgentAction, IAgentStateable
 
     public float GetGoalChange(Goal goal)
     {
-        
-        return 1f;
+        var weapon = _controller.State.CurrentHand as Weapon;
+
+        return weapon.Damage;
     }
 
     public override IAgentState GetNewState() => null;

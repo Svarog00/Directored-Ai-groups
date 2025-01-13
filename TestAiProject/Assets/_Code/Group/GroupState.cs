@@ -10,6 +10,8 @@ public class GroupState : IGroupState
 
     public float MaxRest { get; private set; }
 
+    public IGroupContext CurrentTarget { get; private set; }
+
     public GroupState(float currentHealth, float maxHealth, float currentRest, float maxRest)
     {
         CurrentHealth = currentHealth;
@@ -17,4 +19,6 @@ public class GroupState : IGroupState
         CurrentRest = currentRest;
         MaxRest = maxRest;
     }
+
+    public void SetTarget(IGroupContext target) => CurrentTarget = target;
 }

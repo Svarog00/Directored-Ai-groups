@@ -14,7 +14,7 @@ namespace InteractableGroupsAi.Agents
         {
             _character = character;
             _blackboard = new Blackboard();
-            _perceptionSensors = new List<Sensor>();
+            _perceptionSensors = [];
         }
 
         public void SetBrain(Brain brain)

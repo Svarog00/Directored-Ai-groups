@@ -3,14 +3,14 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CharacterController : MonoBehaviour
+public class AgentController : MonoBehaviour
 {
     [SerializeField] private float _speed = 5f;
 
     [SerializeField] private List<Sensor> _sensors = new List<Sensor>();
     [SerializeField] private CharacterState _initialState;
 
-    private AiController<CharacterState> _controller;
+    private AiController<IAgentState> _controller;
     private CharacterState _currentState;
 
     private Transform _transform;
@@ -18,6 +18,7 @@ public class CharacterController : MonoBehaviour
     private Vector3 _direction;
     private bool _canMove = false;
 
+    public AiController<IAgentState> Controller => _controller;
     public CharacterState State => _currentState;
 
     private void Awake()
@@ -40,7 +41,7 @@ public class CharacterController : MonoBehaviour
         ProccessMove();
     }
 
-    public void SetController(AiController<CharacterState> controller)
+    public void SetController(AiController<IAgentState> controller)
     {
         _controller = controller;
     }
@@ -58,7 +59,7 @@ public class CharacterController : MonoBehaviour
     {
         if (_canMove == false) return;
 
-        _transform.Translate(_transform.position + _speed * _direction * Time.deltaTime);
+        _transform.Translate(_speed * Time.deltaTime * _direction);
         _currentState.SetPosition(transform.position);
     }
 }

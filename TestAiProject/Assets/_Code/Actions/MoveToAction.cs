@@ -9,10 +9,10 @@ public class MoveToAction : AgentAction, IAgentStateable
     public CharacterState State => _characterState;
 
     private CharacterState _characterState;
-    private CharacterController _characterController;
+    private AgentController _characterController;
     private Vector3 _targetPosition;
 
-    public MoveToAction(CharacterState state, Vector3 position, CharacterController characterController, ComppositeAgentCondition condition) : base(condition)
+    public MoveToAction(CharacterState state, Vector3 position, AgentController characterController, ComppositeAgentCondition condition) : base(condition)
     {
         _characterState = state;
         _characterController = characterController;

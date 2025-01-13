@@ -12,5 +12,11 @@ namespace InteractableGroupsAi.Agents
         }
 
         public bool Equals(GroupId other) => Id == other.Id;
+
+        public GroupId Next()
+        {
+            Id = Id++;
+            return new GroupId(Id);
+        }
     }
 }
