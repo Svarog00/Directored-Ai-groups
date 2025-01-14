@@ -45,6 +45,7 @@ namespace InteractableGroupsAi.Agents
         public void OnAgentLost(IAgentState agentContext)
         {
             _blackboard.AddValue(new BlackboardKey($"{agentContext.AgentId}_position"), agentContext.CurrentPosition);
+            _blackboard.Remove(new BlackboardKey($"{agentContext.AgentId}"));
         }
 
         public void OnTargetMoved(IAgentState agentContext) 
