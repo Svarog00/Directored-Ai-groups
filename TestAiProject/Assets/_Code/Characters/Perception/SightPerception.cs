@@ -2,7 +2,6 @@ using InteractableGroupsAi.Agents;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
-using static UnityEngine.EventSystems.EventTrigger;
 
 public class SightPerception : MonoBehaviour, IPerceptionSensor
 {
@@ -73,10 +72,5 @@ public class SightPerception : MonoBehaviour, IPerceptionSensor
             OnAgentLost?.Invoke(controller.State);
             _detectedCharacters.Add(controller);
         }
-    }
-
-    private void OnDrawGizmosSelected()
-    {
-        Gizmos.DrawWireSphere(transform.position, _sightRadius);
     }
 }
