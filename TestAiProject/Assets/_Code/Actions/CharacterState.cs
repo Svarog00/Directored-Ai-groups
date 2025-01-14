@@ -11,6 +11,7 @@ public class CharacterState : ScriptableObject, IAgentState
     [field: SerializeField] public float MaxRest { get; set; }
     
     public GroupId GroupId { get; private set; }
+    public int AgentId { get; private set; }
     public System.Numerics.Vector3 CurrentPosition { get; private set; }
     public float CurrentHealth { get; private set; }
     public float CurrentRest { get; private set; }
@@ -18,6 +19,7 @@ public class CharacterState : ScriptableObject, IAgentState
     public Item CurrentHand { get; private set; }
     public List<Item> Items { get; private set; }
 
+    public void SetId(int id) => AgentId = id;
     public void SetGroupId(GroupId id) => GroupId = id;
     public void SetHealth(float health) => CurrentHealth = health;
     public void SetRest(float rest) => CurrentRest = rest;
