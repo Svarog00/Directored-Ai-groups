@@ -27,13 +27,11 @@ public class AgentController : MonoBehaviour
         _currentState = Instantiate(_initialState);
     }
 
-    // Start is called before the first frame update
     void Start()
     {
         _sensors.ForEach(x => _controller.AddSensor(x));
     }
 
-    // Update is called once per frame
     void Update()
     {
         //_controller.Update();

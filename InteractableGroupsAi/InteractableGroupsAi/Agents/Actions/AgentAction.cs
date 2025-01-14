@@ -26,10 +26,7 @@ namespace InteractableGroupsAi
         /// <param name="goal"></param>
         /// <returns>Если Акшн не может никак изменить цель, то возвращается 0, 
         /// в противном случае аггрегированные изменения кондишенов.</returns>
-        public float GetGoalChange(Goal goal)
-        {
-            return goal.GetGoalDelta(this);
-        }
+        public abstract float GetGoalChange(Goal goal);
 
         public abstract IAgentState GetNewState();
 

@@ -21,10 +21,10 @@ public class MoveToAction : AgentAction, IAgentStateable
 
     public override void ForceEnd()
     {
-
+        _characterController.StopMove();    
     }
 
-    public float GetGoalChange(Goal goal)
+    public override float GetGoalChange(Goal goal)
     {
         return 1f;
     }

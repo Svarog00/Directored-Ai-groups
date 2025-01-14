@@ -24,7 +24,7 @@ public class AttackAction : AgentAction, IAgentStateable
 
     }
 
-    public float GetGoalChange(Goal goal)
+    public override float GetGoalChange(Goal goal)
     {
         var weapon = _controller.State.CurrentHand as Weapon;
 

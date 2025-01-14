@@ -8,7 +8,7 @@ namespace InteractableGroupsAi.Agents
         private Brain _brain = new NullBrain();
         private Blackboard _blackboard;
         private T _character;
-        private List<Sensor> _perceptionSensors;
+        private List<IPerceptionSensor> _perceptionSensors;
 
         public AiController(T character)
         {
@@ -22,7 +22,7 @@ namespace InteractableGroupsAi.Agents
             _brain = brain;
         }
 
-        public void AddSensor(Sensor sensor)
+        public void AddSensor(IPerceptionSensor sensor)
         {
             _perceptionSensors.Add(sensor);
             sensor.OnAgentDetected += OnAgentDetected;
