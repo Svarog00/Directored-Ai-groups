@@ -1,0 +1,90 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{E6CAAA4F-C0E6-4B39-AAD7-9B4C8F1B3559}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>AiLibrary</RootNamespace>
+    <AssemblyName>AiLibrary</AssemblyName>
+    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <Deterministic>true</Deterministic>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Numerics" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Agents\Actions\ActionsFactory.cs" />
+    <Compile Include="Agents\Actions\AgentAction.cs" />
+    <Compile Include="Agents\AiController.cs" />
+    <Compile Include="Agents\Brain.cs" />
+    <Compile Include="Agents\Conditions\CompositeCondition.cs" />
+    <Compile Include="Agents\Conditions\Condition.cs" />
+    <Compile Include="Agents\Effects\Effect.cs" />
+    <Compile Include="Agents\GobBrain.cs" />
+    <Compile Include="Agents\GroupId.cs" />
+    <Compile Include="Agents\IAgentContext.cs" />
+    <Compile Include="Agents\IPerceptionSensor.cs" />
+    <Compile Include="Agents\IUpdatable.cs" />
+    <Compile Include="Director\Aggregators\Aggregator.cs" />
+    <Compile Include="Director\Buckets\Bucket.cs" />
+    <Compile Include="Director\Director.cs" />
+    <Compile Include="Director\Goals\CondideredGoal.cs" />
+    <Compile Include="Director\Goals\Goal.cs" />
+    <Compile Include="Director\Goals\NullGoal.cs" />
+    <Compile Include="Director\Groups\Group.cs" />
+    <Compile Include="Director\Groups\IGroupContext.cs" />
+    <Compile Include="Director\Scorers\Consideration.cs" />
+    <Compile Include="Director\Scorers\GroupScorer.cs" />
+    <Compile Include="Director\UtilityDirector.cs" />
+    <Compile Include="Memory\Blackboard.cs" />
+    <Compile Include="obj\Debug\.NETFramework,Version=v4.7.2.AssemblyAttributes.cs" />
+    <Compile Include="Other\Item.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="bin\Debug\AiLibrary.dll" />
+    <Content Include="bin\Debug\AiLibrary.pdb" />
+    <Content Include="obj\Debug\AiLibrary.csproj.FileListAbsolute.txt" />
+    <Content Include="obj\Debug\AiLibrary.dll" />
+    <Content Include="obj\Debug\AiLibrary.pdb" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="obj\Debug\AiLibrary.csproj.AssemblyReference.cache" />
+    <None Include="obj\Debug\AiLibrary.csproj.CoreCompileInputs.cache" />
+    <None Include="obj\Debug\DesignTimeResolveAssemblyReferencesInput.cache" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="bin\Release\" />
+    <Folder Include="obj\Debug\TempPE\" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>

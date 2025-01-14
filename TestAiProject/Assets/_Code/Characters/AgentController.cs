@@ -7,7 +7,7 @@ public class AgentController : MonoBehaviour
 {
     [SerializeField] private float _speed = 5f;
 
-    [SerializeField] private List<IPerceptionSensor> _sensors = new List<IPerceptionSensor>();
+    [SerializeField] private SightPerception _sensor = new();
     [SerializeField] private CharacterState _initialState;
 
     private AiController<IAgentState> _controller;
@@ -24,25 +24,31 @@ public class AgentController : MonoBehaviour
     private void Awake()
     {
         _transform = transform;
+    }
+
+    public void Init()
+    {
         _currentState = Instantiate(_initialState);
 
-        foreach(var sensor in _sensors)
+        _sensor.Init(_currentState.GroupId);
+        _sensor.OnAgentDetected += x =>
         {
-            sensor.OnAgentDetected += _controller.OnAgentDetected;
-            sensor.OnAgentMoved += _controller.OnTargetMoved;
-            sensor.OnAgentLost += _controller.OnAgentLost;
-        }
+            print("HOHOHOH");
+            _controller.OnAgentDetected(x);
+        };
+        _sensor.OnAgentMoved += x => _controller.OnTargetMoved(x);
+        _sensor.OnAgentLost += x => _controller.OnAgentLost(x);
     }
 
     void Start()
     {
-        _sensors.ForEach(x => _controller.AddSensor(x));
+        _controller.AddSensor(_sensor);
+        _controller.Start();
     }
 
     void Update()
     {
-        //_controller.Update();
-
+        _controller.Update();
         ProccessMove();
     }
 

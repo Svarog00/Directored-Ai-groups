@@ -9,7 +9,7 @@ public class SightPerception : MonoBehaviour, IPerceptionSensor
     [SerializeField] private Collider2D _sightCollider;
     [SerializeField] private LayerMask _layerMask;
 
-    private List<AgentController> _detectedCharacters = new List<AgentController>();
+    private List<AgentController> _detectedCharacters = new();
     private GroupId _ownerGroup;
     private Transform _source;
 
