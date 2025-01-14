@@ -7,7 +7,7 @@ public class AgentController : MonoBehaviour
 {
     [SerializeField] private float _speed = 5f;
 
-    [SerializeField] private List<Sensor> _sensors = new List<Sensor>();
+    [SerializeField] private List<IPerceptionSensor> _sensors = new List<IPerceptionSensor>();
     [SerializeField] private CharacterState _initialState;
 
     private AiController<IAgentState> _controller;
@@ -25,6 +25,12 @@ public class AgentController : MonoBehaviour
     {
         _transform = transform;
         _currentState = Instantiate(_initialState);
+
+        foreach(var sensor in _sensors)
+        {
+            sensor.OnAgentDetected += _controller.OnAgentDetected;
+            sensor.OnAgentLost += _controller.OnAgentLost;
+        }
     }
 
     void Start()
