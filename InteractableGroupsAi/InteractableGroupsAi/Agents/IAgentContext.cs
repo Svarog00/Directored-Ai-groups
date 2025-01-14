@@ -13,6 +13,7 @@ namespace InteractableGroupsAi.Agents
         public float MaxRest { get; }
 
         public GroupId GroupId { get; }
+        public int AgentId { get; }
         public Vector3 CurrentPosition { get; }
 
         public IAgentState CurrentTarget { get; }

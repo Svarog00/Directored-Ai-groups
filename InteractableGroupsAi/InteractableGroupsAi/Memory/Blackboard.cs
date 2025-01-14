@@ -54,6 +54,18 @@ namespace InteractableGroupsAi.Memory
             return false;
         }
 
+        public List<T> GetAllOfType<T>()
+        {
+            var list = new List<T>();
+            foreach (var item in _entries.Values)
+            {
+                if (item is  BlackboardEntry<T> entryTyped && entryTyped.Value != null)
+                    list.Add(entryTyped.Value);
+            }
+
+            return list;
+        }
+
         public BlackboardKey GetOrRegisterKey(string keyName) 
         {
             if (_keys.TryGetValue(keyName, out BlackboardKey key) == true)

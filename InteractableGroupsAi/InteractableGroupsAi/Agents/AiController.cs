@@ -1,5 +1,6 @@
 ﻿using InteractableGroupsAi.Director.Goals;
 using InteractableGroupsAi.Memory;
+using System.Numerics;
 
 namespace InteractableGroupsAi.Agents
 {
@@ -9,6 +10,8 @@ namespace InteractableGroupsAi.Agents
         private Blackboard _blackboard;
         private T _character;
         private List<IPerceptionSensor> _perceptionSensors;
+
+        public Blackboard Memory => _blackboard;
 
         public AiController(T character)
         {
@@ -26,18 +29,26 @@ namespace InteractableGroupsAi.Agents
         {
             _perceptionSensors.Add(sensor);
             sensor.OnAgentDetected += OnAgentDetected;
+            sensor.OnAgentMoved += OnTargetMoved;
             sensor.OnAgentLost += OnAgentLost;
         }
 
+        public void WriteIntoBlackBoard<Y>(string key, Y item) => _blackboard.AddValue(new BlackboardKey(key), item);
+        public void RemoveFromBlackBoard(string key) => _blackboard.Remove(new BlackboardKey(key));
+
         public void OnAgentDetected(IAgentState agentContext)
         {
-            
+            _blackboard.AddValue(new BlackboardKey($"{agentContext.AgentId}_position"), agentContext.CurrentPosition);
+            _blackboard.AddValue(new BlackboardKey(agentContext.AgentId.ToString()), agentContext);
         }
 
         public void OnAgentLost(IAgentState agentContext)
         {
-
+            _blackboard.AddValue(new BlackboardKey($"{agentContext.AgentId}_position"), agentContext.CurrentPosition);
         }
+
+        public void OnTargetMoved(IAgentState agentContext) 
+            => _blackboard.AddValue(new BlackboardKey($"{agentContext.AgentId}_position"), agentContext.CurrentPosition);
 
         public void Update()
         {

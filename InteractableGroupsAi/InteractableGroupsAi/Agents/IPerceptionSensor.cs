@@ -10,6 +10,7 @@ namespace InteractableGroupsAi.Agents
     {
         Action<IAgentState> OnAgentDetected { get; set; }
         Action<IAgentState> OnAgentLost { get; set; }
+        Action<IAgentState> OnAgentMoved { get; set; }
 
         void Update();
     }
