@@ -29,6 +29,7 @@ public class AgentController : MonoBehaviour
         foreach(var sensor in _sensors)
         {
             sensor.OnAgentDetected += _controller.OnAgentDetected;
+            sensor.OnAgentMoved += _controller.OnTargetMoved;
             sensor.OnAgentLost += _controller.OnAgentLost;
         }
     }
