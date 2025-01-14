@@ -14,6 +14,11 @@ namespace InteractableGroupsAi.Agents
         {
         }
 
+        public override void Start()
+        {
+
+        }
+
         public override void Update()
         {
         }
@@ -40,6 +45,8 @@ namespace InteractableGroupsAi.Agents
         }
 
         public abstract void Reset();
+
+        public abstract void Start();
 
         public abstract void Update();
     }

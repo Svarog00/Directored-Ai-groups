@@ -19,7 +19,7 @@ public class CharacterState : ScriptableObject, IAgentState
     public Item CurrentHand { get; private set; }
     public List<Item> Items { get; private set; }
 
-    public void SetId(int id) => AgentId = id;
+    public void SetAgentId(int id) => AgentId = id;
     public void SetGroupId(GroupId id) => GroupId = id;
     public void SetHealth(float health) => CurrentHealth = health;
     public void SetRest(float rest) => CurrentRest = rest;

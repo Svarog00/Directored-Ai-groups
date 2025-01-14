@@ -6,18 +6,17 @@ namespace InteractableGroupsAi.Agents
 {
     public class AiController<T> where T : IAgentState
     {
-        private Brain _brain = new NullBrain();
-        private Blackboard _blackboard;
         private T _character;
-        private List<IPerceptionSensor> _perceptionSensors;
+
+        private Brain _brain = new NullBrain();
+        private Blackboard _blackboard = new Blackboard();
+        private List<IPerceptionSensor> _perceptionSensors = [];
 
         public Blackboard Memory => _blackboard;
 
         public AiController(T character)
         {
             _character = character;
-            _blackboard = new Blackboard();
-            _perceptionSensors = [];
         }
 
         public void SetBrain(Brain brain)
@@ -33,9 +32,6 @@ namespace InteractableGroupsAi.Agents
             sensor.OnAgentLost += OnAgentLost;
         }
 
-        public void WriteIntoBlackBoard<Y>(string key, Y item) => _blackboard.AddValue(new BlackboardKey(key), item);
-        public void RemoveFromBlackBoard(string key) => _blackboard.Remove(new BlackboardKey(key));
-
         public void OnAgentDetected(IAgentState agentContext)
         {
             _blackboard.AddValue(new BlackboardKey($"{agentContext.AgentId}_position"), agentContext.CurrentPosition);
@@ -50,6 +46,8 @@ namespace InteractableGroupsAi.Agents
 
         public void OnTargetMoved(IAgentState agentContext) 
             => _blackboard.AddValue(new BlackboardKey($"{agentContext.AgentId}_position"), agentContext.CurrentPosition);
+
+        public void Start() => _brain.Start();
 
         public void Update()
         {
