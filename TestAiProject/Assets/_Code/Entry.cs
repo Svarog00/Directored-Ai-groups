@@ -19,14 +19,15 @@ public class Entry : MonoBehaviour
         //_buckets.ForEach(x => _aiDirector.AddBucket(x.Bucket));
 
         //_aiDirector.RegisterGroup(_groupView.Model);
-
+        int i = 0;
         foreach(var character in _characterController)
         {
             character.Init();
+            character.State.SetAgentId(i++);
             var controller = new AiController<IAgentState>(character.State);
 
-            /*var brain = new GobBrain(controller);
-            controller.SetBrain(brain);*/
+            var brain = new GobBrain(controller);
+            controller.SetBrain(brain);
 
             character.SetController(controller);
             character.Controller.GetCharacterState().SetGroupId(new GroupId(0));

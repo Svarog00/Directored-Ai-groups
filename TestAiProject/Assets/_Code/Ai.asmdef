@@ -7,7 +7,7 @@
     "allowUnsafeCode": false,
     "overrideReferences": true,
     "precompiledReferences": [
-        "InteractableGroupsAi.dll"
+        "AiLibrary.dll"
     ],
     "autoReferenced": true,
     "defineConstraints": [],

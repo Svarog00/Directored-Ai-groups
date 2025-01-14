@@ -8,7 +8,7 @@ namespace InteractableGroupsAi.Agents
     {
         private const int DeepBorder = 5;
 
-        private AgentAction _currentAction;
+        private AgentAction _currentAction = null;
         private List<AgentAction> _availableActions = new List<AgentAction>();
 
         private Queue<AgentAction> _plannedActions = new Queue<AgentAction>();
@@ -27,7 +27,12 @@ namespace InteractableGroupsAi.Agents
             ChooseNewAction();
         }
 
-        public override void Start() => ChooseNewAction();
+        public override void Start()
+        {
+            if (_availableActions.Count <= 0) return;
+
+            ChooseNewAction();
+        }
 
         public override void Update() => _currentAction?.Update();
 

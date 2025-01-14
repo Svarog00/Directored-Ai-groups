@@ -1,15 +1,18 @@
 using InteractableGroupsAi.Agents;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
+using UnityEngine.TextCore.Text;
+using static UnityEngine.EventSystems.EventTrigger;
 
 public class SightPerception : MonoBehaviour, IPerceptionSensor
 {
-    [SerializeField] private float _sightRadius = 2f;
     [SerializeField] private Collider2D _sightCollider;
     [SerializeField] private LayerMask _layerMask;
+    [SerializeField] private string _colliderTag = "Perception";
 
-    private List<AgentController> _detectedCharacters = new();
+    private Dictionary<AgentController, Vector3> _detectedCharacters = new();
     private GroupId _ownerGroup;
     private Transform _source;
 
@@ -25,17 +28,7 @@ public class SightPerception : MonoBehaviour, IPerceptionSensor
 
     public void Update()
     {
-        foreach (var character in _detectedCharacters)
-        {
-            var hit = Physics2D.Raycast(_source.position, (character.transform.position - _source.position).normalized);
-
-            OnAgentMoved?.Invoke(character.State);
-            if (hit.collider.gameObject != character)
-            {
-                _detectedCharacters.Remove(character);
-                OnAgentLost?.Invoke(character.State);
-            }
-        }
+        
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -48,20 +41,58 @@ public class SightPerception : MonoBehaviour, IPerceptionSensor
         ProcessLostDetection(collision);
     }
 
+    private void OnTriggerStay2D(Collider2D collision)
+    {
+        ProccessTargetMove(collision);
+    }
+
+    private void ProccessTargetMove(Collider2D collision)
+    {
+        if (collision.CompareTag(_colliderTag)) return;
+        if (collision.gameObject == gameObject) return;
+
+        if (collision.TryGetComponent<AgentController>(out var character) == false)
+            return;
+
+        var hits = 
+            Physics2D.RaycastAll(_source.position, (collision.transform.position - _source.position).normalized, 
+                    Vector3.Distance(collision.transform.position, _source.position));
+
+        print(hits.Count());
+        foreach (var hit in hits)
+        {
+            if (hit.collider.gameObject == gameObject) continue;
+            if (hit.collider.gameObject != character.gameObject)
+            {
+                print(hit.collider.gameObject);
+                ProcessLostDetection(collision);
+                return;
+            }
+
+            if (_detectedCharacters[character] != collision.transform.position)
+                OnAgentMoved?.Invoke(character.State);
+        }
+    }
+
     public void Init(GroupId ownerGroup)
     {
         _ownerGroup = ownerGroup;
     }
 
-    private void ProcessNewDetection(Collider2D enemy)
+    private void ProcessNewDetection(Collider2D collision)
     {
-        if (enemy.TryGetComponent<AgentController>(out var controller))
+        if (collision.TryGetComponent<AgentController>(out var controller))
         {
-            var hit = Physics2D.Raycast(_source.position, (enemy.transform.position - _source.position).normalized);
-            if (hit.collider != enemy) return;
+            var hits = Physics2D.RaycastAll(_source.position, (collision.transform.position - _source.position).normalized,
+                    Vector3.Distance(collision.transform.position, _source.position));
+            foreach (var hit in hits)
+            {
+                if (hit.collider.gameObject == gameObject) continue;
+                if (hit.collider.gameObject != collision.gameObject) return;
 
-            OnAgentDetected?.Invoke(controller.State);
-            _detectedCharacters.Add(controller);
+                OnAgentDetected?.Invoke(controller.State);
+                _detectedCharacters.Add(controller, collision.transform.position);
+            }
         }
     }
 
@@ -70,7 +101,7 @@ public class SightPerception : MonoBehaviour, IPerceptionSensor
         if (enemy.TryGetComponent<AgentController>(out var controller))
         {
             OnAgentLost?.Invoke(controller.State);
-            _detectedCharacters.Add(controller);
+            _detectedCharacters.Remove(controller);
         }
     }
 }

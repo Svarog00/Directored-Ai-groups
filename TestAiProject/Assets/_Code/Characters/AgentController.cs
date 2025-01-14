@@ -7,7 +7,7 @@ public class AgentController : MonoBehaviour
 {
     [SerializeField] private float _speed = 5f;
 
-    [SerializeField] private SightPerception _sensor = new();
+    [SerializeField] private SightPerception _sensor;
     [SerializeField] private CharacterState _initialState;
 
     private AiController<IAgentState> _controller;
@@ -33,10 +33,12 @@ public class AgentController : MonoBehaviour
         _sensor.Init(_currentState.GroupId);
         _sensor.OnAgentDetected += x =>
         {
-            print("HOHOHOH");
             _controller.OnAgentDetected(x);
         };
-        _sensor.OnAgentMoved += x => _controller.OnTargetMoved(x);
+        _sensor.OnAgentMoved += x =>
+        {
+            _controller.OnTargetMoved(x);
+        };
         _sensor.OnAgentLost += x => _controller.OnAgentLost(x);
     }
 
