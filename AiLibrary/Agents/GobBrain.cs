@@ -47,6 +47,7 @@ namespace InteractableGroupsAi.Agents
             AgentAction choosenAction = _availableActions.FirstOrDefault();
             foreach (var action in _availableActions)
             {
+                _deepCounter = 0;
                 var score = action.GetGoalChange(CurrentGoal);
 
                 if (score <= highestScore)
@@ -58,17 +59,13 @@ namespace InteractableGroupsAi.Agents
 
                 if (action.CanExecute(out var failedCondition) == false)
                 {
-                    /// <summary>
-                    /// TODO: Сделать выбор действия для удволетворения условия или сбросить выбор на предыдущее лучшее действие 
-                    /// в случае выхода за предел глубины 
-                    /// </summary>
                     var resolvingAction = FindActionToSatisfyCondition(action, failedCondition);
                     if (resolvingAction == null)
                     {
                         continue;
                     }
                 }
-
+                
                 highestScore = score;
                 choosenAction = action;
 
@@ -84,6 +81,7 @@ namespace InteractableGroupsAi.Agents
 
         private AgentAction FindActionToSatisfyCondition(AgentAction actionToExecute, AgentCondition requiredCondition)
         {
+            _deepCounter++;
             foreach (var action in _availableActions)
             {
                 if (action == actionToExecute) continue;
@@ -93,9 +91,10 @@ namespace InteractableGroupsAi.Agents
                     
                 if (action.CanExecute(out var condition) == false)
                 {
-                    _deepCounter++;
                     if (_deepCounter == DeepBorder)
+                    {
                         return null;
+                    }
 
                     var satisfyingAction = FindActionToSatisfyCondition(action, condition);
 
@@ -105,11 +104,13 @@ namespace InteractableGroupsAi.Agents
                     }
                 }
 
+                _deepCounter--;
                 _tempQueue.Enqueue(action);
                 return action;
             }
 
-            return null; ;
+            _deepCounter--;
+            return null;
         }
 
         private void SetAction(AgentAction action)
