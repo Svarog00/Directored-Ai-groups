@@ -8,7 +8,7 @@ namespace InteractableGroupsAi.Director.Groups
     public class Group : IGroupContext
     {
         public Goal CurrentGoal => _currentGoal;
-
+        public Blackboard Memory => _blackboard;
         public GroupId GroupId { get; private set; }
 
         private Goal _currentGoal = new NullGoal();
