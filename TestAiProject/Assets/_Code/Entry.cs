@@ -7,7 +7,8 @@ public class Entry : MonoBehaviour
 {
     public static GroupId CurrentGroupId = new(0);
 
-    [SerializeField] private List<AgentController> _characterController;
+    [SerializeField] private List<AgentController> _characterControllers;
+    [SerializeField] private GroupView _groupView;
 
     private UtilityDirector _aiDirector;
 
@@ -15,12 +16,12 @@ public class Entry : MonoBehaviour
     void Awake()
     {
         _aiDirector = new UtilityDirector();
+        _aiDirector.RegisterGroup(_groupView.Model);
 
         //_buckets.ForEach(x => _aiDirector.AddBucket(x.Bucket));
 
-        //_aiDirector.RegisterGroup(_groupView.Model);
         int i = 0;
-        foreach(var character in _characterController)
+        foreach(var character in _characterControllers)
         {
             character.Init();
             character.State.SetAgentId(i++);
@@ -31,8 +32,8 @@ public class Entry : MonoBehaviour
 
             character.SetController(controller);
             character.Controller.GetCharacterState().SetGroupId(new GroupId(0));
+            _groupView.AddAgent(character.Controller);
         }
-        //_groupView.AddAgent(_characterController.Controller);
     }
 
     // Update is called once per frame
