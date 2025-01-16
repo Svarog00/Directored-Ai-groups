@@ -42,13 +42,13 @@ namespace InteractableGroupsAi
 
     public abstract class GroupCondition : Condition
     {
-        public IGroupContext GroupContext => GroupContextInternal;
+        public IGroupState GroupState => GroupStateInternal;
 
-        protected IGroupContext GroupContextInternal { get; private set; }
+        protected IGroupState GroupStateInternal { get; private set; }
 
-        public GroupCondition(IGroupContext groupContext)
+        public GroupCondition(IGroupState groupContext)
         {
-            GroupContextInternal = groupContext;
+            GroupStateInternal = groupContext;
         }
 
         public abstract float GetConditionDelta(AgentAction action);

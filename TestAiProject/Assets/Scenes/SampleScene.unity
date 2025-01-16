@@ -152,10 +152,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 76ef4b6bd33796842bccc2ca6f583aae, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _characterController:
+  _characterControllers:
   - {fileID: 1300247796}
   - {fileID: 1709872863}
   - {fileID: 1404549133}
+  _groupView: {fileID: 0}
 --- !u!4 &330065252
 Transform:
   m_ObjectHideFlags: 0
@@ -655,7 +656,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 91c8dda1b433b3d4e94a718b15cbf9b0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _sightRadius: 2
   _sightCollider: {fileID: 1258551097}
   _layerMask:
     serializedVersion: 2
@@ -957,7 +957,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 91c8dda1b433b3d4e94a718b15cbf9b0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _sightRadius: 2
   _sightCollider: {fileID: 1306238494}
   _layerMask:
     serializedVersion: 2
@@ -1072,8 +1071,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 91c8dda1b433b3d4e94a718b15cbf9b0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _sightRadius: 2
-  _sightCollider: {fileID: 0}
+  _sightCollider: {fileID: 667431826}
   _layerMask:
     serializedVersion: 2
     m_Bits: 1

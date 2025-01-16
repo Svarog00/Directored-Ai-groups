@@ -1,5 +1,10 @@
+using InteractableGroupsAi;
 using InteractableGroupsAi.Agents;
+using InteractableGroupsAi.Agents.Conditions;
 using InteractableGroupsAi.Director;
+using InteractableGroupsAi.Director.Buckets;
+using InteractableGroupsAi.Director.Goals;
+using InteractableGroupsAi.Director.Groups;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -16,7 +21,20 @@ public class Entry : MonoBehaviour
     void Awake()
     {
         _aiDirector = new UtilityDirector();
-        _aiDirector.RegisterGroup(_groupView.Model);
+/*
+        var bucket = new Bucket(1, new GroupScorer(_groupView.Model.GetState()));
+        var moveToCondition = new CompositeGroupCondition();
+
+        var desiredState = new DesiredGroupState();
+        desiredState.CurrentPosition = new System.Numerics.Vector3(1, 1, 1);
+
+        moveToCondition.AddCondition(new LocationGroupCondition(desiredState));
+
+        bucket.AddGoal(new CondideredGoal(new MoveToLocationGoal(moveToCondition), new GroupScorer(_groupView.Model.GetState())));*/
+
+        //_aiDirector.AddBucket(bucket);
+
+        //_aiDirector.RegisterGroup(_groupView.Model);
 
         //_buckets.ForEach(x => _aiDirector.AddBucket(x.Bucket));
 
@@ -30,9 +48,13 @@ public class Entry : MonoBehaviour
             var brain = new GobBrain(controller);
             controller.SetBrain(brain);
 
+            var action = new RestAction(new ComppositeAgentCondition());
+            action.Init(character.State);
+            brain.SetAvailableActions(new List<AgentAction> { action });
+
             character.SetController(controller);
             character.Controller.GetCharacterState().SetGroupId(new GroupId(0));
-            _groupView.AddAgent(character.Controller);
+            //_groupView.AddAgent(character.Controller);
         }
     }
 

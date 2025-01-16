@@ -12,5 +12,9 @@ namespace InteractableGroupsAi.Director.Goals
         public NullGoal(CompositeGroupCondition condition) : base(condition)
         {
         }
+
+        public override void Accept()
+        {
+        }
     }
 }

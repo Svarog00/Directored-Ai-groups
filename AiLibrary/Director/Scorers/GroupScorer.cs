@@ -12,14 +12,14 @@ namespace InteractableGroupsAi.Director
     /// Для каждого бакета\гоала имеется этот класс с разным списком консидерейшенов, 
     /// В которых оценивается стат группы для выбора наилучшего для текущей ситуации
     /// </summary>
-    public abstract class GroupScorer : IScorer
+    public class GroupScorer : IScorer
     {
-        private IGroupContext _context;
+        private IGroupState _state;
         private List<Consideration> _considerations = new List<Consideration>();
 
-        public GroupScorer(IGroupContext context)
+        public GroupScorer(IGroupState state)
         {
-            _context = context;
+            _state = state;
         }
 
         public void AddConsideration(Consideration consideration) => _considerations.Add(consideration);
@@ -30,7 +30,7 @@ namespace InteractableGroupsAi.Director
 
             foreach(var consideration in _considerations)
             {
-                float score = consideration.GetScore(_context);
+                float score = consideration.GetScore(_state);
 
                 result *= score;
             }

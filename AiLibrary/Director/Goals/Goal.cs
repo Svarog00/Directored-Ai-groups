@@ -3,7 +3,7 @@ using InteractableGroupsAi.Director.Groups;
 
 namespace InteractableGroupsAi.Director.Goals
 {
-    public class Goal
+    public abstract class Goal
     {
         public IGroupContext Group { get; }
 
@@ -13,6 +13,8 @@ namespace InteractableGroupsAi.Director.Goals
         {
             _desiredCondition = condition;
         }
+
+        public abstract void Accept();
 
         public bool Check()
         {

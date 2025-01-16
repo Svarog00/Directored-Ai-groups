@@ -58,7 +58,6 @@ public class SightPerception : MonoBehaviour, IPerceptionSensor
             Physics2D.RaycastAll(_source.position, (collision.transform.position - _source.position).normalized, 
                     Vector3.Distance(collision.transform.position, _source.position));
 
-        print(hits.Count());
         foreach (var hit in hits)
         {
             if (hit.collider.gameObject == gameObject) continue;
