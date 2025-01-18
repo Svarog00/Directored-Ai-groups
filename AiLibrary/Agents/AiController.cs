@@ -13,6 +13,7 @@ namespace InteractableGroupsAi.Agents
         private Blackboard _blackboard = new Blackboard();
         private List<IPerceptionSensor> _perceptionSensors = new List<IPerceptionSensor>();
 
+        public T State => _character;
         public Blackboard Memory => _blackboard;
 
         public AiController(T character)

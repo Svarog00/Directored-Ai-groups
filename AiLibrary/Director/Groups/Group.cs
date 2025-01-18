@@ -2,6 +2,7 @@
 using InteractableGroupsAi.Director.Goals;
 using InteractableGroupsAi.Memory;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace InteractableGroupsAi.Director.Groups
 {
@@ -24,16 +25,13 @@ namespace InteractableGroupsAi.Director.Groups
         }
 
         public void SetGroupGoal(Goal newGoal)
-
         {
             _currentGoal = newGoal;
+            _currentGoal.Accept();
             _agents.ForEach(x => x.SetCurrentGoal(_currentGoal));
         }
 
-        public IGroupState GetState()
-        {
-            return null;
-        }
+        public IGroupState GetState() => new GroupState(_agents.Select(x => x.State).ToList());
 
         public bool IsGoalReached() => _currentGoal.Check();
 
