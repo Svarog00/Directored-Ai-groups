@@ -6,24 +6,19 @@ using UnityEngine;
 
 public class GroupView : MonoBehaviour
 {
-    private Group _groupModel;
+    private Group _model;
 
-    public Group Model => _groupModel;
+    public Group Model => _model;
 
     // Start is called before the first frame update
     void Awake()
     {
-        _groupModel = new Group(Entry.CurrentGroupId.Next());
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
+        _model = new Group(Entry.CurrentGroupId.Next());
     }
 
     public void AddAgent(AiController<IAgentState> character)
     {
-        _groupModel.AddAgent(character);
+        Debug.Log($"Add to {_model.Id} agent {character.State.AgentId}");
+        _model.AddAgent(character);
     }
 }

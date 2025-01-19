@@ -1,6 +1,7 @@
 ﻿using InteractableGroupsAi.Agents;
 using InteractableGroupsAi.Director.Goals;
 using InteractableGroupsAi.Memory;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -8,6 +9,8 @@ namespace InteractableGroupsAi.Director.Groups
 {
     public class Group : IGroupContext
     {
+        public Action GoalReached;
+
         public Goal CurrentGoal => _currentGoal;
         public Blackboard Memory => _blackboard;
         public GroupId GroupId { get; private set; }
@@ -32,8 +35,6 @@ namespace InteractableGroupsAi.Director.Groups
         }
 
         public IGroupState GetState() => new GroupState(_agents.Select(x => x.State).ToList());
-
-        public bool IsGoalReached() => _currentGoal.Check();
 
         public void AddAgent(AiController<IAgentState> agent)
         {

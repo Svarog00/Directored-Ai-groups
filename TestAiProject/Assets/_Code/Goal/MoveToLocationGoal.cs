@@ -1,11 +1,11 @@
 using InteractableGroupsAi.Agents.Conditions;
 using InteractableGroupsAi.Director.Goals;
 using System.Numerics;
+using UnityEngine;
+using Vector3 = UnityEngine.Vector3;
 
 public class MoveToLocationGoal : Goal
 {
-    private readonly Vector3 _locationPosition;
-
     public MoveToLocationGoal(CompositeGroupCondition condition) : base(condition)
     {
 
@@ -13,6 +13,6 @@ public class MoveToLocationGoal : Goal
 
     public override void Accept()
     {
-
+        Debug.Log($"Accept {nameof(MoveToLocationGoal)}");
     }
 }

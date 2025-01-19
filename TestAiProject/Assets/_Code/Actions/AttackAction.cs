@@ -28,10 +28,15 @@ public class AttackAction : AgentAction, IAgentStateable
     {
         var weapon = _controller.State.CurrentHand as Weapon;
 
-        return weapon.Damage;
+        return goal.GetGoalDelta(this);
     }
 
-    public override IAgentState GetNewState() => null;
+    public override IAgentState GetNewState()
+    {
+        var weapon = _controller.State.CurrentHand as Weapon;
+        _target.SetHealth(_target.CurrentHealth - weapon.Damage);
+        return _target;
+    }
 
     public override void OnBegin()
     {

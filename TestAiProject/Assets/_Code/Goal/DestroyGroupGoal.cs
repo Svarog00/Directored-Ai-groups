@@ -13,8 +13,8 @@ public class DestroyGroupGoal : Goal
 
     }
 
-    public void SetTargetGroup(GroupState groupContext)
+    public override void Accept()
     {
-        _target = groupContext;
+
     }
 }

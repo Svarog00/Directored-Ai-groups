@@ -29,6 +29,7 @@ namespace InteractableGroupsAi.Director
 
         public void RegisterGroup(Group group)
         {
+            group.GoalReached += () => GenerateNewGoal(group);
             _activeGroups.Add(group);
         }
 
@@ -64,22 +65,26 @@ namespace InteractableGroupsAi.Director
         {
             foreach (var group in groups)
             {
-                Bucket bestBucket = _buckets.FirstOrDefault();
-                float floor = _minimunScore;
-                foreach (var bucket in _buckets)
-                {
-                    var score = bucket.EvaluateBucket(group);
-
-                    if (score > floor)
-                    {
-                        bestBucket = bucket;
-                        floor = score;
-                    }
-
-                }
-
-                SetGroupGoal(bestBucket.EvaluateGoals(group).Goal, group);
+                GenerateNewGoal(group);
             }
+        }
+
+        private void GenerateNewGoal(Group group)
+        {
+            Bucket bestBucket = _buckets.FirstOrDefault();
+            float floor = _minimunScore;
+            foreach (var bucket in _buckets)
+            {
+                var score = bucket.EvaluateBucket(group);
+
+                if (score > floor)
+                {
+                    bestBucket = bucket;
+                    floor = score;
+                }
+            }
+
+            SetGroupGoal(bestBucket.EvaluateGoals(group).Goal, group);
         }
 
         private void SetGroupGoal(Goal goal, Group group)

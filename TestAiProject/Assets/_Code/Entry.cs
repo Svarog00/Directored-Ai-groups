@@ -21,20 +21,17 @@ public class Entry : MonoBehaviour
     void Awake()
     {
         _aiDirector = new UtilityDirector();
-/*
-        var bucket = new Bucket(1, new GroupScorer(_groupView.Model.GetState()));
-        var moveToCondition = new CompositeGroupCondition();
 
-        var desiredState = new DesiredGroupState();
-        desiredState.CurrentPosition = new System.Numerics.Vector3(1, 1, 1);
+        var bucket = new Bucket(1, GoalHolder.GoalScorer(_groupView.Model.GetState()));
 
-        moveToCondition.AddCondition(new LocationGroupCondition(desiredState));
+        bucket.AddGoal(
+               new CondideredGoal(
+                    GoalHolder.MoveToLocation(),
+                    GoalHolder.GoalScorer(_groupView.Model.GetState())));
 
-        bucket.AddGoal(new CondideredGoal(new MoveToLocationGoal(moveToCondition), new GroupScorer(_groupView.Model.GetState())));*/
+        _aiDirector.AddBucket(bucket);
 
-        //_aiDirector.AddBucket(bucket);
-
-        //_aiDirector.RegisterGroup(_groupView.Model);
+        _aiDirector.RegisterGroup(_groupView.Model);
 
         //_buckets.ForEach(x => _aiDirector.AddBucket(x.Bucket));
 
@@ -54,7 +51,7 @@ public class Entry : MonoBehaviour
 
             character.SetController(controller);
             character.Controller.GetCharacterState().SetGroupId(new GroupId(0));
-            //_groupView.AddAgent(character.Controller);
+            _groupView.AddAgent(character.Controller);
         }
     }
 

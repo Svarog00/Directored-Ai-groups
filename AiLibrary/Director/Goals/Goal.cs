@@ -16,12 +16,6 @@ namespace InteractableGroupsAi.Director.Goals
 
         public abstract void Accept();
 
-        public bool Check()
-        {
-            GroupCondition failedCondition = null;
-            return _desiredCondition.IsSatisfied(out failedCondition);
-        }
-
         public float GetGoalDelta(AgentAction action) => _desiredCondition.GetDelta(action);
     }
 }

@@ -1,5 +1,6 @@
 using InteractableGroupsAi;
 using InteractableGroupsAi.Director.Groups;
+using System.Numerics;
 
 public class LocationGroupCondition : GroupCondition
 {
@@ -14,6 +15,7 @@ public class LocationGroupCondition : GroupCondition
 
     public override float GetConditionDelta(AgentAction action)
     {
-        return 1f;
+        var newState = action.GetNewState();
+        return 1 - Vector3.Distance(newState.CurrentPosition, GroupState.CurrentPosition);
     }
 }
