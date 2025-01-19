@@ -12,8 +12,10 @@ public class Entry : MonoBehaviour
 {
     public static GroupId CurrentGroupId = new(0);
 
-    [SerializeField] private List<AgentController> _characterControllers;
-    [SerializeField] private GroupView _groupView;
+    [SerializeField] private List<AgentController> _charactersGroupOne;
+    [SerializeField] private List<AgentController> _charactersGroupTwo;
+
+    [SerializeField] private List<GroupView> _groupView;
 
     private UtilityDirector _aiDirector;
 
@@ -22,21 +24,25 @@ public class Entry : MonoBehaviour
     {
         _aiDirector = new UtilityDirector();
 
-        var bucket = new Bucket(1, GoalHolder.GoalScorer(_groupView.Model.GetState()));
+        foreach(var group in _groupView)
+        {
 
-        bucket.AddGoal(
-               new CondideredGoal(
-                    GoalHolder.MoveToLocation(),
-                    GoalHolder.GoalScorer(_groupView.Model.GetState())));
+            var bucket = new Bucket(1, GoalHolder.GoalScorer(group.Model.GetState()));
 
-        _aiDirector.AddBucket(bucket);
+            bucket.AddGoal(
+                   new CondideredGoal(
+                        GoalHolder.MoveToLocation(),
+                        GoalHolder.GoalScorer(group.Model.GetState())));
 
-        _aiDirector.RegisterGroup(_groupView.Model);
+            _aiDirector.AddBucket(bucket);
 
-        //_buckets.ForEach(x => _aiDirector.AddBucket(x.Bucket));
+            _aiDirector.RegisterGroup(group.Model);
+
+            //_buckets.ForEach(x => _aiDirector.AddBucket(x.Bucket));
+        }
 
         int i = 0;
-        foreach(var character in _characterControllers)
+        foreach(var character in _charactersGroupOne)
         {
             character.Init();
             character.State.SetAgentId(i++);

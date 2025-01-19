@@ -10,7 +10,7 @@ public class LocationGroupCondition : GroupCondition
 
     public override bool Check()
     {
-        return GroupState.CurrentPosition == new System.Numerics.Vector3(1, 1, 1);
+        return true;
     }
 
     public override float GetConditionDelta(AgentAction action)

@@ -12,7 +12,10 @@ public class EquippedItemCondition : AgentCondition
         _name = itemName;
     }
 
-    public override bool Check() => _characterState.CurrentHand.Name.Equals(_name);
+    public override bool Check()
+    {
+        return _characterState.CurrentHand.Name.Equals(_name);
+    }
 
     public override bool CheckState(IAgentState context) => context.CurrentHand.Name.Equals(_name);
 }
