@@ -18,7 +18,7 @@ public class GroupView : MonoBehaviour
 
     public void AddAgent(AiController<IAgentState> character)
     {
-        Debug.Log($"Add to {_model.Id} agent {character.State.AgentId}");
+        Debug.Log($"Add to {_model.GroupId} agent {character.State.AgentId}");
         _model.AddAgent(character);
     }
 }

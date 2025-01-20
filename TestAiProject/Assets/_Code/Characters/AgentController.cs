@@ -31,6 +31,8 @@ public class AgentController : MonoBehaviour
         _currentState = Instantiate(_initialState);
 
         _sensor.Init(_currentState.GroupId);
+        _controller.SetGroupId(_currentState.GroupId);
+
         _sensor.OnAgentDetected += x =>
         {
             _controller.OnAgentDetected(x);
@@ -40,6 +42,8 @@ public class AgentController : MonoBehaviour
             _controller.OnTargetMoved(x);
         };
         _sensor.OnAgentLost += x => _controller.OnAgentLost(x);
+
+        Debug.Log($"Init agent {_currentState.AgentId} in {_currentState.GroupId}");
     }
 
     void Start()

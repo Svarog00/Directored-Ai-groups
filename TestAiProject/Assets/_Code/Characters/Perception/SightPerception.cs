@@ -1,10 +1,7 @@
 using InteractableGroupsAi.Agents;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
-using UnityEngine.TextCore.Text;
-using static UnityEngine.EventSystems.EventTrigger;
 
 public class SightPerception : MonoBehaviour, IPerceptionSensor
 {
@@ -17,7 +14,7 @@ public class SightPerception : MonoBehaviour, IPerceptionSensor
     private Transform _source;
 
     public Action<IAgentState> OnAgentDetected { get; set; }
-    public Action<IAgentState> OnAgentLost { get; set;  }
+    public Action<IAgentState> OnAgentLost { get; set; }
     public Action<IAgentState> OnAgentMoved { get; set; }
 
     // Start is called before the first frame update
@@ -28,7 +25,7 @@ public class SightPerception : MonoBehaviour, IPerceptionSensor
 
     public void Update()
     {
-        
+
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -54,8 +51,10 @@ public class SightPerception : MonoBehaviour, IPerceptionSensor
         if (collision.TryGetComponent<AgentController>(out var character) == false)
             return;
 
-        var hits = 
-            Physics2D.RaycastAll(_source.position, (collision.transform.position - _source.position).normalized, 
+        if (character.State.GroupId.Equals(_ownerGroup)) return;
+
+        var hits =
+            Physics2D.RaycastAll(_source.position, (collision.transform.position - _source.position).normalized,
                     Vector3.Distance(collision.transform.position, _source.position));
 
         foreach (var hit in hits)
@@ -82,6 +81,8 @@ public class SightPerception : MonoBehaviour, IPerceptionSensor
     {
         if (collision.TryGetComponent<AgentController>(out var controller))
         {
+            if (controller.State.GroupId.Equals(_ownerGroup)) return;
+
             var hits = Physics2D.RaycastAll(_source.position, (collision.transform.position - _source.position).normalized,
                     Vector3.Distance(collision.transform.position, _source.position));
             foreach (var hit in hits)
@@ -99,6 +100,8 @@ public class SightPerception : MonoBehaviour, IPerceptionSensor
     {
         if (enemy.TryGetComponent<AgentController>(out var controller))
         {
+            if (controller.State.GroupId.Equals(_ownerGroup)) return;
+
             OnAgentLost?.Invoke(controller.State);
             _detectedCharacters.Remove(controller);
         }
