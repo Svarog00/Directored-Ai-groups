@@ -1,12 +1,13 @@
 using InteractableGroupsAi.Agents.Conditions;
 using InteractableGroupsAi.Director.Goals;
 using InteractableGroupsAi.Director.Groups;
+using UnityEngine;
 
 public class DestroyGroupGoal : Goal
 {
-    public GroupState TargetGroup => _target;
+    public IGroupState TargetGroup => _target;
 
-    private GroupState _target;
+    private IGroupState _target;
 
     public DestroyGroupGoal(CompositeGroupCondition condition) : base(condition)
     {
@@ -15,6 +16,7 @@ public class DestroyGroupGoal : Goal
 
     public override void Accept()
     {
-
+        _target = Group.GetState().CurrentTarget.GetState();
+        Debug.Log($"Accept {nameof(DestroyGroupGoal)}");
     }
 }

@@ -12,11 +12,10 @@ public class MoveToAction : AgentAction, IAgentStateable
     private AgentController _characterController;
     private Vector3 _targetPosition;
 
-    public MoveToAction(CharacterState state, Vector3 position, AgentController characterController, ComppositeAgentCondition condition) : base(condition)
+    public MoveToAction(CharacterState state, AgentController characterController, ComppositeAgentCondition condition) : base(condition)
     {
         _characterState = state;
         _characterController = characterController;
-        _targetPosition = position;
     }
 
     public override void ForceEnd()
@@ -26,11 +25,12 @@ public class MoveToAction : AgentAction, IAgentStateable
 
     public override float GetGoalChange(Goal goal)
     {
-        return 1f;
+        return goal.GetGoalDelta(this);
     }
 
     public override void OnBegin()
     {
+        _targetPosition = new Vector3(_characterState.TargetPosition.X, _characterState.TargetPosition.Y, _characterState.TargetPosition.Z);
         _characterController.MoveTo(_targetPosition);
     }
 

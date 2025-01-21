@@ -1,6 +1,8 @@
 ﻿using InteractableGroupsAi.Agents;
+using InteractableGroupsAi.Memory;
 using System.Collections.Generic;
 using System.Numerics;
+using System.Runtime.InteropServices;
 
 namespace InteractableGroupsAi.Director.Groups
 {
@@ -11,6 +13,7 @@ namespace InteractableGroupsAi.Director.Groups
     public interface IGroupContext
     {
         IGroupState GetState();
+        Blackboard Memory { get; }
     }
 
     public interface IGroupState
@@ -113,6 +116,7 @@ namespace InteractableGroupsAi.Director.Groups
             }
         }
 
+        public IEnumerable<IAgentState> Agents => _agents;
         private List<IAgentState> _agents;
 
         public GroupState(List<IAgentState> agents)

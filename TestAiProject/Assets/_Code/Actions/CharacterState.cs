@@ -18,12 +18,14 @@ public class CharacterState : ScriptableObject, IAgentState
     public IAgentState CurrentTarget { get; private set; }
     public Item CurrentHand { get; private set; }
     public List<Item> Items { get; private set; }
+    public System.Numerics.Vector3 TargetPosition { get; private set; }
 
     public void SetAgentId(int id) => AgentId = id;
     public void SetGroupId(GroupId id) => GroupId = id;
     public void SetHealth(float health) => CurrentHealth = health;
     public void SetRest(float rest) => CurrentRest = rest;
     public void SetPosition(System.Numerics.Vector3 position) => CurrentPosition = position;
+    public void SetTargetPosition(System.Numerics.Vector3 position) => TargetPosition = position;
     public void SetTarget(IAgentState target) => CurrentTarget = target;
     public void SetItems(List<Item> items) => Items = items;
     public void Equip(Item item) => CurrentHand = item;

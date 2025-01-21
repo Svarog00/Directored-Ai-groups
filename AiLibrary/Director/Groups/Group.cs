@@ -1,4 +1,5 @@
 ﻿using InteractableGroupsAi.Agents;
+using InteractableGroupsAi.Director.Buckets;
 using InteractableGroupsAi.Director.Goals;
 using InteractableGroupsAi.Memory;
 using System;
@@ -9,7 +10,7 @@ namespace InteractableGroupsAi.Director.Groups
 {
     public class Group : IGroupContext
     {
-        public Action GoalReached;
+        public IEnumerable<Bucket> Buckets => _buckets;
 
         public Goal CurrentGoal => _currentGoal;
         public Blackboard Memory => _blackboard;
@@ -18,6 +19,8 @@ namespace InteractableGroupsAi.Director.Groups
         private Goal _currentGoal = new NullGoal();
         private List<AiController<IAgentState>> _agents = new List<AiController<IAgentState>>();
         private Blackboard _blackboard;
+
+        private List<Bucket> _buckets = new List<Bucket>();
 
         public int Id { get; }
 
@@ -36,10 +39,30 @@ namespace InteractableGroupsAi.Director.Groups
 
         public IGroupState GetState() => new GroupState(_agents.Select(x => x.State).ToList());
 
+        public void AddBucket(Bucket bucket)
+        {
+            _buckets.Add(bucket);
+        }
+
         public void AddAgent(AiController<IAgentState> agent)
         {
             agent.SetGroupId(GroupId);
+            agent.AgentDetected += SecureAgent;
+            agent.AgentLost += SecureAgent;
+
             _agents.Add(agent);
+        }
+
+        private void SecureAgent(IAgentState agent)
+        {
+            int count = 0;
+            _blackboard.AddValue($"{agent.GroupId}_count", count);
+            _blackboard.AddValue($"{agent.GroupId}", count);
+        }
+
+        private void ForegetAgent(IAgentState agent)
+        {
+
         }
     }
 }

@@ -8,15 +8,13 @@ public class AttackAction : AgentAction, IAgentStateable
     public CharacterState State => _state;
 
     private readonly CharacterState _state;
-    private readonly CharacterState _target;
-    private readonly AgentController _controller;
+    private readonly IAgentState _target;
 
 
-    public AttackAction(CharacterState state, AgentController characterController, ComppositeAgentCondition condition, CharacterState target) : base(condition)
+    public AttackAction(CharacterState state, ComppositeAgentCondition condition, CharacterState target) : base(condition)
     {
         _state = state;
-        _target = target;
-        _controller = characterController;
+        _target = state.CurrentTarget;
     }
 
     public override void ForceEnd()
@@ -26,14 +24,14 @@ public class AttackAction : AgentAction, IAgentStateable
 
     public override float GetGoalChange(Goal goal)
     {
-        var weapon = _controller.State.CurrentHand as Weapon;
+        var weapon = _state.CurrentHand as Weapon;
 
         return goal.GetGoalDelta(this);
     }
 
     public override IAgentState GetNewState()
     {
-        var weapon = _controller.State.CurrentHand as Weapon;
+        var weapon = _state.CurrentHand as Weapon;
         _target.SetHealth(_target.CurrentHealth - weapon.Damage);
         return _target;
     }

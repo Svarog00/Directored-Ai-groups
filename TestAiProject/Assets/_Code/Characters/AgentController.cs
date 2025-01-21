@@ -26,12 +26,14 @@ public class AgentController : MonoBehaviour
         _transform = transform;
     }
 
-    public void Init()
+    public void Init(GroupId groupId, int id)
     {
         _currentState = Instantiate(_initialState);
 
-        _sensor.Init(_currentState.GroupId);
-        _controller.SetGroupId(_currentState.GroupId);
+        _currentState.SetGroupId(groupId);
+        _currentState.SetAgentId(id);
+
+        _sensor.Init(groupId);
 
         _sensor.OnAgentDetected += x =>
         {
@@ -43,7 +45,7 @@ public class AgentController : MonoBehaviour
         };
         _sensor.OnAgentLost += x => _controller.OnAgentLost(x);
 
-        Debug.Log($"Init agent {_currentState.AgentId} in {_currentState.GroupId}");
+        Debug.Log($"Init agent {_currentState.AgentId} in {_currentState.GroupId.Id}");
     }
 
     void Start()
@@ -61,6 +63,7 @@ public class AgentController : MonoBehaviour
     public void SetController(AiController<IAgentState> controller)
     {
         _controller = controller;
+        _controller.SetState(_currentState);
     }
 
     public void MoveTo(Vector3 position)

@@ -10,15 +10,14 @@ public class GroupView : MonoBehaviour
 
     public Group Model => _model;
 
-    // Start is called before the first frame update
-    void Awake()
+    public void Init()
     {
         _model = new Group(Entry.CurrentGroupId.Next());
     }
 
     public void AddAgent(AiController<IAgentState> character)
     {
-        Debug.Log($"Add to {_model.GroupId} agent {character.State.AgentId}");
+        Debug.Log($"Add to {_model.GroupId.Id} agent {character.State.AgentId}");
         _model.AddAgent(character);
     }
 }

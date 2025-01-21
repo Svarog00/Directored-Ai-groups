@@ -7,12 +7,13 @@ using InteractableGroupsAi.Director.Goals;
 using InteractableGroupsAi.Director.Groups;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 [Serializable]
-public class AgentsList : List<AgentController>
+public class AgentsList
 {
-    [SerializeField] private List<AgentController> _characters = new();
+    public List<AgentController> Characters = new();
 }
 
 public class Entry : MonoBehaviour
@@ -24,6 +25,8 @@ public class Entry : MonoBehaviour
 
     private UtilityDirector _aiDirector;
 
+    private static List<GroupView> _groups;
+
     // Start is called before the first frame update
     void Awake()
     {
@@ -33,46 +36,46 @@ public class Entry : MonoBehaviour
         int agentId = 0;
         foreach(var group in _groupView)
         {
+            group.Init();
             var bucket = new Bucket(1, GoalHolder.GoalScorer(group.Model.GetState()));
 
             bucket.AddGoal(
                    new CondideredGoal(
-                        GoalHolder.MoveToLocation(),
+                        GoalHolder.MoveToLocation(group.Model),
                         GoalHolder.GoalScorer(group.Model.GetState())));
 
-            _aiDirector.AddBucket(bucket);
+            group.Model.AddBucket(bucket);
 
             _aiDirector.RegisterGroup(group.Model);
 
-            //_buckets.ForEach(x => _aiDirector.AddBucket(x.Bucket));
-            foreach (var character in _characters[i])
+            foreach (var character in _characters[i].Characters)
             {
-                character.State.SetAgentId(agentId++);
-                character.State.SetGroupId(group.Model.GroupId);
-                character.Init();
+                character.Init(group.Model.GroupId, agentId++);
 
                 var controller = new AiController<IAgentState>(character.State);
 
                 var brain = new GobBrain(controller);
                 controller.SetBrain(brain);
 
-                var action = new RestAction(new ComppositeAgentCondition());
-                action.Init(character.State);
-                brain.SetAvailableActions(new List<AgentAction> { action });
+                brain.SetAvailableActions(ActionHolder.GetActions(character.State, character));
 
                 character.SetController(controller);
-                character.Controller.GetCharacterState().SetGroupId(group.Model.GroupId);
                 group.AddAgent(character.Controller);
             }
             i++;
         }
 
-        
+        _groups = _groupView;
     }
 
     // Update is called once per frame
     void Update()
     {
         _aiDirector.Update();
+    }
+
+    public static Group FindGroup(GroupId id)
+    {
+        return _groups.Select(x => x.Model).Where(x => x.GroupId.Equals(id)).FirstOrDefault();
     }
 }

@@ -16,6 +16,7 @@ namespace InteractableGroupsAi.Agents
         GroupId GroupId { get; }
         int AgentId { get; }
         Vector3 CurrentPosition { get; }
+        Vector3 TargetPosition { get; }
 
         IAgentState CurrentTarget { get; }
         Item CurrentHand { get; }
@@ -26,6 +27,7 @@ namespace InteractableGroupsAi.Agents
         void SetHealth(float health);
         void SetRest(float rest);
         void SetPosition(Vector3 position);
+        void SetTargetPosition(Vector3 position);
         void SetTarget(IAgentState target);
         void SetItems(List<Item> items);
         void Equip(Item item);
