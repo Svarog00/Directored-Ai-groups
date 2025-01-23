@@ -1,6 +1,7 @@
 using InteractableGroupsAi.Agents.Conditions;
 using InteractableGroupsAi.Director.Goals;
 using InteractableGroupsAi.Director.Groups;
+using System.Linq;
 using UnityEngine;
 
 public class DestroyGroupGoal : Goal
@@ -9,6 +10,8 @@ public class DestroyGroupGoal : Goal
 
     private IGroupState _target;
 
+    private const float DangerousDistance = 5f;
+
     public DestroyGroupGoal(CompositeGroupCondition condition, IGroupContext state) : base(condition)
     {
         SetGroupContext(state);
@@ -16,7 +19,9 @@ public class DestroyGroupGoal : Goal
 
     public override void Accept()
     {
-        _target = Group.GetState().CurrentTarget.GetState();
+        var groups = GroupsHolder.Groups
+            .Where(x => System.Numerics.Vector3.Distance(x.GetState().CurrentPosition, Group.GetState().CurrentPosition) <= DangerousDistance);
+        _target = groups.FirstOrDefault()?.GetState();
         Debug.Log($"Accept {nameof(DestroyGroupGoal)}");
     }
 }

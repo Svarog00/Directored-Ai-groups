@@ -57,7 +57,7 @@
     <Compile Include="Director\Aggregators\Aggregator.cs" />
     <Compile Include="Director\Buckets\Bucket.cs" />
     <Compile Include="Director\Director.cs" />
-    <Compile Include="Director\Goals\CondideredGoal.cs" />
+    <Compile Include="Director\Goals\ConsideredGoal.cs" />
     <Compile Include="Director\Goals\Goal.cs" />
     <Compile Include="Director\Goals\NullGoal.cs" />
     <Compile Include="Director\Groups\Group.cs" />

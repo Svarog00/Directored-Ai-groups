@@ -13,8 +13,10 @@ public class EnemyGroupHealthConsideration : Consideration
 {
     public override float GetScore(IGroupState context)
     {
-        var enemyHealth = context.CurrentTarget.GetState().CurrentHealth;
-        var enemyMaxHealth = context.CurrentTarget.GetState().MaxHealth;
+        if (context.CurrentTarget == null) return 0f;
+
+        var enemyHealth = context.CurrentTarget.CurrentHealth;
+        var enemyMaxHealth = context.CurrentTarget.MaxHealth;
         return 1 - enemyHealth / enemyMaxHealth;
     }
 }

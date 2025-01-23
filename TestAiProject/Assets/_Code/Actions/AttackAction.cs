@@ -38,7 +38,8 @@ public class AttackAction : AgentAction, IAgentStateable
 
     public override void OnBegin()
     {
-
+        var weapon = _state.CurrentHand as Weapon;
+        _target.SetHealth(_target.CurrentHealth - weapon.Damage);
     }
 
     public override void OnEnd()

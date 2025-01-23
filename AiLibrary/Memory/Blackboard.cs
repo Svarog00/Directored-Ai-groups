@@ -1,4 +1,5 @@
-﻿using System;
+﻿using AiLibrary.Other;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -86,6 +87,7 @@ namespace InteractableGroupsAi.Memory
 
         public void AddValue<T>(BlackboardKey key, T value)
         {
+            AiLogger.Log($"Add {key.Key} with {value}");
             _entries.Add(key, new BlackboardEntry<T>(value));
         }
 

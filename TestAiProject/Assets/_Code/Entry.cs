@@ -33,34 +33,23 @@ public class Entry : MonoBehaviour
         AiLogger.SetLogger(new UnityLogger());
         _aiDirector = new UtilityDirector();
 
-        int agentBatchIndex = 0;
         int agentId = 0;
         for (int i = 0; i < _groupCount; i++)
         {
             var group = new Group(Entry.CurrentGroupId.Next());
             var bucket = new Bucket(1, GoalHolder.GoalScorer(group.GetState()));
 
-            bucket.AddGoal(
-                new CondideredGoal(
-                     GoalHolder.MoveToLocation(group),
-                     GoalHolder.GoalScorer(group.GetState())));
-
-            bucket.AddGoal(
-                new CondideredGoal(
-                    GoalHolder.DestroyGroupGoal(group),
-                    GoalHolder.GoalScorer(group.GetState())));
-
-            bucket.AddGoal(
-                new CondideredGoal(
-                    GoalHolder.DestroyGroupGoal(group),
-                    GoalHolder.GoalScorer(group.GetState())));
+            bucket.AddGoal(GoalHolder.RestAction(group));
+            bucket.AddGoal(GoalHolder.MoveToLocation(group));
+            bucket.AddGoal(GoalHolder.DestroyGroupGoal(group));
+            bucket.AddGoal(GoalHolder.DestroyGroupGoal(group));
 
             group.AddBucket(bucket);
 
             _aiDirector.RegisterGroup(group);
             GroupsHolder.Add(group);
 
-            foreach (var character in _characters[agentBatchIndex].Characters)
+            foreach (var character in _characters[i].Characters)
             {
                 character.Init(group.GroupId, agentId++);
 
@@ -74,12 +63,6 @@ public class Entry : MonoBehaviour
                 character.SetController(controller);
                 group.AddAgent(character.Controller);
             }
-            agentBatchIndex++;
-        }
-
-        foreach(var group in _groupView)
-        {
-            
         }
     }
 

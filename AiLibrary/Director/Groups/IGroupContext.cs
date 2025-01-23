@@ -24,11 +24,11 @@ namespace InteractableGroupsAi.Director.Groups
         float CurrentRest { get; }
         float MaxRest { get; }
 
-        IGroupContext CurrentTarget { get; }
+        IGroupState CurrentTarget { get; }
 
         Vector3 CurrentPosition { get; }
 
-        void SetTarget(IGroupContext target);
+        void SetTarget(IGroupState target);
     }
 
     public class DesiredGroupState : IGroupState
@@ -41,11 +41,11 @@ namespace InteractableGroupsAi.Director.Groups
 
         public float MaxRest { get; set; }
 
-        public IGroupContext CurrentTarget { get; set; }
+        public IGroupState CurrentTarget { get; set; }
 
         public Vector3 CurrentPosition { get; set; }
 
-        public void SetTarget(IGroupContext target)
+        public void SetTarget(IGroupState target)
         {
             CurrentTarget = target;
         }
@@ -91,7 +91,7 @@ namespace InteractableGroupsAi.Director.Groups
 
         public float MaxRest { get; private set; }
 
-        public IGroupContext CurrentTarget { get; private set; }
+        public IGroupState CurrentTarget { get; private set; }
 
         public Vector3 CurrentPosition
         {
@@ -121,6 +121,6 @@ namespace InteractableGroupsAi.Director.Groups
 
         public void AddAgent(IAgentState agent) => _agents.Add(agent);
 
-        public void SetTarget(IGroupContext target) => CurrentTarget = target;
+        public void SetTarget(IGroupState target) => CurrentTarget = target;
     }
 }

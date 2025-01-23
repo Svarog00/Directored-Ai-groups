@@ -3,6 +3,7 @@ using InteractableGroupsAi.Other;
 using System.Collections.Generic;
 using UnityEngine;
 using System.Numerics;
+using AiLibrary.Other;
 
 [CreateAssetMenu(fileName = "InitialCharacterState", menuName = "CharacterState/Initial", order = 0)]
 public class CharacterState : ScriptableObject, IAgentState
@@ -25,7 +26,12 @@ public class CharacterState : ScriptableObject, IAgentState
     public void SetHealth(float health) => CurrentHealth = health;
     public void SetRest(float rest) => CurrentRest = rest;
     public void SetPosition(System.Numerics.Vector3 position) => CurrentPosition = position;
-    public void SetTargetPosition(System.Numerics.Vector3 position) => TargetPosition = position;
+    public void SetTargetPosition(System.Numerics.Vector3 position)
+    {
+        AiLogger.Log($"Agent {AgentId} must go to {position}");
+        TargetPosition = position;
+    }
+
     public void SetTarget(IAgentState target) => CurrentTarget = target;
     public void SetItems(List<Item> items) => Items = items;
     public void Equip(Item item) => CurrentHand = item;

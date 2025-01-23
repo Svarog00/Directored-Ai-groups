@@ -6,6 +6,8 @@ public static class GroupsHolder
 {
     private static List<Group> _groups = new List<Group>();
 
+    public static IEnumerable<Group> Groups => _groups;
+
     public static void Add(Group group) => _groups.Add(group);
     public static void Delete(Group group) => _groups.Remove(group);
     public static Group GetGroup(GroupId id) => _groups.Find(x => x.Id.Equals(id)); 

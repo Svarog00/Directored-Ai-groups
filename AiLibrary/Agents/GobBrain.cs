@@ -1,4 +1,5 @@
-﻿using InteractableGroupsAi.Director.Goals;
+﻿using AiLibrary.Other;
+using InteractableGroupsAi.Director.Goals;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -23,6 +24,7 @@ namespace InteractableGroupsAi.Agents
 
         public override void Reset()
         {
+            AiLogger.Log($"Brain reset");
             _plannedActions.Clear();
             ChooseNewAction();
         }
@@ -128,7 +130,7 @@ namespace InteractableGroupsAi.Agents
         private void MoveToNextAction()
         {
             _currentAction?.OnEnd();
-            
+
             if (_plannedActions.Count <= 0)
             {
                 ChooseNewAction();

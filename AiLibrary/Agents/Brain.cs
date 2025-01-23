@@ -1,4 +1,5 @@
-﻿using InteractableGroupsAi.Agents.Conditions;
+﻿using AiLibrary.Other;
+using InteractableGroupsAi.Agents.Conditions;
 using InteractableGroupsAi.Director.Goals;
 
 namespace InteractableGroupsAi.Agents
@@ -36,10 +37,14 @@ namespace InteractableGroupsAi.Agents
 
         public void SetGoal(Goal goal)
         {
-            CurrentGoal = goal;
+            AiLogger.Log($"Set new goal from {CurrentGoal} to {goal}");
 
             if (goal == CurrentGoal)
+            {
+                AiLogger.Log($"Same action no reset");
                 return;
+            }
+            CurrentGoal = goal;
 
             Reset();
         }

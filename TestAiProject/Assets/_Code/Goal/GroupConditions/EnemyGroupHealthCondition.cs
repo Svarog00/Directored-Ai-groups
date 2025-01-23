@@ -13,9 +13,9 @@ public class EnemyGroupHealthCondition : GroupCondition
     public override float GetConditionDelta(AgentAction action)
     {
         var newStateHealth = action.GetNewState().CurrentHealth;
-        var delta = GroupState.MaxHealth - newStateHealth;
-        var newGroupHealth = GroupState.CurrentHealth - delta;
+        var newStateMaxHealth = action.GetNewState().MaxHealth;
+        var delta = newStateMaxHealth - newStateHealth;
 
-        return newGroupHealth / GroupState.MaxHealth;
+        return delta;
     }
 }

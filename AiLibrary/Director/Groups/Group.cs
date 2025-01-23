@@ -41,13 +41,13 @@ namespace InteractableGroupsAi.Director.Groups
 
         public void SetGroupGoal(Goal newGoal)
         {
-            AiLogger.Log($"{GroupId} got {nameof(newGoal)}");
+            AiLogger.Log($"{GroupId.Id} got new goal");
             _currentGoal = newGoal;
             _currentGoal.Accept();
             _agents.ForEach(x => x.SetCurrentGoal(_currentGoal));
         }
 
-        public void SetTarget(IGroupContext target) => _state.SetTarget(target);
+        public void SetTarget(IGroupState target) => _state.SetTarget(target);
 
         public IGroupState GetState() => _state;
 
@@ -61,6 +61,8 @@ namespace InteractableGroupsAi.Director.Groups
             agent.SetGroupId(GroupId);
             agent.AgentDetected += SecureAgent;
             agent.AgentLost += ForgetAgent;
+
+            AiLogger.Log($"Agent {agent.State.AgentId} set to {GroupId.Id}");
 
             _agents.Add(agent);
             _state.AddAgent(agent.State);
@@ -81,14 +83,14 @@ namespace InteractableGroupsAi.Director.Groups
 
             if (_state.CurrentTarget == null)
             {
-                SetTarget(group);
+                SetTarget(group.State);
                 return;
             }
 
             if (Vector3.Distance(group.State.CurrentPosition, _state.CurrentPosition) <
-                    Vector3.Distance(_state.CurrentTarget.GetState().CurrentPosition, _state.CurrentPosition))
+                    Vector3.Distance(_state.CurrentTarget.CurrentPosition, _state.CurrentPosition))
             {
-                SetTarget(group);
+                SetTarget(group.State);
             }
         }
 
