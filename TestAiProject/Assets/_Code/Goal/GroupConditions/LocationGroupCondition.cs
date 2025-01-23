@@ -4,7 +4,7 @@ using System.Numerics;
 
 public class LocationGroupCondition : GroupCondition
 {
-    public LocationGroupCondition(IGroupState groupContext) : base(groupContext)
+    public LocationGroupCondition(IGroupState desiredState) : base(desiredState)
     {
     }
 

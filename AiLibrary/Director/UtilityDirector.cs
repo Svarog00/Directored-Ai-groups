@@ -9,6 +9,8 @@ namespace InteractableGroupsAi.Director
 {
     public class UtilityDirector : Director
     {
+        public IEnumerable<Group> Groups => _activeGroups.Concat(_offlineGroups);
+
         private List<Group> _activeGroups = new List<Group>();
         private List<Group> _offlineGroups = new List<Group>();
 

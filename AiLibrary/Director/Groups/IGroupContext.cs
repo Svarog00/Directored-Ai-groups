@@ -117,16 +117,10 @@ namespace InteractableGroupsAi.Director.Groups
         }
 
         public IEnumerable<IAgentState> Agents => _agents;
-        private List<IAgentState> _agents;
+        private List<IAgentState> _agents = new List<IAgentState>();
 
-        public GroupState(List<IAgentState> agents)
-        {
-            _agents = agents;
-        }
+        public void AddAgent(IAgentState agent) => _agents.Add(agent);
 
-        public void SetTarget(IGroupContext target)
-        {
-            CurrentTarget = target;
-        }
+        public void SetTarget(IGroupContext target) => CurrentTarget = target;
     }
 }

@@ -19,6 +19,17 @@ public static class GoalHolder
         return new MoveToLocationGoal(moveToCondition, group);
     }
 
+    public static DestroyGroupGoal DestroyGroupGoal(IGroupContext group)
+    {
+        var condition = new CompositeGroupCondition();
+        var desiredState = new DesiredGroupState();
+        desiredState.CurrentHealth = 0f;
+
+        condition.AddCondition(new EnemyGroupHealthCondition(desiredState));
+
+        return new DestroyGroupGoal(condition, group);
+    }
+
     public static GroupScorer GoalScorer(IGroupState model) => new GroupScorer(model);
 }
 

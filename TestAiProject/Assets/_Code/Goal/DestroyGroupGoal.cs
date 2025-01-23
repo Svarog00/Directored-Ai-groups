@@ -9,9 +9,9 @@ public class DestroyGroupGoal : Goal
 
     private IGroupState _target;
 
-    public DestroyGroupGoal(CompositeGroupCondition condition) : base(condition)
+    public DestroyGroupGoal(CompositeGroupCondition condition, IGroupContext state) : base(condition)
     {
-
+        SetGroupContext(state);
     }
 
     public override void Accept()

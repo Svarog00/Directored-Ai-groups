@@ -1,10 +1,12 @@
-﻿using InteractableGroupsAi.Agents;
+﻿using AiLibrary.Other;
+using InteractableGroupsAi.Agents;
 using InteractableGroupsAi.Director.Buckets;
 using InteractableGroupsAi.Director.Goals;
 using InteractableGroupsAi.Memory;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Numerics;
 
 namespace InteractableGroupsAi.Director.Groups
 {
@@ -15,6 +17,7 @@ namespace InteractableGroupsAi.Director.Groups
         public Goal CurrentGoal => _currentGoal;
         public Blackboard Memory => _blackboard;
         public GroupId GroupId { get; private set; }
+        public GroupState State => _state;
 
         private Goal _currentGoal = new NullGoal();
         private List<AiController<IAgentState>> _agents = new List<AiController<IAgentState>>();
@@ -22,22 +25,31 @@ namespace InteractableGroupsAi.Director.Groups
 
         private List<Bucket> _buckets = new List<Bucket>();
 
+        private GroupState _state;
+        private UtilityDirector _director;
+
         public int Id { get; }
 
         public Group(GroupId groupId)
         {
             GroupId = groupId;
             _blackboard = new Blackboard();
+            _state = new GroupState();
         }
+
+        public void SetDirector(UtilityDirector director) => _director = director;
 
         public void SetGroupGoal(Goal newGoal)
         {
+            AiLogger.Log($"{GroupId} got {nameof(newGoal)}");
             _currentGoal = newGoal;
             _currentGoal.Accept();
             _agents.ForEach(x => x.SetCurrentGoal(_currentGoal));
         }
 
-        public IGroupState GetState() => new GroupState(_agents.Select(x => x.State).ToList());
+        public void SetTarget(IGroupContext target) => _state.SetTarget(target);
+
+        public IGroupState GetState() => _state;
 
         public void AddBucket(Bucket bucket)
         {
@@ -48,21 +60,55 @@ namespace InteractableGroupsAi.Director.Groups
         {
             agent.SetGroupId(GroupId);
             agent.AgentDetected += SecureAgent;
-            agent.AgentLost += SecureAgent;
+            agent.AgentLost += ForgetAgent;
 
             _agents.Add(agent);
+            _state.AddAgent(agent.State);
         }
 
         private void SecureAgent(IAgentState agent)
         {
-            int count = 0;
-            _blackboard.AddValue($"{agent.GroupId}_count", count);
-            _blackboard.AddValue($"{agent.GroupId}", count);
+            bool value = _blackboard.TryGet(new BlackboardKey($"{agent.GroupId}_count"), out int count);
+
+            var newCount = value ? ++count : 1;
+
+            _blackboard.AddValue($"{agent.GroupId}_count", newCount);
+
+            var group = _director.Groups.Where(x => x.GroupId.Equals(agent.GroupId)).FirstOrDefault();
+            if (group == null) return;
+
+            _blackboard.AddValue($"{agent.GroupId}", group);
+
+            if (_state.CurrentTarget == null)
+            {
+                SetTarget(group);
+                return;
+            }
+
+            if (Vector3.Distance(group.State.CurrentPosition, _state.CurrentPosition) <
+                    Vector3.Distance(_state.CurrentTarget.GetState().CurrentPosition, _state.CurrentPosition))
+            {
+                SetTarget(group);
+            }
         }
 
-        private void ForegetAgent(IAgentState agent)
+        private void ForgetAgent(IAgentState agent)
         {
+            bool value = _blackboard.TryGet(new BlackboardKey($"{agent.GroupId}_count"), out int count);
+            if (value == false) return;
 
+            _blackboard.AddValue($"{agent.GroupId}_count", --count);
+
+            if (--count != 0)
+            {
+                return;
+            }
+
+            var group = _director.Groups.Where(x => x.GroupId.Equals(agent.GroupId)).FirstOrDefault();
+
+            _blackboard.AddValue($"{agent.GroupId}", group);
+
+            SetTarget(null);
         }
     }
 }

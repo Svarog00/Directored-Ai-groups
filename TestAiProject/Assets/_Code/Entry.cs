@@ -1,3 +1,4 @@
+using AiLibrary.Other;
 using InteractableGroupsAi;
 using InteractableGroupsAi.Agents;
 using InteractableGroupsAi.Agents.Conditions;
@@ -22,35 +23,46 @@ public class Entry : MonoBehaviour
 
     [SerializeField] private List<AgentsList> _characters;
     [SerializeField] private List<GroupView> _groupView;
+    [SerializeField] private int _groupCount = 3;
 
     private UtilityDirector _aiDirector;
-
-    private static List<GroupView> _groups;
 
     // Start is called before the first frame update
     void Awake()
     {
+        AiLogger.SetLogger(new UnityLogger());
         _aiDirector = new UtilityDirector();
 
-        int i = 0;
+        int agentBatchIndex = 0;
         int agentId = 0;
-        foreach(var group in _groupView)
+        for (int i = 0; i < _groupCount; i++)
         {
-            group.Init();
-            var bucket = new Bucket(1, GoalHolder.GoalScorer(group.Model.GetState()));
+            var group = new Group(Entry.CurrentGroupId.Next());
+            var bucket = new Bucket(1, GoalHolder.GoalScorer(group.GetState()));
 
             bucket.AddGoal(
-                   new CondideredGoal(
-                        GoalHolder.MoveToLocation(group.Model),
-                        GoalHolder.GoalScorer(group.Model.GetState())));
+                new CondideredGoal(
+                     GoalHolder.MoveToLocation(group),
+                     GoalHolder.GoalScorer(group.GetState())));
 
-            group.Model.AddBucket(bucket);
+            bucket.AddGoal(
+                new CondideredGoal(
+                    GoalHolder.DestroyGroupGoal(group),
+                    GoalHolder.GoalScorer(group.GetState())));
 
-            _aiDirector.RegisterGroup(group.Model);
+            bucket.AddGoal(
+                new CondideredGoal(
+                    GoalHolder.DestroyGroupGoal(group),
+                    GoalHolder.GoalScorer(group.GetState())));
 
-            foreach (var character in _characters[i].Characters)
+            group.AddBucket(bucket);
+
+            _aiDirector.RegisterGroup(group);
+            GroupsHolder.Add(group);
+
+            foreach (var character in _characters[agentBatchIndex].Characters)
             {
-                character.Init(group.Model.GroupId, agentId++);
+                character.Init(group.GroupId, agentId++);
 
                 var controller = new AiController<IAgentState>(character.State);
 
@@ -62,20 +74,18 @@ public class Entry : MonoBehaviour
                 character.SetController(controller);
                 group.AddAgent(character.Controller);
             }
-            i++;
+            agentBatchIndex++;
         }
 
-        _groups = _groupView;
+        foreach(var group in _groupView)
+        {
+            
+        }
     }
 
     // Update is called once per frame
     void Update()
     {
         _aiDirector.Update();
-    }
-
-    public static Group FindGroup(GroupId id)
-    {
-        return _groups.Select(x => x.Model).Where(x => x.GroupId.Equals(id)).FirstOrDefault();
     }
 }
