@@ -15,12 +15,13 @@ public class MoveToRandomLocationGoal : Goal
 
     public override void Accept()
     {
-        var targetVector = new Vector3(Random.value, Random.value, 0);
+        var targetVector = new System.Numerics.Vector3(Random.value, Random.value, 0);
         Debug.Log($"Accept {nameof(MoveToRandomLocationGoal)}");
+        Group.GetState().SetTargetPosition(targetVector);
         var state = Group.GetState() as GroupState;
         foreach (var item in state.Agents)
         {
-            item.SetTargetPosition(new System.Numerics.Vector3(targetVector.x, targetVector.y, targetVector.z));
+            item.SetTargetPosition(targetVector);
         }
     }
 }

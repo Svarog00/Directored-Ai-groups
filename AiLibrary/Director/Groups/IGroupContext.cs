@@ -27,8 +27,10 @@ namespace InteractableGroupsAi.Director.Groups
         IGroupState CurrentTarget { get; }
 
         Vector3 CurrentPosition { get; }
+        Vector3 TargetPosition { get; }
 
         void SetTarget(IGroupState target);
+        void SetTargetPosition(Vector3 target);
     }
 
     public class DesiredGroupState : IGroupState
@@ -44,11 +46,10 @@ namespace InteractableGroupsAi.Director.Groups
         public IGroupState CurrentTarget { get; set; }
 
         public Vector3 CurrentPosition { get; set; }
+        public Vector3 TargetPosition { get; set; }
 
-        public void SetTarget(IGroupState target)
-        {
-            CurrentTarget = target;
-        }
+        public void SetTarget(IGroupState target) => CurrentTarget = target;
+        public void SetTargetPosition(Vector3 target) => TargetPosition = target;
     }
 
     public class GroupState : IGroupState
@@ -115,6 +116,7 @@ namespace InteractableGroupsAi.Director.Groups
                 CurrentPosition = value;
             }
         }
+        public Vector3 TargetPosition { get; set; }
 
         public IEnumerable<IAgentState> Agents => _agents;
         private List<IAgentState> _agents = new List<IAgentState>();
@@ -122,5 +124,6 @@ namespace InteractableGroupsAi.Director.Groups
         public void AddAgent(IAgentState agent) => _agents.Add(agent);
 
         public void SetTarget(IGroupState target) => CurrentTarget = target;
+        public void SetTargetPosition(Vector3 target) => TargetPosition = target;
     }
 }

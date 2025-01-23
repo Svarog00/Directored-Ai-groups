@@ -39,7 +39,7 @@ public class Entry : MonoBehaviour
             var group = new Group(Entry.CurrentGroupId.Next());
             var bucket = new Bucket(1, GoalHolder.GoalScorer(group.GetState()));
 
-            bucket.AddGoal(GoalHolder.RestAction(group));
+            bucket.AddGoal(GoalHolder.RestGoal(group));
             bucket.AddGoal(GoalHolder.MoveToLocation(group));
             bucket.AddGoal(GoalHolder.DestroyGroupGoal(group));
             bucket.AddGoal(GoalHolder.DestroyGroupGoal(group));

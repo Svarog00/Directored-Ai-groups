@@ -6,12 +6,12 @@ using UnityEngine;
 
 public static class GoalHolder
 {
-    public static ConsideredGoal RestAction(IGroupContext group)
+    public static ConsideredGoal RestGoal(IGroupContext group)
     {
         var moveToCondition = new CompositeGroupCondition();
         var desiredState = new DesiredGroupState();
         
-        var goal = new MoveToRandomLocationGoal(moveToCondition, group);
+        var goal = new RestGoal(moveToCondition);
 
         var scorer = GoalScorer(group.GetState());
 
@@ -28,6 +28,7 @@ public static class GoalHolder
         var goal = new MoveToRandomLocationGoal(moveToCondition, group);
 
         var scorer = GoalScorer(group.GetState());
+        scorer.AddConsideration(new CurrentLocationConsideration());
 
         return new ConsideredGoal(goal, scorer);
     }
