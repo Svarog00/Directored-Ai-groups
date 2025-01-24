@@ -22,7 +22,6 @@ public class Entry : MonoBehaviour
     public static GroupId CurrentGroupId = new(0);
 
     [SerializeField] private List<AgentsList> _characters;
-    [SerializeField] private List<GroupView> _groupView;
     [SerializeField] private int _groupCount = 3;
 
     private UtilityDirector _aiDirector;

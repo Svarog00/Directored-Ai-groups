@@ -28,7 +28,7 @@ public class AgentController : MonoBehaviour
 
     public void Init(GroupId groupId, int id)
     {
-        _currentState = Instantiate(_initialState);
+        _currentState = _initialState;
 
         _currentState.SetGroupId(groupId);
         _currentState.SetAgentId(id);

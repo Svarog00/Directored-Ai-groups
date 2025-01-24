@@ -4,9 +4,10 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.Numerics;
 using AiLibrary.Other;
+using System;
 
-[CreateAssetMenu(fileName = "InitialCharacterState", menuName = "CharacterState/Initial", order = 0)]
-public class CharacterState : ScriptableObject, IAgentState
+[Serializable]
+public class CharacterState : IAgentState
 {
     [field: SerializeField] public float MaxHealth { get; set; }
     [field: SerializeField] public float MaxRest { get; set; }
@@ -14,8 +15,8 @@ public class CharacterState : ScriptableObject, IAgentState
     public GroupId GroupId { get; private set; }
     public int AgentId { get; private set; }
     public System.Numerics.Vector3 CurrentPosition { get; private set; }
-    public float CurrentHealth { get; private set; }
-    public float CurrentRest { get; private set; }
+    [field: SerializeField] public float CurrentHealth { get; private set; }
+    [field: SerializeField] public float CurrentRest { get; private set; }
     public IAgentState CurrentTarget { get; private set; }
     public Item CurrentHand { get; private set; }
     public List<Item> Items { get; private set; }

@@ -67,6 +67,11 @@ public class SightPerception : MonoBehaviour, IPerceptionSensor
                 return;
             }
 
+            if (_detectedCharacters.ContainsKey(character) == false)
+            {
+                return;
+            }
+
             if (_detectedCharacters[character] != collision.transform.position)
                 OnAgentMoved?.Invoke(character.State);
         }

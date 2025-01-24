@@ -32,6 +32,7 @@ namespace InteractableGroupsAi.Director.Groups
 
         public Group(GroupId groupId)
         {
+            AiLogger.Log($"Create new group with id = {groupId.Id}");
             GroupId = groupId;
             _blackboard = new Blackboard();
             _state = new GroupState();

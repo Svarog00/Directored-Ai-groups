@@ -5,6 +5,6 @@ public class NoNeedForRestConsideration : Consideration
 {
     public override float GetScore(IGroupState context)
     {
-        return context.CurrentRest / context.MaxRest;
+        return 1 - context.CurrentRest / context.MaxRest;
     }
 }
