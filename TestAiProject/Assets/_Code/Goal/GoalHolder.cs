@@ -29,6 +29,7 @@ public static class GoalHolder
 
         var scorer = GoalScorer(group.GetState());
         scorer.AddConsideration(new CurrentLocationConsideration());
+        scorer.AddConsideration(new NeedRestConsideration());
 
         return new ConsideredGoal(goal, scorer);
     }
