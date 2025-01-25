@@ -17,8 +17,8 @@ public class LocationGroupCondition : GroupCondition
     public override float GetConditionDelta(AgentAction action)
     {
         var newState = action.GetNewState();
-        var delta = Vector3.Distance(newState.CurrentPosition, GroupState.CurrentPosition);
-        AiLogger.Log($"{delta}");
+        var delta = Vector3.Distance(newState.CurrentPosition, GroupState.TargetPosition);
+
         return delta;
     }
 }

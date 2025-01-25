@@ -16,7 +16,7 @@ namespace InteractableGroupsAi.Director.Groups
 
         public Goal CurrentGoal => _currentGoal;
         public Blackboard Memory => _blackboard;
-        public GroupId GroupId { get; private set; }
+        public GroupId GroupId => _state.GroupId;
         public GroupState State => _state;
 
         private Goal _currentGoal = new NullGoal();
@@ -33,9 +33,9 @@ namespace InteractableGroupsAi.Director.Groups
         public Group(GroupId groupId)
         {
             AiLogger.Log($"Create new group with id = {groupId.Id}");
-            GroupId = groupId;
             _blackboard = new Blackboard();
             _state = new GroupState();
+            _state.GroupId = groupId;
         }
 
         public void SetDirector(UtilityDirector director) => _director = director;

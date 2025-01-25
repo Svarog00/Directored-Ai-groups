@@ -2,6 +2,7 @@ using InteractableGroupsAi;
 using InteractableGroupsAi.Agents;
 using InteractableGroupsAi.Agents.Conditions;
 using InteractableGroupsAi.Director.Goals;
+using InteractableGroupsAi.Director.Groups;
 using InteractableGroupsAi.Memory;
 using System.Numerics;
 
@@ -39,19 +40,20 @@ public class ChooseTargetAction : AgentAction, IAgentStateable
     public override void OnBegin()
     {
         var characters = _controller.Controller.Memory.GetAllOfType<IAgentState>();
-        var maxDistance = float.MinValue;
+        var minDistance = float.MaxValue;
+        var enemyGroup = GetEnemyGroup();
 
         foreach (var character in characters)
         {
-            if (character.GroupId.Equals(_state.GroupId))
+            if (character.GroupId.Equals(_state.GroupId) || character.GroupId.Equals(enemyGroup.GroupId) == false)
                 continue;
 
             var distance = Vector3.Distance(character.CurrentPosition, _state.CurrentPosition);
 
-            if (distance > maxDistance)
+            if (distance < minDistance)
             {
                 _target = character;
-                maxDistance = distance;
+                minDistance = distance;
             }
         }
 
@@ -68,5 +70,11 @@ public class ChooseTargetAction : AgentAction, IAgentStateable
 
     public override void Update()
     {
+    }
+
+    private IGroupState GetEnemyGroup()
+    {
+        var group = GroupsHolder.GetGroup(_state.GroupId);
+        return group.State.CurrentTarget;
     }
 }

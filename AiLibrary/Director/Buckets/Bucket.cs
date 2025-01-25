@@ -1,4 +1,5 @@
-﻿using InteractableGroupsAi.Agents.Conditions;
+﻿using AiLibrary.Other;
+using InteractableGroupsAi.Agents.Conditions;
 using InteractableGroupsAi.Director.Goals;
 using InteractableGroupsAi.Director.Groups;
 using System.Collections.Generic;
@@ -40,6 +41,7 @@ namespace InteractableGroupsAi.Director.Buckets
             {
                 var score = goal.EvaluateGoal();
 
+                //AiLogger.Log($"Bucket: {goal.Goal}: {score} for {context.GetState().GroupId.Id}");
                 if (score > floor)
                 {
                     bestGoal = goal;

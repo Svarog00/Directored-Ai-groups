@@ -24,6 +24,9 @@ public class Entry : MonoBehaviour
     [SerializeField] private List<AgentsList> _characters;
     [SerializeField] private int _groupCount = 3;
 
+    [Space]
+    [SerializeField] private List<Transform> _points = new();
+
     private UtilityDirector _aiDirector;
 
     // Start is called before the first frame update
@@ -35,7 +38,7 @@ public class Entry : MonoBehaviour
         int agentId = 0;
         for (int i = 0; i < _groupCount; i++)
         {
-            var group = new Group(Entry.CurrentGroupId.Next());
+            var group = new Group(CurrentGroupId.Next());
             var bucket = new Bucket(1, GoalHolder.GoalScorer(group.GetState()));
 
             bucket.AddGoal(GoalHolder.RestGoal(group));
@@ -63,6 +66,12 @@ public class Entry : MonoBehaviour
                 group.AddAgent(character.Controller);
             }
         }
+
+        foreach (var point in _points)
+        {
+            var vec = new System.Numerics.Vector3(point.position.x, point.position.y, point.position.z);
+            PointsHolder.Add(vec);
+        }
     }
 
     // Update is called once per frame
@@ -70,4 +79,9 @@ public class Entry : MonoBehaviour
     {
         _aiDirector.Update();
     }
+}
+
+public static class Relations
+{
+
 }

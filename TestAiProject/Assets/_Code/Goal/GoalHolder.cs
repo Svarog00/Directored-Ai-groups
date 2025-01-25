@@ -24,11 +24,11 @@ public static class GoalHolder
         var desiredState = new DesiredGroupState();
         desiredState.CurrentPosition = new System.Numerics.Vector3(1, 1, 1);
 
-        moveToCondition.AddCondition(new LocationGroupCondition(desiredState));
-        var goal = new MoveToRandomLocationGoal(moveToCondition, group);
+        moveToCondition.AddCondition(new LocationGroupCondition(group.GetState()));
+        var goal = new MoveToNearestLocationGoal(moveToCondition, group);
 
         var scorer = GoalScorer(group.GetState());
-        scorer.AddConsideration(new CurrentLocationConsideration());
+        scorer.AddConsideration(new CurrentLocationPointOfInterestConsideration());
         scorer.AddConsideration(new NeedRestConsideration());
 
         return new ConsideredGoal(goal, scorer);
