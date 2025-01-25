@@ -49,6 +49,6 @@ public class RestAction : AgentAction
 
     public override void Update()
     {
-
+        _agentState.SetRest(_agentState.CurrentRest + Time.deltaTime);
     }
 }

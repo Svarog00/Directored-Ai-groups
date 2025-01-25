@@ -48,6 +48,10 @@ public class MoveToAction : AgentAction, IAgentStateable
     {
         var distance = 
             System.Numerics.Vector3.Distance(_characterState.CurrentPosition, new System.Numerics.Vector3(_targetPosition.x, _targetPosition.y, _targetPosition.z));
+
+
+        _characterState.SetRest(_characterState.CurrentRest - Time.deltaTime);
+
         if (distance <= 0.1f)
         {
             OnCompleted?.Invoke();

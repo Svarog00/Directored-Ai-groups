@@ -24,6 +24,7 @@ public class AgentController : MonoBehaviour
     private void Awake()
     {
         _transform = transform;
+        _currentState.SetPosition(gameObject.transform.position);
     }
 
     public void Init(GroupId groupId, int id)
@@ -56,6 +57,11 @@ public class AgentController : MonoBehaviour
     {
         _controller.Update();
         ProccessMove();
+
+        if (_currentState.CurrentHealth <= 0)
+        {
+            Destroy(gameObject);
+        }
     }
 
     public void SetController(AiController<IAgentState> controller)

@@ -46,6 +46,7 @@ public static class GoalHolder
         var scorer = GoalScorer(group.GetState());
         scorer.AddConsideration(new GroupHealthConsideration());
         scorer.AddConsideration(new EnemyGroupHealthConsideration());
+        scorer.AddConsideration(new RelationsConsideration());
 
         return new ConsideredGoal(goal, scorer);
     }

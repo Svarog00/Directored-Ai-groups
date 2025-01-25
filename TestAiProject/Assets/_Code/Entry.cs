@@ -21,6 +21,7 @@ public class Entry : MonoBehaviour
 {
     public static GroupId CurrentGroupId = new(0);
 
+    [SerializeField] private List<Relation> _relations = new List<Relation>();
     [SerializeField] private List<AgentsList> _characters;
     [SerializeField] private int _groupCount = 3;
 
@@ -44,7 +45,7 @@ public class Entry : MonoBehaviour
             bucket.AddGoal(GoalHolder.RestGoal(group));
             bucket.AddGoal(GoalHolder.MoveToLocation(group));
             bucket.AddGoal(GoalHolder.DestroyGroupGoal(group));
-            bucket.AddGoal(GoalHolder.DestroyGroupGoal(group));
+            //TODO: TradeGoal bucket.AddGoal(GoalHolder.DestroyGroupGoal(group));
 
             group.AddBucket(bucket);
 
@@ -72,6 +73,8 @@ public class Entry : MonoBehaviour
             var vec = new System.Numerics.Vector3(point.position.x, point.position.y, point.position.z);
             PointsHolder.Add(vec);
         }
+
+        RelationsHolder.Set(_relations);
     }
 
     // Update is called once per frame
@@ -79,9 +82,4 @@ public class Entry : MonoBehaviour
     {
         _aiDirector.Update();
     }
-}
-
-public static class Relations
-{
-
 }

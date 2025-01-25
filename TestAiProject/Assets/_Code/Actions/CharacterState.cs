@@ -24,8 +24,16 @@ public class CharacterState : IAgentState
 
     public void SetAgentId(int id) => AgentId = id;
     public void SetGroupId(GroupId id) => GroupId = id;
-    public void SetHealth(float health) => CurrentHealth = health;
-    public void SetRest(float rest) => CurrentRest = rest;
+    public void SetHealth(float health)
+    {
+        CurrentHealth = Mathf.Clamp(health, 0, MaxHealth);
+    }
+
+    public void SetRest(float rest)
+    {
+        CurrentRest = Mathf.Clamp(rest, 0, MaxRest);
+    }
+
     public void SetPosition(System.Numerics.Vector3 position) => CurrentPosition = position;
     public void SetTargetPosition(System.Numerics.Vector3 position)
     {
