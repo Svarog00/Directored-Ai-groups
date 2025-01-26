@@ -3,6 +3,7 @@ using InteractableGroupsAi.Agents;
 using InteractableGroupsAi.Agents.Conditions;
 using InteractableGroupsAi.Director.Goals;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 public class MoveToAction : AgentAction, IAgentStateable
 {
@@ -30,6 +31,7 @@ public class MoveToAction : AgentAction, IAgentStateable
 
     public override void OnBegin()
     {
+        Debug.Log("Start moving action  on " + _characterState.AgentId + " to " + _targetPosition);
         _targetPosition = new Vector3(_characterState.TargetPosition.X, _characterState.TargetPosition.Y, _characterState.TargetPosition.Z);
         _characterController.MoveTo(_targetPosition);
     }
@@ -50,7 +52,7 @@ public class MoveToAction : AgentAction, IAgentStateable
             System.Numerics.Vector3.Distance(_characterState.CurrentPosition, new System.Numerics.Vector3(_targetPosition.x, _targetPosition.y, _targetPosition.z));
 
 
-        _characterState.SetRest(_characterState.CurrentRest - Time.deltaTime);
+        _characterState.SetRest(_characterState.CurrentRest - Time.deltaTime * 2);
 
         if (distance <= 0.1f)
         {
@@ -61,7 +63,9 @@ public class MoveToAction : AgentAction, IAgentStateable
     public override IAgentState GetNewState()
     {
         var state = new CharacterState();
-        state.SetPosition(_targetPosition);
+        var dir = System.Numerics.Vector3.Normalize(_characterState.TargetPosition - _characterState.CurrentPosition);
+        state.SetPosition(_characterState.CurrentPosition + _characterController.Speed * Time.deltaTime * dir);
+
         return state;
     }
 }

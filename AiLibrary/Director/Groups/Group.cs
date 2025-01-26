@@ -18,6 +18,7 @@ namespace InteractableGroupsAi.Director.Groups
         public Blackboard Memory => _blackboard;
         public GroupId GroupId => _state.GroupId;
         public GroupState State => _state;
+        public IEnumerable<AiController<IAgentState>> Agents => _agents;
 
         private Goal _currentGoal = new NullGoal();
         private List<AiController<IAgentState>> _agents = new List<AiController<IAgentState>>();

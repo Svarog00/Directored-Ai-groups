@@ -24,7 +24,7 @@ public class RestAction : AgentAction
 
     public override float GetGoalChange(Goal goal)
     {
-        return 0.5f;
+        return 0.1f;
     }
 
     public override IAgentState GetNewState()
@@ -49,6 +49,6 @@ public class RestAction : AgentAction
 
     public override void Update()
     {
-        _agentState.SetRest(_agentState.CurrentRest + Time.deltaTime);
+        _agentState.SetRest(_agentState.CurrentRest + Time.deltaTime * 2);
     }
 }

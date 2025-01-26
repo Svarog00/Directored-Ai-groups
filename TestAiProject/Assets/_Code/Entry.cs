@@ -24,11 +24,13 @@ public class Entry : MonoBehaviour
     [SerializeField] private List<Relation> _relations = new List<Relation>();
     [SerializeField] private List<AgentsList> _characters;
     [SerializeField] private int _groupCount = 3;
+    [SerializeField] private float _directorUpdateTime = 3f;
 
     [Space]
     [SerializeField] private List<Transform> _points = new();
 
     private UtilityDirector _aiDirector;
+    private float _currentUpdateTime = 0f;
 
     // Start is called before the first frame update
     void Awake()
@@ -80,6 +82,11 @@ public class Entry : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        _aiDirector.Update();
+        _currentUpdateTime -= Time.deltaTime;
+        if (_currentUpdateTime <= 0f)
+        {
+            _currentUpdateTime = _directorUpdateTime;
+            _aiDirector.Update();
+        }
     }
 }

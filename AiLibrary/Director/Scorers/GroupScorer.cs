@@ -35,7 +35,7 @@ namespace InteractableGroupsAi.Director
             {
                 float score = consideration.GetScore(_state);
 
-                //AiLogger.Log($"Scorer: {consideration}: {score} for {_state.GroupId.Id}");
+                AiLogger.Log($"Scorer: {consideration}: {score} for {_state.GroupId.Id}");
                 result *= score;
             }
 

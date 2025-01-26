@@ -10,7 +10,10 @@ public static class ActionHolder
         var list = new List<AgentAction>
         {
             MoveToAction(state, controller),
-            RestAction(state)
+            RestAction(state),
+            ChooseTargetAction(state),
+            EquippedWeaponAction(state),
+            AttackAction(state),
         };
 
         return list;
@@ -27,5 +30,34 @@ public static class ActionHolder
         var restAction = new RestAction(new ComppositeAgentCondition());
         restAction.Init(state);
         return restAction;
+    }
+
+    public static AttackAction AttackAction(IAgentState state)
+    {
+        var condition = new ComppositeAgentCondition();
+        condition.AddCondition(new HasTargetCondition(state));
+        condition.AddCondition(new EquippedWeaponCondition(state));
+
+        var attack = new AttackAction(state, condition);
+
+        return attack;
+    }
+
+    public static ChooseTargetAction ChooseTargetAction(IAgentState state)
+    {
+        var condition = new ComppositeAgentCondition();
+
+        var choose = new ChooseTargetAction(state, condition);
+
+        return choose;
+    }
+
+    public static EquipWeaponAction EquippedWeaponAction(IAgentState state)
+    {
+        var condition = new ComppositeAgentCondition();
+
+        var choose = new EquipWeaponAction(state, condition);
+
+        return choose;
     }
 }

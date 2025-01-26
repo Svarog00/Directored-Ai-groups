@@ -41,7 +41,7 @@ namespace InteractableGroupsAi.Director.Buckets
             {
                 var score = goal.EvaluateGoal();
 
-                //AiLogger.Log($"Bucket: {goal.Goal}: {score} for {context.GetState().GroupId.Id}");
+                AiLogger.Log($"Bucket: {goal.Goal}: {score} for {context.GetState().GroupId.Id}");
                 if (score > floor)
                 {
                     bestGoal = goal;

@@ -3,9 +3,9 @@ using InteractableGroupsAi.Agents;
 
 public class EquippedWeaponCondition : AgentCondition
 {
-    private CharacterState _characterState;
+    private IAgentState _characterState;
 
-    public EquippedWeaponCondition(CharacterState characterState) : base(characterState) 
+    public EquippedWeaponCondition(IAgentState characterState) : base(characterState) 
     {
         _characterState = characterState;
     }

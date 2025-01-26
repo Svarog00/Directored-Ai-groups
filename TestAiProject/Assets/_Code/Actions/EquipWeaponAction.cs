@@ -1,15 +1,15 @@
-using InteractableGroupsAi;
-using InteractableGroupsAi.Agents;
 using InteractableGroupsAi.Agents.Conditions;
+using InteractableGroupsAi.Agents;
 using InteractableGroupsAi.Director.Goals;
+using InteractableGroupsAi;
 
-public class AttackAction : AgentAction
+public class EquipWeaponAction : AgentAction
 {
     private readonly IAgentState _state;
     private readonly IAgentState _target;
 
 
-    public AttackAction(IAgentState state, ComppositeAgentCondition condition) : base(condition)
+    public EquipWeaponAction(IAgentState state, ComppositeAgentCondition condition) : base(condition)
     {
         _state = state;
         _target = state.CurrentTarget;
@@ -22,21 +22,23 @@ public class AttackAction : AgentAction
 
     public override float GetGoalChange(Goal goal)
     {
-        var weapon = _state.CurrentHand as Weapon;
-
-        return goal.GetGoalDelta(this);
+        return 1f;
     }
 
     public override IAgentState GetNewState()
     {
-        var weapon = _state.CurrentHand as Weapon;
-        _target.SetHealth(_target.CurrentHealth - weapon.Damage);
-        return _target;
+        var newState = new CharacterState();
+        newState.CurrentHand = new Weapon();
+        return newState;
     }
 
     public override void OnBegin()
     {
+        var weapon = _state.Items.Find(x => x is Weapon);
 
+        _state.CurrentHand = weapon;
+
+        OnCompleted?.Invoke();
     }
 
     public override void OnEnd()
@@ -51,7 +53,5 @@ public class AttackAction : AgentAction
 
     public override void Update()
     {
-        var weapon = _state.CurrentHand as Weapon;
-        _target.SetHealth(_target.CurrentHealth - weapon.Damage);
     }
 }

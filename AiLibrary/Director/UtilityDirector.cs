@@ -1,4 +1,5 @@
-﻿using InteractableGroupsAi.Agents;
+﻿using AiLibrary.Other;
+using InteractableGroupsAi.Agents;
 using InteractableGroupsAi.Director.Buckets;
 using InteractableGroupsAi.Director.Goals;
 using InteractableGroupsAi.Director.Groups;
@@ -84,6 +85,7 @@ namespace InteractableGroupsAi.Director
 
         private void SetGroupGoal(Goal goal, Group group)
         {
+            AiLogger.Log($"Set {goal} to {group.GroupId.Id}");  
             if (goal == group.CurrentGoal) return;
             
             group.SetGroupGoal(goal);

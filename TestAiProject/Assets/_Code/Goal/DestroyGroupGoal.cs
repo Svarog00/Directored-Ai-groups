@@ -19,11 +19,10 @@ public class DestroyGroupGoal : Goal
 
     public override void Accept()
     {
-        var groups = GroupsHolder.Groups
-            .Where(x => System.Numerics.Vector3.Distance(
-                x.GetState().CurrentPosition, Group.GetState().CurrentPosition) <= DangerousDistance);
+        var group = GroupsHolder.GetClosestEnemyGroup(Group);
 
-        _target = groups.FirstOrDefault()?.GetState();
+        _target = group.GetState();
+
         Debug.Log($"Accept {nameof(DestroyGroupGoal)}");
     }
 }

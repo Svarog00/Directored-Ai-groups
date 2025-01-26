@@ -37,7 +37,7 @@ namespace InteractableGroupsAi.Agents
 
         public void SetGoal(Goal goal)
         {
-            AiLogger.Log($"Set new goal from {CurrentGoal} to {goal}");
+            AiLogger.Log($"#Brain Set new goal from {CurrentGoal} to {goal}");
 
             if (goal == CurrentGoal)
             {

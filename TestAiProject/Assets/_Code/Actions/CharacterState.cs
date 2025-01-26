@@ -18,7 +18,7 @@ public class CharacterState : IAgentState
     [field: SerializeField] public float CurrentHealth { get; private set; }
     [field: SerializeField] public float CurrentRest { get; private set; }
     public IAgentState CurrentTarget { get; private set; }
-    public Item CurrentHand { get; private set; }
+    public Item CurrentHand { get; set; }
     public List<Item> Items { get; private set; }
     public System.Numerics.Vector3 TargetPosition { get; private set; }
 

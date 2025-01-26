@@ -45,14 +45,14 @@ namespace InteractableGroupsAi.Agents
 
         private void ChooseNewAction()
         {
-            var highestScore = 0f;
+            var highestDelta = 0f;
             AgentAction choosenAction = _availableActions.FirstOrDefault();
             foreach (var action in _availableActions)
             {
                 _deepCounter = 0;
-                var score = action.GetGoalChange(CurrentGoal);
-
-                if (score <= highestScore)
+                var delta = action.GetGoalChange(CurrentGoal);
+                AiLogger.Log($"#GobBrain: {delta} but {highestDelta}");
+                if (delta <= highestDelta)
                 {
                     continue;
                 }
@@ -68,9 +68,8 @@ namespace InteractableGroupsAi.Agents
                     }
                 }
                 
-                highestScore = score;
+                highestDelta = delta;
                 choosenAction = action;
-
                 _tempQueue.Enqueue(choosenAction);
                 foreach (var item in _tempQueue)
                 {

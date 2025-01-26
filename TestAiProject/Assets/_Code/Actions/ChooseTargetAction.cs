@@ -6,19 +6,15 @@ using InteractableGroupsAi.Director.Groups;
 using InteractableGroupsAi.Memory;
 using System.Numerics;
 
-public class ChooseTargetAction : AgentAction, IAgentStateable
+public class ChooseTargetAction : AgentAction
 {
-    public CharacterState State => _state;
-
-    private readonly CharacterState _state;
-    private readonly AgentController _controller;
+    private readonly IAgentState _state;
 
     private IAgentState _target;
 
-    public ChooseTargetAction(CharacterState state, ComppositeAgentCondition condition, AgentController controller) : base(condition)
+    public ChooseTargetAction(IAgentState state, ComppositeAgentCondition condition) : base(condition)
     {
         _state = state;
-        _controller = controller;
     }
 
     public override void ForceEnd()
@@ -39,20 +35,16 @@ public class ChooseTargetAction : AgentAction, IAgentStateable
 
     public override void OnBegin()
     {
-        var characters = _controller.Controller.Memory.GetAllOfType<IAgentState>();
         var minDistance = float.MaxValue;
         var enemyGroup = GetEnemyGroup();
 
-        foreach (var character in characters)
+        foreach (var character in enemyGroup.Agents)
         {
-            if (character.GroupId.Equals(_state.GroupId) || character.GroupId.Equals(enemyGroup.GroupId) == false)
-                continue;
-
-            var distance = Vector3.Distance(character.CurrentPosition, _state.CurrentPosition);
+            var distance = Vector3.Distance(character.State.CurrentPosition, _state.CurrentPosition);
 
             if (distance < minDistance)
             {
-                _target = character;
+                _target = character.State;
                 minDistance = distance;
             }
         }
@@ -72,9 +64,9 @@ public class ChooseTargetAction : AgentAction, IAgentStateable
     {
     }
 
-    private IGroupState GetEnemyGroup()
+    private Group GetEnemyGroup()
     {
         var group = GroupsHolder.GetGroup(_state.GroupId);
-        return group.State.CurrentTarget;
+        return group;
     }
 }

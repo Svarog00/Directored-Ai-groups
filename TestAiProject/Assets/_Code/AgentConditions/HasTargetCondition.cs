@@ -3,9 +3,9 @@ using InteractableGroupsAi.Agents;
 
 public class HasTargetCondition : AgentCondition
 {
-    private CharacterState _characterState;
+    private IAgentState _characterState;
 
-    public HasTargetCondition(CharacterState agentContext) : base(agentContext)
+    public HasTargetCondition(IAgentState agentContext) : base(agentContext)
     {
         _characterState = agentContext;
     }

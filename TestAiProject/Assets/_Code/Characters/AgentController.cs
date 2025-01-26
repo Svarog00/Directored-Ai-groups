@@ -15,9 +15,11 @@ public class AgentController : MonoBehaviour
 
     private Transform _transform;
     private Vector3 _targetPosition;
+    private Vector3 _currentPosition;
     private Vector3 _direction;
     private bool _canMove = false;
 
+    public float Speed => _speed;
     public AiController<IAgentState> Controller => _controller;
     public CharacterState State => _currentState;
 
@@ -33,6 +35,7 @@ public class AgentController : MonoBehaviour
 
         _currentState.SetGroupId(groupId);
         _currentState.SetAgentId(id);
+        _currentState.SetPosition(transform.position);
 
         _sensor.Init(groupId);
 
@@ -57,6 +60,7 @@ public class AgentController : MonoBehaviour
     {
         _controller.Update();
         ProccessMove();
+        _currentPosition = new Vector3(_currentState.CurrentPosition.X, _currentState.CurrentPosition.Y, _currentState.CurrentPosition.Z);
 
         if (_currentState.CurrentHealth <= 0)
         {

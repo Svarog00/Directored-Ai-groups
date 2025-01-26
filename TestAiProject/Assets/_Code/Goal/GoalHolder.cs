@@ -8,12 +8,13 @@ public static class GoalHolder
 {
     public static ConsideredGoal RestGoal(IGroupContext group)
     {
-        var moveToCondition = new CompositeGroupCondition();
+        var restCondition = new CompositeGroupCondition();
         var desiredState = new DesiredGroupState();
         
-        var goal = new RestGoal(moveToCondition);
+        var goal = new RestGoal(restCondition);
 
         var scorer = GoalScorer(group.GetState());
+        scorer.AddConsideration(new NeedRestConsideration());
 
         return new ConsideredGoal(goal, scorer);
     }
@@ -21,15 +22,13 @@ public static class GoalHolder
     public static ConsideredGoal MoveToLocation(IGroupContext group)
     {
         var moveToCondition = new CompositeGroupCondition();
-        var desiredState = new DesiredGroupState();
-        desiredState.CurrentPosition = new System.Numerics.Vector3(1, 1, 1);
 
         moveToCondition.AddCondition(new LocationGroupCondition(group.GetState()));
         var goal = new MoveToNearestLocationGoal(moveToCondition, group);
 
         var scorer = GoalScorer(group.GetState());
         scorer.AddConsideration(new CurrentLocationPointOfInterestConsideration());
-        scorer.AddConsideration(new NeedRestConsideration());
+        scorer.AddConsideration(new NoNeedForRestConsideration());
 
         return new ConsideredGoal(goal, scorer);
     }
@@ -45,8 +44,8 @@ public static class GoalHolder
 
         var scorer = GoalScorer(group.GetState());
         scorer.AddConsideration(new GroupHealthConsideration());
+        scorer.AddConsideration(new ClosestEnemyGroupConsideration());
         scorer.AddConsideration(new EnemyGroupHealthConsideration());
-        scorer.AddConsideration(new RelationsConsideration());
 
         return new ConsideredGoal(goal, scorer);
     }
