@@ -29,6 +29,8 @@ public class AttackAction : AgentAction
 
     public override IAgentState GetNewState()
     {
+        if (_target == null) return null;
+
         var weapon = _state.CurrentHand as Weapon;
         _target.SetHealth(_target.CurrentHealth - weapon.Damage);
         return _target;

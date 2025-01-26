@@ -23,7 +23,7 @@ public class ChooseTargetAction : AgentAction
 
     public override float GetGoalChange(Goal goal)
     {
-        return 1f;
+        return 0.01f;
     }
 
     public override IAgentState GetNewState()
