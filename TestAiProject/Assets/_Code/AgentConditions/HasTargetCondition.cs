@@ -12,5 +12,10 @@ public class HasTargetCondition : AgentCondition
 
     public override bool Check() => _characterState.CurrentTarget != null;
 
-    public override bool CheckState(IAgentState context) => context.CurrentTarget != null;
+    public override bool CheckState(IAgentState context)
+    {
+        if (context == null) return false;
+
+        return context.CurrentTarget != null;
+    }
 }

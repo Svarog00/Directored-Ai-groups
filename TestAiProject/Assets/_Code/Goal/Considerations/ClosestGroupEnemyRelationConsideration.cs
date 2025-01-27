@@ -1,7 +1,9 @@
+using AiLibrary.Other;
 using InteractableGroupsAi.Director;
 using InteractableGroupsAi.Director.Groups;
+using UnityEngine;
 
-public class ClosestEnemyGroupConsideration : Consideration
+public class ClosestGroupEnemyRelationConsideration : Consideration
 {
     public override float GetScore(IGroupState context)
     {
@@ -15,6 +17,8 @@ public class ClosestEnemyGroupConsideration : Consideration
             return 0f;
         }
 
-        return RelationsHolder.GetRelations(context.GroupId, enemy.GroupId);
+        var relation = RelationsHolder.GetRelations(context.GroupId, enemy.GroupId);
+        var output = (float)relation / (float)RelationsHolder.LowestRelations;
+        return output;
     }
 }

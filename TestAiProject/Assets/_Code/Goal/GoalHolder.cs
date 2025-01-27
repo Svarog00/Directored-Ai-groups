@@ -33,6 +33,20 @@ public static class GoalHolder
         return new ConsideredGoal(goal, scorer);
     }
 
+    public static ConsideredGoal FleeGoal(IGroupContext group)
+    {
+        var moveToCondition = new CompositeGroupCondition();
+
+        moveToCondition.AddCondition(new LocationGroupCondition(group.GetState()));
+        var goal = new FleeGoal(moveToCondition, group);
+
+        var scorer = GoalScorer(group.GetState());
+        scorer.AddConsideration(new GroupToEnemyHealthConsideration());
+        scorer.AddConsideration(new InDangerConsideration());
+
+        return new ConsideredGoal(goal, scorer);
+    }
+
     public static ConsideredGoal DestroyGroupGoal(IGroupContext group)
     {
         var condition = new CompositeGroupCondition();
@@ -43,9 +57,10 @@ public static class GoalHolder
         var goal = new DestroyGroupGoal(condition, group);
 
         var scorer = GoalScorer(group.GetState());
-        scorer.AddConsideration(new GroupHealthConsideration());
-        scorer.AddConsideration(new ClosestEnemyGroupConsideration());
+        scorer.AddConsideration(new ClosestGroupEnemyRelationConsideration());
         scorer.AddConsideration(new EnemyGroupHealthConsideration());
+        scorer.AddConsideration(new DistanceToEnemyGroupConsideration());
+        scorer.AddConsideration(new InDangerConsideration());
 
         return new ConsideredGoal(goal, scorer);
     }

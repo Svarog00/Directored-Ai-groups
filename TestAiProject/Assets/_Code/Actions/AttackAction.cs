@@ -1,7 +1,10 @@
+using AiLibrary.Other;
 using InteractableGroupsAi;
 using InteractableGroupsAi.Agents;
 using InteractableGroupsAi.Agents.Conditions;
 using InteractableGroupsAi.Director.Goals;
+using UnityEngine;
+using static UnityEngine.GraphicsBuffer;
 
 public class AttackAction : AgentAction
 {
@@ -22,23 +25,23 @@ public class AttackAction : AgentAction
 
     public override float GetGoalChange(Goal goal)
     {
-        var weapon = _state.CurrentHand as Weapon;
-
         return goal.GetGoalDelta(this);
     }
 
     public override IAgentState GetNewState()
     {
-        if (_target == null) return null;
+        var group = GroupsHolder.GetGroup(_state.GroupId);
+        var enemyGroup = GroupsHolder.GetClosestEnemyGroup(group);
 
-        var weapon = _state.CurrentHand as Weapon;
-        _target.SetHealth(_target.CurrentHealth - weapon.Damage);
-        return _target;
+        var weapon = _state.Items.Find(x => x is Weapon) as Weapon;
+        var damage = weapon == null ? 0 : weapon.Damage;
+        var newState = new CharacterState();
+        newState.SetPosition(group.State.TargetPosition);
+        newState.SetHealth(enemyGroup.State.CurrentHealth - damage);
+        return newState;
     }
-
     public override void OnBegin()
     {
-
     }
 
     public override void OnEnd()
@@ -54,6 +57,19 @@ public class AttackAction : AgentAction
     public override void Update()
     {
         var weapon = _state.CurrentHand as Weapon;
-        _target.SetHealth(_target.CurrentHealth - weapon.Damage);
+        var target = _state.CurrentTarget;
+
+        AiLogger.Error($"before {target.CurrentHealth} {target.GroupId}-{target.AgentId}");
+        if (target == null || weapon == null)
+        {
+            return;
+        }
+        target.SetHealth(target.CurrentHealth - weapon.Damage * Time.deltaTime);
+
+        if (target.CurrentHealth <= 0)
+        {
+            _state.SetTarget(null);
+            OnCompleted?.Invoke();
+        }
     }
 }

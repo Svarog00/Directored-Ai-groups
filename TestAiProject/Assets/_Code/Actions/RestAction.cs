@@ -34,7 +34,7 @@ public class RestAction : AgentAction
 
     public override void OnBegin()
     {
-        Debug.Log("Start resting action  on " + _agentState.AgentId);
+
     }
 
     public override void OnEnd()

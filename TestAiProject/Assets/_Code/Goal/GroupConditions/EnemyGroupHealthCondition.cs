@@ -1,4 +1,5 @@
-﻿using InteractableGroupsAi;
+﻿using AiLibrary.Other;
+using InteractableGroupsAi;
 using InteractableGroupsAi.Director.Groups;
 
 public class EnemyGroupHealthCondition : GroupCondition
@@ -12,10 +13,10 @@ public class EnemyGroupHealthCondition : GroupCondition
 
     public override float GetConditionDelta(AgentAction action)
     {
-        var newStateHealth = action.GetNewState().CurrentHealth;
-        var newStateMaxHealth = action.GetNewState().MaxHealth;
-        var delta = newStateMaxHealth - newStateHealth;
+        var resultState = action.GetNewState();
+        if (resultState == null) return 0f;
 
+        var delta = 1 - (resultState.CurrentHealth - GroupState.CurrentHealth) / 100;
         return delta;
     }
 }

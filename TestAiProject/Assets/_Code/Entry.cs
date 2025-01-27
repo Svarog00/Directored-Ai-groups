@@ -6,6 +6,7 @@ using InteractableGroupsAi.Director;
 using InteractableGroupsAi.Director.Buckets;
 using InteractableGroupsAi.Director.Goals;
 using InteractableGroupsAi.Director.Groups;
+using InteractableGroupsAi.Other;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -47,6 +48,7 @@ public class Entry : MonoBehaviour
             bucket.AddGoal(GoalHolder.RestGoal(group));
             bucket.AddGoal(GoalHolder.MoveToLocation(group));
             bucket.AddGoal(GoalHolder.DestroyGroupGoal(group));
+            bucket.AddGoal(GoalHolder.FleeGoal(group));
             //TODO: TradeGoal bucket.AddGoal(GoalHolder.DestroyGroupGoal(group));
 
             group.AddBucket(bucket);
@@ -57,6 +59,11 @@ public class Entry : MonoBehaviour
             foreach (var character in _characters[i].Characters)
             {
                 character.Init(group.GroupId, agentId++);
+                character.State.SetItems(new List<Item>()
+                {
+                    new Item(0, "Snack"),
+                    new Weapon(1, "Gun", 5)
+                });
 
                 var controller = new AiController<IAgentState>(character.State);
 

@@ -1,3 +1,4 @@
+using AiLibrary.Other;
 using InteractableGroupsAi;
 using InteractableGroupsAi.Agents;
 using InteractableGroupsAi.Agents.Conditions;
@@ -29,7 +30,7 @@ public class ChooseTargetAction : AgentAction
     public override IAgentState GetNewState()
     {
         var newState = new CharacterState();
-        newState.SetTarget(_target);
+        newState.SetTarget(new CharacterState());
         return newState;
     }
 
@@ -49,6 +50,8 @@ public class ChooseTargetAction : AgentAction
             }
         }
 
+        AiLogger.Log($"#Choose {_target.GroupId.Id}-{_target.AgentId}");
+        _state.SetTarget(_target);
         OnCompleted?.Invoke();
     }
 
@@ -67,6 +70,7 @@ public class ChooseTargetAction : AgentAction
     private Group GetEnemyGroup()
     {
         var group = GroupsHolder.GetGroup(_state.GroupId);
-        return group;
+        var enemyGroup = GroupsHolder.GetGroup(group.State.CurrentTarget.GroupId);
+        return enemyGroup;
     }
 }

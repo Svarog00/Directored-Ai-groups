@@ -22,7 +22,6 @@ public class DestroyGroupGoal : Goal
         var group = GroupsHolder.GetClosestEnemyGroup(Group);
 
         _target = group.GetState();
-
-        Debug.Log($"Accept {nameof(DestroyGroupGoal)}");
+        Group.GetState().SetTarget(_target);
     }
 }

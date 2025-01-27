@@ -20,6 +20,7 @@ public class LocationGroupCondition : GroupCondition
         if (newState == null) return 0f;
         var delta = Vector3.Distance(newState.CurrentPosition, GroupState.TargetPosition);
 
+        AiLogger.Log($"#Location {delta}");
         return delta;
     }
 }

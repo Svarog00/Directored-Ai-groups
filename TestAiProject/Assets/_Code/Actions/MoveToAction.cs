@@ -56,7 +56,7 @@ public class MoveToAction : AgentAction, IAgentStateable
 
         if (distance <= 0.1f)
         {
-            OnCompleted?.Invoke();
+            _characterController.StopMove();
         }
     }
 
@@ -64,6 +64,10 @@ public class MoveToAction : AgentAction, IAgentStateable
     {
         var state = new CharacterState();
         var dir = System.Numerics.Vector3.Normalize(_characterState.TargetPosition - _characterState.CurrentPosition);
+
+        state.MaxHealth = 100;
+        state.SetHealth(100);
+
         state.SetPosition(_characterState.CurrentPosition + _characterController.Speed * Time.deltaTime * dir);
 
         return state;

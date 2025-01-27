@@ -15,4 +15,9 @@ public class Weapon : Item
     [SerializeField] private float _damage;
 
     public float Damage => _damage;
+
+    public Weapon(int id, string name, float damage) : base(id, name)
+    {
+        _damage = damage;
+    }
 }

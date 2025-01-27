@@ -81,7 +81,10 @@ public class AgentController : MonoBehaviour
         _direction = (_targetPosition - _transform.position).normalized;
     }
 
-    public void StopMove() => _canMove = false;
+    public void StopMove()
+    {
+        _canMove = false;
+    }
 
     private void ProccessMove()
     {

@@ -2,6 +2,7 @@ using InteractableGroupsAi.Agents.Conditions;
 using InteractableGroupsAi.Agents;
 using InteractableGroupsAi.Director.Goals;
 using InteractableGroupsAi;
+using AiLibrary.Other;
 
 public class EquipWeaponAction : AgentAction
 {
@@ -28,7 +29,7 @@ public class EquipWeaponAction : AgentAction
     public override IAgentState GetNewState()
     {
         var newState = new CharacterState();
-        newState.CurrentHand = new Weapon();
+        newState.CurrentHand = new Weapon(0, "Weapon", 1);
         return newState;
     }
 
@@ -36,7 +37,13 @@ public class EquipWeaponAction : AgentAction
     {
         var weapon = _state.Items.Find(x => x is Weapon);
 
-        _state.CurrentHand = weapon;
+        if (weapon == null)
+        {
+            AiLogger.Error($"{this} failed");
+            OnFailed?.Invoke();
+        }
+
+        _state.Equip(weapon);
 
         OnCompleted?.Invoke();
     }

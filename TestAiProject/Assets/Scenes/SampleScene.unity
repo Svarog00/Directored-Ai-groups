@@ -273,7 +273,7 @@ MonoBehaviour:
   _relations:
   - _one: 0
     _two: 1
-    _value: 300
+    _value: -200
   _characters:
   - Characters:
     - {fileID: 1300247796}
