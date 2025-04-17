@@ -33,12 +33,14 @@ namespace InteractableGroupsAi.Director.Buckets
             _availableGoals.Add(goal);
         }
 
-        public ConsideredGoal EvaluateGoals(IGroupContext context)
+        public ConsideredGoal EvaluateGoals(IGroupContext context, bool requireNew = false)
         {
             ConsideredGoal bestGoal = _availableGoals.FirstOrDefault();
             float floor = _minimunScore;
             foreach (var goal in _availableGoals)
             {
+                if (context.CurrentGoal.Equals(goal) && requireNew) continue;
+
                 var score = goal.EvaluateGoal();
 
                 AiLogger.Log($"Bucket: {goal.Goal}: {score} for {context.GetState().GroupId.Id}");

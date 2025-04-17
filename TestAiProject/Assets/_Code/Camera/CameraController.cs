@@ -9,6 +9,7 @@ public class CameraController : MonoBehaviour
 
     [SerializeField] private Camera _camera;
     [SerializeField] private float _speed;
+    [SerializeField] private float _maxOrthoSize = 15;
 
     private Vector3 _direction;
     private Transform _transform;
@@ -36,12 +37,12 @@ public class CameraController : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.E))
         {
             _camera.orthographicSize += 1;
-            _camera.orthographicSize = Mathf.Clamp(_camera.orthographicSize, 1, 10);
+            _camera.orthographicSize = Mathf.Clamp(_camera.orthographicSize, 1, _maxOrthoSize);
         }
         else if (Input.GetKeyDown(KeyCode.Q))
         {
             _camera.orthographicSize -= 1;
-            _camera.orthographicSize = Mathf.Clamp(_camera.orthographicSize, 1, 10);
+            _camera.orthographicSize = Mathf.Clamp(_camera.orthographicSize, 1, _maxOrthoSize);
         }
     }
 

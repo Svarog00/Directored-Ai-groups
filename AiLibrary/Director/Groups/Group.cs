@@ -49,6 +49,8 @@ namespace InteractableGroupsAi.Director.Groups
             _agents.ForEach(x => x.SetCurrentGoal(_currentGoal));
         }
 
+        public void GetNewGoal() => _director.GenerateNewGoal(this, requireNew: true);
+
         public void SetTarget(IGroupState target) => _state.SetTarget(target);
 
         public IGroupState GetState() => _state;

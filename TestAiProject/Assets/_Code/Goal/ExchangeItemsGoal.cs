@@ -11,8 +11,15 @@ public class ExchangeItemsGoal : Goal
 
     public override void Accept()
     {
+        ProcessGoal();
+    }
+
+    private void ProcessGoal()
+    {
         var group = GroupsHolder.GetClosestGroup(Group);
 
         var state = Group.GetState() as GroupState;
+
+        Group.GetNewGoal();
     }
 }

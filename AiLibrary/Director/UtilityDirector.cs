@@ -69,7 +69,7 @@ namespace InteractableGroupsAi.Director
         /// Get the best goal for the group
         /// </summary>
         /// <param name="group"></param>
-        private void GenerateNewGoal(Group group)
+        public void GenerateNewGoal(Group group, bool requireNew = false)
         {
             Bucket bestBucket = group.Buckets.FirstOrDefault();
             float floor = _minimunScore;
@@ -84,7 +84,7 @@ namespace InteractableGroupsAi.Director
                 }
             }
 
-            var bestGoal = bestBucket.EvaluateGoals(group).Goal;
+            var bestGoal = bestBucket.EvaluateGoals(group, requireNew).Goal;
             SetGroupGoal(bestGoal, group);
         }
 

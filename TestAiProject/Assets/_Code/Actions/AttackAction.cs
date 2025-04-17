@@ -33,9 +33,16 @@ public class AttackAction : AgentAction
         var group = GroupsHolder.GetGroup(_state.GroupId);
         var enemyGroup = GroupsHolder.GetClosestEnemyGroup(group);
 
-        var weapon = _state.Items.Find(x => x is Weapon) as Weapon;
-        var damage = weapon == null ? 0 : weapon.Damage;
+        var damage = _state.Items.Find(x => x is Weapon) is not Weapon weapon ? 0 : weapon.Damage;
         var newState = new CharacterState();
+        if (enemyGroup == null)
+        {
+            newState.SetHealth(100);
+            newState.SetPosition(_state.TargetPosition);
+            newState.SetTargetPosition(_state.CurrentPosition);
+            return newState;
+        }
+
         newState.SetPosition(group.State.TargetPosition);
         newState.SetHealth(enemyGroup.State.CurrentHealth - damage);
         return newState;

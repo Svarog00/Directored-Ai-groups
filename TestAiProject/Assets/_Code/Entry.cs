@@ -40,20 +40,22 @@ public class Entry : MonoBehaviour
         _aiDirector = new UtilityDirector();
 
         int agentId = 0;
-        for (int i = 0; i < _groupCount; i++)
+        for (int i = 0; i < _characters.Count; i++)
         {
             var group = new Group(CurrentGroupId.Next());
 
-            var fightBucket = new Bucket(0.9f, GoalHolder.GoalScorer(group.GetState()));
-            var explorationBucket = new Bucket(0.4f, GoalHolder.GoalScorer(group.GetState()));
-            var socialsBucket = new Bucket(0.7f, GoalHolder.GoalScorer(group.GetState()));
+            var fightBucket = BucketHolder.FightBucket(group);
+            var explorationBucket = BucketHolder.ExploreBucket(group);
+            var socialsBucket = BucketHolder.SocialBucket(group);
 
-            fightBucket.AddGoal(GoalHolder.RestGoal(group));
             fightBucket.AddGoal(GoalHolder.DestroyGroupGoal(group));
             fightBucket.AddGoal(GoalHolder.FleeGoal(group));
 
             explorationBucket.AddGoal(GoalHolder.MoveToLocation(group));
+            explorationBucket.AddGoal(GoalHolder.RestGoal(group));
+            socialsBucket.AddGoal(GoalHolder.ExchangeItemsGoal(group));
 
+            group.AddBucket(explorationBucket);
             group.AddBucket(fightBucket);
             group.AddBucket(socialsBucket);
 

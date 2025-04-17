@@ -71,8 +71,7 @@ public static class GoalHolder
         var goal = new ExchangeItemsGoal(condition, group);
 
         var scorer = GoalScorer(group.GetState());
-        scorer.AddConsideration(new ClosestGroupEnemyRelationConsideration());
-        scorer.AddConsideration(new DistanceToEnemyGroupConsideration());
+        scorer.AddConsideration(new ClosestGroupRelationConsideration());
         scorer.AddConsideration(new InDangerConsideration());
 
         return new ConsideredGoal(goal, scorer);

@@ -11,7 +11,7 @@ public class AgentController : MonoBehaviour
     [SerializeField] private CharacterState _initialState;
 
     private AiController<IAgentState> _controller;
-    private CharacterState _currentState;
+    private CharacterState _currentState = new();
 
     private Transform _transform;
     private Vector3 _targetPosition;
@@ -26,7 +26,7 @@ public class AgentController : MonoBehaviour
     private void Awake()
     {
         _transform = transform;
-        _currentState.SetPosition(gameObject.transform.position);
+        _currentState.SetPosition(transform.position);
     }
 
     public void Init(GroupId groupId, int id)

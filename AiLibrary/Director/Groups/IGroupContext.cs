@@ -1,4 +1,5 @@
 ﻿using InteractableGroupsAi.Agents;
+using InteractableGroupsAi.Director.Goals;
 using InteractableGroupsAi.Memory;
 using System.Collections.Generic;
 using System.Numerics;
@@ -13,7 +14,9 @@ namespace InteractableGroupsAi.Director.Groups
     public interface IGroupContext
     {
         IGroupState GetState();
+        void GetNewGoal();
         Blackboard Memory { get; }
+        Goal CurrentGoal { get; }
     }
 
     public interface IGroupState

@@ -21,7 +21,7 @@ public class MoveToNearestLocationGoal : Goal
         var state = Group.GetState() as GroupState;
         foreach (var agent in state.Agents)
         {
-            agent\.SetTargetPosition(targetVector);
+            agent.SetTargetPosition(targetVector);
         }
     }
 }

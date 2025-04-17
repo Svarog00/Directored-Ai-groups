@@ -17,3 +17,18 @@ public class DistanceToEnemyGroupConsideration : Consideration
         return Math.Clamp(output, 0f, MaxDistance); ;
     }
 }
+
+public class DistanceToFriendlyGroup : Consideration
+{
+    private const float MaxDistance = 10f;
+    public override float GetScore(IGroupState context)
+    {
+        var source = GroupsHolder.GetGroup(context.GroupId);
+        var friend = GroupsHolder.GetClosestFriendlyGroup(source);
+
+        if (friend == null) return 0f;
+
+        var output = Vector3.Distance(context.CurrentPosition, friend.GetState().CurrentPosition);
+        return Math.Clamp(output, 0f, MaxDistance); ;
+    }
+}

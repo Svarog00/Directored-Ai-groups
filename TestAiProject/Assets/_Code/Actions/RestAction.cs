@@ -50,6 +50,6 @@ public class RestAction : AgentAction
 
     public override void Update()
     {
-        _agentState.SetRest(_agentState.CurrentRest + _restForTick * Time.deltaTime);
+        _agentState.SetRest(_agentState.CurrentRest + _restForTick * 10 * Time.deltaTime);
     }
 }
