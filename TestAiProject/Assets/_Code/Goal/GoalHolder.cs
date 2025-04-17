@@ -10,9 +10,7 @@ public static class GoalHolder
     {
         var restCondition = new CompositeGroupCondition();
         var desiredState = new DesiredGroupState();
-        desiredState.CurrentRest = 100f;
 
-        restCondition.AddCondition(desiredState);
         var goal = new RestGoal(restCondition);
 
         var scorer = GoalScorer(group.GetState());
@@ -67,5 +65,18 @@ public static class GoalHolder
         return new ConsideredGoal(goal, scorer);
     }
 
-    public static GroupScorer GoalScorer(IGroupState model) => new GroupScorer(model);
+    public static ConsideredGoal ExchangeItemsGoal(IGroupContext group)
+    {
+        var condition = new CompositeGroupCondition();
+        var goal = new ExchangeItemsGoal(condition, group);
+
+        var scorer = GoalScorer(group.GetState());
+        scorer.AddConsideration(new ClosestGroupEnemyRelationConsideration());
+        scorer.AddConsideration(new DistanceToEnemyGroupConsideration());
+        scorer.AddConsideration(new InDangerConsideration());
+
+        return new ConsideredGoal(goal, scorer);
+    }
+
+    public static GroupScorer GoalScorer(IGroupState state) => new GroupScorer(state);
 }
