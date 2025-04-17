@@ -469,10 +469,22 @@ MonoBehaviour:
   _relations:
   - _one: 0
     _two: 1
-    _value: -200
+    _value: 0
   - _one: 0
-    _two: 1
-    _value: -200
+    _two: 2
+    _value: 0
+  - _one: 0
+    _two: 3
+    _value: 0
+  - _one: 1
+    _two: 2
+    _value: 0
+  - _one: 1
+    _two: 3
+    _value: 0
+  - _one: 2
+    _two: 3
+    _value: 0
   _characters:
   - Characters:
     - {fileID: 1300247796}
