@@ -19,9 +19,9 @@ public class MoveToNearestLocationGoal : Goal
         Debug.Log($"Accept {nameof(MoveToNearestLocationGoal)}");
         Group.GetState().SetTargetPosition(targetVector);
         var state = Group.GetState() as GroupState;
-        foreach (var item in state.Agents)
+        foreach (var agent in state.Agents)
         {
-            item.SetTargetPosition(targetVector);
+            agent\.SetTargetPosition(targetVector);
         }
     }
 }

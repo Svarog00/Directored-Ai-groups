@@ -43,15 +43,20 @@ public class Entry : MonoBehaviour
         for (int i = 0; i < _groupCount; i++)
         {
             var group = new Group(CurrentGroupId.Next());
-            var bucket = new Bucket(1, GoalHolder.GoalScorer(group.GetState()));
 
-            bucket.AddGoal(GoalHolder.RestGoal(group));
-            bucket.AddGoal(GoalHolder.MoveToLocation(group));
-            bucket.AddGoal(GoalHolder.DestroyGroupGoal(group));
-            bucket.AddGoal(GoalHolder.FleeGoal(group));
-            //TODO: TradeGoal bucket.AddGoal(GoalHolder.DestroyGroupGoal(group));
+            var fightBucket = new Bucket(0.9f, GoalHolder.GoalScorer(group.GetState()));
+            var explorationBucket = new Bucket(0.4f, GoalHolder.GoalScorer(group.GetState()));
+            var socialsBucket = new Bucket(0.7f, GoalHolder.GoalScorer(group.GetState()));
 
-            group.AddBucket(bucket);
+            fightBucket.AddGoal(GoalHolder.RestGoal(group));
+            fightBucket.AddGoal(GoalHolder.DestroyGroupGoal(group));
+            fightBucket.AddGoal(GoalHolder.FleeGoal(group));
+
+            explorationBucket.AddGoal(GoalHolder.MoveToLocation(group));
+
+            group.AddBucket(fightBucket);
+            group.AddBucket(socialsBucket);
+
 
             _aiDirector.RegisterGroup(group);
             GroupsHolder.Add(group);

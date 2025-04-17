@@ -44,6 +44,9 @@ namespace InteractableGroupsAi.Agents
             _availableActions = availableActions;
         }
 
+        /// <summary>
+        /// Choose new action based on available actions and current goal
+        /// </summary>
         private void ChooseNewAction()
         {
             var highestDelta = 0f;
@@ -60,12 +63,12 @@ namespace InteractableGroupsAi.Agents
 
                 _tempQueue.Clear();
 
-                if (action.CanExecute(out var failedCondition) == false)
+                if (action.CanExecute(out var failedConditions) == false)
                 {
-                    var resolvingAction = FindActionToSatisfyCondition(action, failedCondition);
+                    var resolvingAction = FindActionToSatisfyCondition(action, failedConditions);
                     if (resolvingAction == false)
                     {
-                        AiLogger.Warning($"#Satisfaction cant find action for {action} and {failedCondition} from try satisfy");
+                        AiLogger.Warning($"#Satisfaction cant find action for {action} and {failedConditions} from try satisfy");
                         continue;
                     }
                 }
@@ -84,6 +87,12 @@ namespace InteractableGroupsAi.Agents
             MoveToNextAction();
         }
 
+        /// <summary>
+        /// Find action that can satisfy condition failed conditions and add it to temp queue
+        /// </summary>
+        /// <param name="actionToExecute"></param>
+        /// <param name="requiredConditions"></param>
+        /// <returns>true if found actions to satisfy conditions of param action and false if couldnt</returns>
         private bool FindActionToSatisfyCondition(AgentAction actionToExecute, List<AgentCondition> requiredConditions)
         {
             _deepCounter++;

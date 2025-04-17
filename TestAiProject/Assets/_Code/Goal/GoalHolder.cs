@@ -10,7 +10,9 @@ public static class GoalHolder
     {
         var restCondition = new CompositeGroupCondition();
         var desiredState = new DesiredGroupState();
-        
+        desiredState.CurrentRest = 100f;
+
+        restCondition.AddCondition(desiredState);
         var goal = new RestGoal(restCondition);
 
         var scorer = GoalScorer(group.GetState());

@@ -56,6 +56,7 @@ namespace InteractableGroupsAi.Director
         /// Set goal
         /// </summary>
         /// <param name="groups"></param>
+        /// 
         private void GenerateGoals(List<Group> groups)
         {
             foreach (var group in groups)
@@ -64,6 +65,10 @@ namespace InteractableGroupsAi.Director
             }
         }
 
+        /// <summary>
+        /// Get the best goal for the group
+        /// </summary>
+        /// <param name="group"></param>
         private void GenerateNewGoal(Group group)
         {
             Bucket bestBucket = group.Buckets.FirstOrDefault();
