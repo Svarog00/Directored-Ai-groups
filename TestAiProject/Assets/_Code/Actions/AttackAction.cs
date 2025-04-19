@@ -33,7 +33,8 @@ public class AttackAction : AgentAction
         var group = GroupsHolder.GetGroup(_state.GroupId);
         var enemyGroup = GroupsHolder.GetClosestEnemyGroup(group);
 
-        var damage = _state.Items.Find(x => x is Weapon) is not Weapon weapon ? 0 : weapon.Damage;
+        var weapon = FindWeapon();
+        var damage = weapon == null ? 0 : weapon.Damage;
         var newState = new CharacterState();
         if (enemyGroup == null)
         {
@@ -47,6 +48,20 @@ public class AttackAction : AgentAction
         newState.SetHealth(enemyGroup.State.CurrentHealth - damage);
         return newState;
     }
+
+    private Weapon FindWeapon()
+    {
+        foreach(var key in _state.Items.Keys)
+        {
+            if (key is Weapon)
+            {
+                return key as Weapon;
+            }
+        }
+
+        return null;
+    }
+
     public override void OnBegin()
     {
     }

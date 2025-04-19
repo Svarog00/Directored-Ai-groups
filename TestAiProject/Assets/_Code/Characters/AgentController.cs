@@ -93,4 +93,7 @@ public class AgentController : MonoBehaviour
         _transform.Translate(_speed * Time.deltaTime * _direction);
         _currentState.SetPosition(transform.position);
     }
+
+    public void SetHealth(float health) => _currentState.SetHealth(health);
+    public void SetRest(float rest) => _currentState.SetRest(rest);
 }

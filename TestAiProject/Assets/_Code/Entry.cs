@@ -11,6 +11,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 [Serializable]
 public class AgentsList
@@ -65,12 +66,19 @@ public class Entry : MonoBehaviour
 
             foreach (var character in _characters[i].Characters)
             {
+                int snacksCount = Random.Range(0, 2);
+                int medkitCount = Random.Range(0, 2);
+
                 character.Init(group.GroupId, agentId++);
-                character.State.SetItems(new List<Item>()
+                character.State.SetItems(new Dictionary<Item, int>()
                 {
-                    new Item(0, "Snack"),
-                    new Weapon(1, "Gun", 5)
+                    { new Item(0, "Snack"), snacksCount },
+                    { new Item(0, "Medkit"), medkitCount },
+                    { new Weapon(1, "Gun", 5), 1 },
                 });
+
+                character.SetHealth(Random.Range(10, 101));
+                character.SetRest(Random.Range(10, 101));
 
                 var controller = new AiController<IAgentState>(character.State);
 

@@ -20,7 +20,7 @@ namespace InteractableGroupsAi.Agents
 
         IAgentState CurrentTarget { get; }
         Item CurrentHand { get; set; }
-        List<Item> Items { get; }
+        Dictionary<Item, int> Items { get; }
 
         void SetGroupId(GroupId id);
         void SetAgentId(int id);
@@ -29,7 +29,8 @@ namespace InteractableGroupsAi.Agents
         void SetPosition(Vector3 position);
         void SetTargetPosition(Vector3 position);
         void SetTarget(IAgentState target);
-        void SetItems(List<Item> items);
+        void SetItems(Dictionary<Item, int> items);
         void Equip(Item item);
+        int GetItemsCount(string itemName);
     }
 }

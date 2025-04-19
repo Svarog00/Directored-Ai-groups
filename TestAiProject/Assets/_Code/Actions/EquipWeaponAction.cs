@@ -35,7 +35,7 @@ public class EquipWeaponAction : AgentAction
 
     public override void OnBegin()
     {
-        var weapon = _state.Items.Find(x => x is Weapon);
+        var weapon = FindWeapon();
 
         if (weapon == null)
         {
@@ -46,6 +46,19 @@ public class EquipWeaponAction : AgentAction
         _state.Equip(weapon);
 
         OnCompleted?.Invoke();
+    }
+
+    private Weapon FindWeapon()
+    {
+        foreach (var key in _state.Items.Keys)
+        {
+            if (key is Weapon)
+            {
+                return key as Weapon;
+            }
+        }
+
+        return null;
     }
 
     public override void OnEnd()

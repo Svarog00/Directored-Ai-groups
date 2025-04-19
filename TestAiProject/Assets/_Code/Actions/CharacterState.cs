@@ -5,6 +5,7 @@ using UnityEngine;
 using System.Numerics;
 using AiLibrary.Other;
 using System;
+using System.Linq;
 
 [Serializable]
 public class CharacterState : IAgentState
@@ -19,7 +20,7 @@ public class CharacterState : IAgentState
     [field: SerializeField] public float CurrentRest { get; private set; }
     public IAgentState CurrentTarget { get; private set; }
     public Item CurrentHand { get; set; }
-    public List<Item> Items { get; private set; }
+    public Dictionary<Item, int> Items { get; private set; }
     public System.Numerics.Vector3 TargetPosition { get; private set; }
 
     public void SetAgentId(int id) => AgentId = id;
@@ -42,8 +43,18 @@ public class CharacterState : IAgentState
     }
 
     public void SetTarget(IAgentState target) => CurrentTarget = target;
-    public void SetItems(List<Item> items) => Items = items;
+    public void SetItems(Dictionary<Item, int> items) => Items = items;
     public void Equip(Item item) => CurrentHand = item;
 
     public void SetPosition(UnityEngine.Vector3 position) => CurrentPosition = new System.Numerics.Vector3(position.x, position.y, position.z);
+
+    public int GetItemsCount(string itemName)
+    {
+        if (Items.Keys.Any(x => x.Name.Equals(itemName)) == false)
+        {
+            return 0;
+        }
+
+        return Items.Where(x => x.Key.Name.Equals(itemName)).FirstOrDefault().Value;
+    }
 }
