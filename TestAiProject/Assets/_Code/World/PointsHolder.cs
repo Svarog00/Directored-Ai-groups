@@ -11,13 +11,18 @@ public static class PointsHolder
 
     public static void Add(Vector3 point) => _points.Add(point);
 
-    public static Vector3 GetNearestPoint(Vector3 position)
+    public static Vector3 GetNearestPoint(Vector3 position, Vector3 lastPosition = default, bool excludeCurrent = false)
     {
         float min = float.MaxValue;
         Vector3 closestPoint = PointsHolder.Points.First();
         foreach (var point in PointsHolder.Points)
         {
             var distance = Vector3.Distance(position, point);
+            if (excludeCurrent && point.Equals(lastPosition))
+            {
+                continue;
+            }
+
             if (distance < min)
             {
                 min = distance;

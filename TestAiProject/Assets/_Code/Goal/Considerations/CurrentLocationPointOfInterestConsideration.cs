@@ -9,7 +9,7 @@ public class CurrentLocationPointOfInterestConsideration : Consideration
 
     public override float GetScore(IGroupState context)
     {
-        var point = PointsHolder.GetNearestPoint(context.CurrentPosition);
+        var point = PointsHolder.GetNearestPoint(context.CurrentPosition, context.LastPosition, true);
         var distance = Vector3.Distance(point, context.CurrentPosition);
         return Math.Clamp(distance, 0f, MaxDistance);
     }

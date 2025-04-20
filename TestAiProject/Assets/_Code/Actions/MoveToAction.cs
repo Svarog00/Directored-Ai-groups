@@ -54,7 +54,7 @@ public class MoveToAction : AgentAction, IAgentStateable
 
         _characterState.SetRest(_characterState.CurrentRest - Time.deltaTime * 2);
 
-        if (distance <= 0.1f)
+        if (distance <= 0.5f)
         {
             _characterController.StopMove();
         }

@@ -32,6 +32,7 @@ namespace InteractableGroupsAi.Director.Groups
 
         Vector3 CurrentPosition { get; }
         Vector3 TargetPosition { get; }
+        Vector3 LastPosition { get; set; }
 
         void SetTarget(IGroupState target);
         void SetTargetPosition(Vector3 target);
@@ -51,6 +52,7 @@ namespace InteractableGroupsAi.Director.Groups
 
         public Vector3 CurrentPosition { get; set; }
         public Vector3 TargetPosition { get; set; }
+        public Vector3 LastPosition { get; set; }
 
         public GroupId GroupId { get; set; }
 
@@ -156,6 +158,7 @@ namespace InteractableGroupsAi.Director.Groups
             }
         }
         public Vector3 TargetPosition { get; set; }
+        public Vector3 LastPosition { get; set; }
 
         public IEnumerable<IAgentState> Agents => _agents;
         private List<IAgentState> _agents = new List<IAgentState>();

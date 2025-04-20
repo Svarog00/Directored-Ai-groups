@@ -148,7 +148,7 @@ Transform:
   m_GameObject: {fileID: 45248225}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -5.56, y: 4.68, z: 0}
+  m_LocalPosition: {x: -19.57, y: 4.68, z: 0}
   m_LocalScale: {x: 3, y: 3, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -439,7 +439,7 @@ MonoBehaviour:
     <MaxHealth>k__BackingField: 100
     <MaxRest>k__BackingField: 100
     <CurrentHealth>k__BackingField: 100
-    <CurrentRest>k__BackingField: 0
+    <CurrentRest>k__BackingField: 50
 --- !u!1 &330065250
 GameObject:
   m_ObjectHideFlags: 0
@@ -1272,7 +1272,7 @@ Transform:
   m_GameObject: {fileID: 869039784}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -19.94, y: -5.5, z: 0}
+  m_LocalPosition: {x: -13.48, y: -5.5, z: 0}
   m_LocalScale: {x: 3, y: 3, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1790,7 +1790,7 @@ MonoBehaviour:
     <MaxHealth>k__BackingField: 100
     <MaxRest>k__BackingField: 100
     <CurrentHealth>k__BackingField: 100
-    <CurrentRest>k__BackingField: 0
+    <CurrentRest>k__BackingField: 50
 --- !u!1 &936408312
 GameObject:
   m_ObjectHideFlags: 0
@@ -1987,7 +1987,7 @@ MonoBehaviour:
     <MaxHealth>k__BackingField: 100
     <MaxRest>k__BackingField: 100
     <CurrentHealth>k__BackingField: 100
-    <CurrentRest>k__BackingField: 0
+    <CurrentRest>k__BackingField: 100
 --- !u!1 &1107058632
 GameObject:
   m_ObjectHideFlags: 0
@@ -2251,7 +2251,7 @@ MonoBehaviour:
     <MaxHealth>k__BackingField: 100
     <MaxRest>k__BackingField: 100
     <CurrentHealth>k__BackingField: 100
-    <CurrentRest>k__BackingField: 0
+    <CurrentRest>k__BackingField: 50
 --- !u!1 &1125955701
 GameObject:
   m_ObjectHideFlags: 0
@@ -3178,7 +3178,7 @@ MonoBehaviour:
     <MaxHealth>k__BackingField: 100
     <MaxRest>k__BackingField: 100
     <CurrentHealth>k__BackingField: 100
-    <CurrentRest>k__BackingField: 0
+    <CurrentRest>k__BackingField: 100
 --- !u!1 &1493608123
 GameObject:
   m_ObjectHideFlags: 0
@@ -4290,7 +4290,7 @@ MonoBehaviour:
     <MaxHealth>k__BackingField: 100
     <MaxRest>k__BackingField: 100
     <CurrentHealth>k__BackingField: 100
-    <CurrentRest>k__BackingField: 0
+    <CurrentRest>k__BackingField: 100
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
