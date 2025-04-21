@@ -1,4 +1,5 @@
-﻿using InteractableGroupsAi.Agents;
+﻿using AiLibrary.Other;
+using InteractableGroupsAi.Agents;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -29,6 +30,8 @@ public class Relation : IEquatable<Relation>
         return One.Id.Equals(other.One.Id) && Two.Id.Equals(other.Two.Id)
             || One.Id.Equals(other.Two.Id) && Two.Id.Equals(other.One.Id);
     }
+
+    public override string ToString() => $"{_one} and {_two} is {_value}";
 }
 
 public static class RelationsHolder
@@ -41,8 +44,8 @@ public static class RelationsHolder
     public static int GetRelations(GroupId one, GroupId two)
     {
         var relation = _relations.FirstOrDefault(x => x.Equals(new Relation(one.Id, two.Id)));
-        if (relation == null)
-            return 0;
+        if (relation == null) return 0;
+
         return relation.Value;
     }
 

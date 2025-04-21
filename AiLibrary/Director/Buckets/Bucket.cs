@@ -9,6 +9,8 @@ namespace InteractableGroupsAi.Director.Buckets
 {
     public class Bucket
     {
+        public string Name { get; set; }
+
         private float _weight;
         private List<ConsideredGoal> _availableGoals = new List<ConsideredGoal>();
         private GroupScorer _scorer;

@@ -54,7 +54,9 @@ public class Entry : MonoBehaviour
 
             explorationBucket.AddGoal(GoalHolder.MoveToLocation(group));
             explorationBucket.AddGoal(GoalHolder.RestGoal(group));
-            socialsBucket.AddGoal(GoalHolder.ExchangeItemsGoal(group));
+
+            socialsBucket.AddGoal(GoalHolder.AskMedkitGoal(group));
+            socialsBucket.AddGoal(GoalHolder.AskFoodGoal(group));
 
             group.AddBucket(explorationBucket);
             group.AddBucket(fightBucket);
@@ -73,8 +75,8 @@ public class Entry : MonoBehaviour
                 character.State.SetItems(new Dictionary<Item, int>()
                 {
                     { new Item(0, "Snack"), snacksCount },
-                    { new Item(0, "Medkit"), medkitCount },
-                    { new Weapon(1, "Gun", 5), 1 },
+                    { new Item(1, "Medkit"), medkitCount },
+                    { new Weapon(2, "Gun", 5), 1 },
                 });
 
                 character.SetHealth(Random.Range(10, 101));

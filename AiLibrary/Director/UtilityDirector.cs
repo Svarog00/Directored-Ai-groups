@@ -10,6 +10,7 @@ namespace InteractableGroupsAi.Director
 {
     public class UtilityDirector : Director
     {
+        public Dictionary<string, int> BucketsCount { get; set; } = new Dictionary<string, int>();
         public IEnumerable<Group> Groups => _activeGroups.Concat(_offlineGroups);
 
         private List<Group> _activeGroups = new List<Group>();
@@ -26,6 +27,7 @@ namespace InteractableGroupsAi.Director
         public void RegisterGroup(Group group)
         {
             _activeGroups.Add(group);
+            group.SetDirector(this);
         }
 
         public void MoveToOffline(Group group)
@@ -39,6 +41,11 @@ namespace InteractableGroupsAi.Director
         private void UpdateActive()
         {
             GenerateGoals(_activeGroups);
+
+            foreach (var item in BucketsCount)
+            {
+                AiLogger.Warning($"Counts {item.Key}: {item.Value}");
+            }
         }
 
         private void UpdateOffline()
@@ -83,6 +90,12 @@ namespace InteractableGroupsAi.Director
                     floor = score;
                 }
             }
+
+            if (BucketsCount.ContainsKey(bestBucket.Name) == false)
+            {
+                BucketsCount.Add(bestBucket.Name, 0);
+            }
+            BucketsCount[bestBucket.Name]++;
 
             var bestGoal = bestBucket.EvaluateGoals(group, requireNew).Goal;
             SetGroupGoal(bestGoal, group);

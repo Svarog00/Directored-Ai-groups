@@ -2,6 +2,7 @@ using InteractableGroupsAi;
 using InteractableGroupsAi.Agents;
 using InteractableGroupsAi.Agents.Conditions;
 using InteractableGroupsAi.Director.Goals;
+using InteractableGroupsAi.Other;
 using UnityEngine;
 
 public class RestAction : AgentAction
@@ -35,7 +36,8 @@ public class RestAction : AgentAction
 
     public override void OnBegin()
     {
-
+        if (_agentState.Items.ContainsKey(new Item(0, "Snack")) && _agentState.Items[new Item(0, "Snack")] > 0)
+            _agentState.Items[new Item(0, "Snack")] -= 1;
     }
 
     public override void OnEnd()

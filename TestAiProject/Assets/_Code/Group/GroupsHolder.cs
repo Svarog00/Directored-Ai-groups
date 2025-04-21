@@ -31,7 +31,7 @@ public static class GroupsHolder
 
     private static Group GetClosestGroup(IGroupContext source, Func<Group, bool> predicate)
     {
-        var groups = _groups.Where(x => RelationsHolder.GetRelations(source.GetState().GroupId, x.GroupId) < 0);
+        var groups = _groups.Where(x => predicate(x));
         if (groups.Any() == false) return null;
 
         var minDistance = float.MaxValue;

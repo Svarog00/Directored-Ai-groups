@@ -19,6 +19,7 @@ public class ClosestGroupEnemyRelationConsideration : Consideration
 
         var relation = RelationsHolder.GetRelations(context.GroupId, enemy.GroupId);
         var output = (float)relation / (float)RelationsHolder.LowestRelations;
+        AiLogger.Log($"#Enemy {output}");
         return output;
     }
 }
@@ -38,6 +39,7 @@ public class ClosestGroupRelationConsideration : Consideration
 
         var relation = RelationsHolder.GetRelations(context.GroupId, enemy.GroupId);
         var output = (float)relation / (float)RelationsHolder.MaxRelations;
+        AiLogger.Log($"#Friend {output}");
         return output;
     }
 }

@@ -81,7 +81,7 @@ public class AttackAction : AgentAction
         var weapon = _state.CurrentHand as Weapon;
         var target = _state.CurrentTarget;
 
-        AiLogger.Error($"before {target.CurrentHealth} {target.GroupId}-{target.AgentId}");
+        
         if (target == null || weapon == null)
         {
             return;

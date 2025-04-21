@@ -1,7 +1,9 @@
-﻿using InteractableGroupsAi.Agents;
+﻿using AiLibrary.Other;
+using InteractableGroupsAi.Agents;
 using InteractableGroupsAi.Director.Goals;
 using InteractableGroupsAi.Memory;
 using System.Collections.Generic;
+using System.Linq;
 using System.Numerics;
 using System.Runtime.InteropServices;
 
@@ -28,6 +30,8 @@ namespace InteractableGroupsAi.Director.Groups
         float CurrentRest { get; }
         float MaxRest { get; }
 
+        int MembersCount { get; }
+
         IGroupState CurrentTarget { get; }
 
         Vector3 CurrentPosition { get; }
@@ -36,6 +40,8 @@ namespace InteractableGroupsAi.Director.Groups
 
         void SetTarget(IGroupState target);
         void SetTargetPosition(Vector3 target);
+        int GetItemsCount(string name);
+        void Exchange(string outItem, string inItem, int count);
     }
 
     public class DesiredGroupState : IGroupState
@@ -48,6 +54,8 @@ namespace InteractableGroupsAi.Director.Groups
 
         public float MaxRest { get; set; }
 
+        public int MembersCount { get; set; }
+
         public IGroupState CurrentTarget { get; set; }
 
         public Vector3 CurrentPosition { get; set; }
@@ -58,6 +66,9 @@ namespace InteractableGroupsAi.Director.Groups
 
         public void SetTarget(IGroupState target) => CurrentTarget = target;
         public void SetTargetPosition(Vector3 target) => TargetPosition = target;
+        public int GetItemsCount(string name) => 0;
+
+        public void Exchange(string outItem, string inItem, int count) { }
     }
 
     public class GroupState : IGroupState
@@ -133,6 +144,8 @@ namespace InteractableGroupsAi.Director.Groups
             }
         }
 
+        public int MembersCount => _agents.Count;
+
         public IGroupState CurrentTarget { get; private set; }
 
         public Vector3 CurrentPosition
@@ -167,5 +180,40 @@ namespace InteractableGroupsAi.Director.Groups
 
         public void SetTarget(IGroupState target) => CurrentTarget = target;
         public void SetTargetPosition(Vector3 target) => TargetPosition = target;
+
+        public int GetItemsCount(string name)
+        {
+            int count = 0;
+            _agents.ForEach(x => count += x.GetItemsCount(name));
+            return count;
+        }
+
+        public void Exchange(string outItem, string inItem, int count)
+        {
+            var neededCount = count;
+            var inKey = _agents[0].Items.Keys.Where(x => x.Name == inItem).First();
+            var outKey = _agents[0].Items.Keys.Where(x => x.Name == outItem).First();
+            _agents[0].Items[inKey] += count;
+
+            foreach(var agent in _agents)
+            {
+                if (neededCount == 0) 
+                    break;
+
+                if (agent.Items.ContainsKey(outKey) == false)
+                    continue;
+
+                if (agent.Items[outKey] >= neededCount)
+                {
+                    agent.Items[outKey] -= neededCount;
+                }
+                else if (agent.Items[outKey] > 0 && agent.Items[outKey] < neededCount)
+                {
+                    agent.Items[outKey] = 0;
+                }
+
+                neededCount -= agent.Items[outKey];
+            }
+        }
     }
 }

@@ -14,6 +14,7 @@ public static class BucketHolder
         scorer.AddConsideration(new NoNeedForRestConsideration());
 
         var explorationBucket = new Bucket(0.5f, scorer);
+        explorationBucket.Name = "Exploration";
         return explorationBucket;
     }
 
@@ -27,6 +28,7 @@ public static class BucketHolder
 
         var fightBucket = new Bucket(0.9f, scorer);
 
+        fightBucket.Name = "Fight";
         return fightBucket;
     }
 
@@ -39,6 +41,7 @@ public static class BucketHolder
 
         var socialsBucket = new Bucket(0.7f, scorer);
 
+        socialsBucket.Name = "Social";
         return socialsBucket;
     }
 }

@@ -2,7 +2,6 @@ using InteractableGroupsAi.Agents.Conditions;
 using InteractableGroupsAi.Director;
 using InteractableGroupsAi.Director.Goals;
 using InteractableGroupsAi.Director.Groups;
-using UnityEngine;
 
 public static class GoalHolder
 {
@@ -65,14 +64,30 @@ public static class GoalHolder
         return new ConsideredGoal(goal, scorer);
     }
 
-    public static ConsideredGoal ExchangeItemsGoal(IGroupContext group)
+    public static ConsideredGoal AskMedkitGoal(IGroupContext group)
     {
         var condition = new CompositeGroupCondition();
-        var goal = new ExchangeItemsGoal(condition, group);
+        var goal = new ExchangeItemsGoal(condition, group, "Medkit");
+
+        var scorer = GoalScorer(group.GetState());
+        scorer.AddConsideration(new NeedHealConsideration());
+        scorer.AddConsideration(new ClosestGroupRelationConsideration());
+        scorer.AddConsideration(new NotInDangerConsideration());
+        scorer.AddConsideration(new NeedItemConsideration("Medkit"));
+
+        return new ConsideredGoal(goal, scorer);
+    }
+
+    public static ConsideredGoal AskFoodGoal(IGroupContext group)
+    {
+        var condition = new CompositeGroupCondition();
+        var goal = new ExchangeItemsGoal(condition, group, "Snack");
 
         var scorer = GoalScorer(group.GetState());
         scorer.AddConsideration(new ClosestGroupRelationConsideration());
-        scorer.AddConsideration(new InDangerConsideration());
+        scorer.AddConsideration(new NotInDangerConsideration());
+        scorer.AddConsideration(new NeedRestConsideration());
+        scorer.AddConsideration(new NeedItemConsideration("Snack"));
 
         return new ConsideredGoal(goal, scorer);
     }

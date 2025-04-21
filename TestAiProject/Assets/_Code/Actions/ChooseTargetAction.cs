@@ -43,7 +43,7 @@ public class ChooseTargetAction : AgentAction
         {
             var distance = Vector3.Distance(character.State.CurrentPosition, _state.CurrentPosition);
 
-            if (distance < minDistance)
+            if (distance < minDistance && character.State.CurrentHealth > 0)
             {
                 _target = character.State;
                 minDistance = distance;
