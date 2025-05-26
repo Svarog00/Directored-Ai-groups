@@ -23,6 +23,11 @@ public class Entry : MonoBehaviour
 {
     public static GroupId CurrentGroupId = new(0);
 
+    [SerializeField] private Transform _lowRandomBorder;
+    [SerializeField] private Transform _highRandomBorder;
+
+    [SerializeField] private Transform[] _groupRoots;
+
     [SerializeField] private List<Relation> _relations = new List<Relation>();
     [SerializeField] private List<AgentsList> _characters;
     [SerializeField] private int _groupCount = 3;
@@ -43,6 +48,10 @@ public class Entry : MonoBehaviour
         int agentId = 0;
         for (int i = 0; i < _characters.Count; i++)
         {
+            _groupRoots[i].position = new Vector2(
+                Random.Range(_lowRandomBorder.position.x, _highRandomBorder.position.x),
+                Random.Range(_lowRandomBorder.position.y, _highRandomBorder.position.y));
+
             var group = new Group(CurrentGroupId.Next());
 
             var fightBucket = BucketHolder.FightBucket(group);

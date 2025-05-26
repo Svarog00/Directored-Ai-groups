@@ -1,5 +1,4 @@
-﻿using AiLibrary.Other;
-using InteractableGroupsAi.Agents;
+﻿using InteractableGroupsAi.Agents;
 using System;
 using System.Collections.Generic;
 using System.Linq;
