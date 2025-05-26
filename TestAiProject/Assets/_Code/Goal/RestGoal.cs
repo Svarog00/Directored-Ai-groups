@@ -11,6 +11,7 @@ public class RestGoal : Goal
 
     public override void Accept()
     {
-        
+
     }
+    public override string ToString() => nameof(RestGoal);
 }

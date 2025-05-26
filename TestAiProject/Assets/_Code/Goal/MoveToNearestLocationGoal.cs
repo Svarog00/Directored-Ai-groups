@@ -25,4 +25,6 @@ public class MoveToNearestLocationGoal : Goal
             agent.SetTargetPosition(targetVector);
         }
     }
+
+    public override string ToString() => nameof(MoveToNearestLocationGoal);
 }

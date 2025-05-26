@@ -24,4 +24,6 @@ public class DestroyGroupGoal : Goal
         _target = group.GetState();
         Group.GetState().SetTarget(_target);
     }
+
+    public override string ToString() => nameof(DestroyGroupGoal);
 }

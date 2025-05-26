@@ -1,16 +1,13 @@
 using AiLibrary.Other;
-using InteractableGroupsAi;
 using InteractableGroupsAi.Agents;
-using InteractableGroupsAi.Agents.Conditions;
 using InteractableGroupsAi.Director;
-using InteractableGroupsAi.Director.Buckets;
-using InteractableGroupsAi.Director.Goals;
 using InteractableGroupsAi.Director.Groups;
 using InteractableGroupsAi.Other;
 using System;
 using System.Collections.Generic;
-using System.Linq;
+using System.Text;
 using UnityEngine;
+using UnityEngine.UI;
 using Random = UnityEngine.Random;
 
 [Serializable]
@@ -23,6 +20,8 @@ public class Entry : MonoBehaviour
 {
     public static GroupId CurrentGroupId = new(0);
 
+    [SerializeField] private Text _text;
+    
     [SerializeField] private Transform _lowRandomBorder;
     [SerializeField] private Transform _highRandomBorder;
 
@@ -121,5 +120,14 @@ public class Entry : MonoBehaviour
             _currentUpdateTime = _directorUpdateTime;
             _aiDirector.Update();
         }
+
+        var sb = new StringBuilder();
+        foreach (var group in _aiDirector.Groups)
+        {
+            if (group.State.CurrentHealth == 0) continue;
+            sb.AppendLine($"Group {group.GroupId.Id}: {group.CurrentGoal.ToString()}");
+        }
+
+        _text.text = sb.ToString();
     }
 }

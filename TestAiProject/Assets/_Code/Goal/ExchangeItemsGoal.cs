@@ -56,4 +56,5 @@ public class ExchangeItemsGoal : Goal
 
         Group.GetNewGoal();
     }
+    public override string ToString() => nameof(ExchangeItemsGoal);
 }

@@ -20,4 +20,7 @@ public class FleeGoal : Goal
             agent.SetTargetPosition(targetVector);
         }
     }
+
+
+    public override string ToString() => nameof(FleeGoal);
 }
