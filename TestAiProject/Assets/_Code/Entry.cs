@@ -20,7 +20,10 @@ public class Entry : MonoBehaviour
 {
     public static GroupId CurrentGroupId = new(0);
 
+    [SerializeField] private LineRendererInstance _linePrefab;
+
     [SerializeField] private Text _text;
+    [SerializeField] private Text _stats;
     
     [SerializeField] private Transform _lowRandomBorder;
     [SerializeField] private Transform _highRandomBorder;
@@ -41,6 +44,7 @@ public class Entry : MonoBehaviour
     // Start is called before the first frame update
     void Awake()
     {
+        GroupsHolder.SetLineRendererPrefab(_linePrefab);
         AiLogger.SetLogger(new UnityLogger());
         _aiDirector = new UtilityDirector();
 
@@ -117,15 +121,33 @@ public class Entry : MonoBehaviour
         _currentUpdateTime -= Time.deltaTime;
         if (_currentUpdateTime <= 0f)
         {
+            GroupsHolder.DeleteLines();
             _currentUpdateTime = _directorUpdateTime;
             _aiDirector.Update();
         }
 
+        ShowGroupsGoals();
+        ShowGroupsStats();
+    }
+
+    private void ShowGroupsStats()
+    {
+        var sb = new StringBuilder();
+        foreach (var group in _aiDirector.Groups)
+        {
+            sb.AppendLine($"Group {group.GroupId.Id}: HP: {group.State.CurrentHealth:0} | Rest: {group.State.CurrentRest:0}");
+        }
+
+        _stats.text = sb.ToString();
+    }
+
+    private void ShowGroupsGoals()
+    {
         var sb = new StringBuilder();
         foreach (var group in _aiDirector.Groups)
         {
             if (group.State.CurrentHealth == 0) continue;
-            sb.AppendLine($"Group {group.GroupId.Id}: {group.CurrentGoal.ToString()}");
+            sb.AppendLine($"Group {group.GroupId.Id}: {group.CurrentGoal}");
         }
 
         _text.text = sb.ToString();

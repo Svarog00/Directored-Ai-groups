@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Numerics;
+using UnityEngine;
+using Vector3 = System.Numerics.Vector3;
 
 public static class PointsHolder
 {
@@ -10,6 +12,12 @@ public static class PointsHolder
     public static IEnumerable<Vector3> Points => _points;
 
     public static void Add(Vector3 point) => _points.Add(point);
+
+    public static Vector3 GetRandomPoint()
+    {
+        var index = Random.Range(0, _points.Count);
+        return _points[index];
+    }
 
     public static Vector3 GetNearestPoint(Vector3 position, Vector3 lastPosition = default, bool excludeCurrent = false)
     {

@@ -23,6 +23,8 @@ public class DestroyGroupGoal : Goal
 
         _target = group.GetState();
         Group.GetState().SetTarget(_target);
+
+        GroupsHolder.DrawLine(Color.red, Group.GetState(), _target);
     }
 
     public override string ToString() => nameof(DestroyGroupGoal);

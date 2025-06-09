@@ -4,6 +4,7 @@ using InteractableGroupsAi.Director.Goals;
 using InteractableGroupsAi.Director.Groups;
 using System.Runtime.InteropServices;
 using System.Runtime.Remoting.Contexts;
+using static UnityEngine.GraphicsBuffer;
 
 public class ExchangeItemsGoal : Goal
 {
@@ -32,12 +33,7 @@ public class ExchangeItemsGoal : Goal
         var inItem = "Medkit";
         var outItem = "Snack";
 
-        if (_itemName == "Medkit")
-        {
-            inItem = "Medkit";
-            outItem = "Snack";
-        }
-        else
+        if (_itemName == "Snack")
         {
             inItem = "Snack";
             outItem = "Medkit";
@@ -46,14 +42,15 @@ public class ExchangeItemsGoal : Goal
         if(neededItems < friend.GetState().GetItemsCount(_itemName))
         {
             AiLogger.Log($"EXCHANGE SUCCESS");
-            AiLogger.Error($"{inItem}, {outItem}");
+            AiLogger.Warning($"{inItem}, {outItem}");
             Group.GetState().Exchange(outItem, inItem, neededItems);
         }
         else
         {
-            AiLogger.Log($"EXCHANGE FAIL");
+            AiLogger.Error($"EXCHANGE FAIL");
         }
 
+        GroupsHolder.DrawLine(UnityEngine.Color.green, Group.GetState(), friend.GetState());
         Group.GetNewGoal();
     }
     public override string ToString() => nameof(ExchangeItemsGoal);

@@ -16,7 +16,8 @@ public class MoveToNearestLocationGoal : Goal
     public override void Accept()
     {
         Group.GetState().LastPosition = Group.GetState().TargetPosition;
-        var targetVector = PointsHolder.GetNearestPoint(Group.GetState().CurrentPosition, Group.GetState().LastPosition, true);
+        //var targetVector = PointsHolder.GetNearestPoint(Group.GetState().CurrentPosition, Group.GetState().LastPosition, true);
+        var targetVector = PointsHolder.GetRandomPoint();
         Debug.Log($"Accept {nameof(MoveToNearestLocationGoal)}");
         Group.GetState().SetTargetPosition(targetVector);
         var state = Group.GetState() as GroupState;

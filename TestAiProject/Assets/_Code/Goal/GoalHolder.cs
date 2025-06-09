@@ -57,7 +57,6 @@ public static class GoalHolder
 
         var scorer = GoalScorer(group.GetState());
         scorer.AddConsideration(new ClosestGroupEnemyRelationConsideration());
-        scorer.AddConsideration(new EnemyGroupHealthConsideration());
         scorer.AddConsideration(new DistanceToEnemyGroupConsideration());
         scorer.AddConsideration(new InDangerConsideration());
 
